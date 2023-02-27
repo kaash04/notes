@@ -1,0 +1,93 @@
+For initial setup:
+    git config --global user.name "Your Name"
+    git config --global user.email "Your Email"
+Doing this allows us to monitor who made a specific change
+
+
+initialise -> shuru se ek folder mei start karna
+cloning -> server (here, github) se code repo ka copy karna
+
+To initialise:
+    git init
+To clone:
+    git clone
+
+
+To show status and see if there are files with changes:
+    git status
+
+untracked files -> files jinko git se track nahi kiya jara
+unmodified -> no changes after last commit
+modified -> changes present
+staged -> staging area mei vahi files hogi jinko commit karna hai
+
+* * har bar commit karne ke bad next commit e liye files vapas add karna padega to staging area
+
+To add untracked files to tracking:
+    git add fileName
+    git add -A (to add all files to staging area at once)
+
+
+To Commit changes:
+    git commit -m "Commit Mssg here"
+    git commit -a -m "Commit Mssg"    (this one commits all files thus skipping the staging area)
+
+To revert back to last commited version of file(s):
+    git checkout fileName
+    git checkout -f (to revert all tracked files)
+
+
+To see log of commits:
+    git log
+    git log -p fileName (to see what was changed in that file (difference between prev version and that version))
+    git log -p -x fileName (to see difference in last 'x' commits)
+
+
+To remove file and make it untracked:
+    git rm --cached fileName
+    git rm fileName (deletes file from disk + deletes it from cached)
+
+
+To ignore files in git:
+    make a file named .gitignore (using touh .gitignore)
+
+    then add names of files with extension to ignore inside gitignore (1 name in each line)
+    ex:     abc.txt
+            mm.log
+            /ab.py
+    first 2 will ignore files with that name from whole directory and sub directories inside the folder that was git initialised
+    last one (ie third) will ignore with relative path from the location of .gitignore 
+    (/ab.py represents ab.py present in same folder as .gitignore)
+
+    add gitignore to git
+    commit gitignore
+
+
+Branches in git
+    suppose there's a website in production
+    you make changes to fix error
+    but website goes down
+    To avoid this type of issue, git braches are used
+    we make a separate branch (copy of main code) and work on it
+    changes made in branch dont affect the code in master branch
+
+Creating a branch:
+    git branch fixError32 (here, fixError32 is name of branch)
+
+Switching to a branch:
+    git checkout branchName
+
+* * git checkout -b branchName (creates a branch + switches to it)
+
+To merge changes of branch to master branch:
+    git merge branchName
+
+
+Pushing repo to remote location (github)
+    create repo in github
+    git remote add origin . . .  (shown on creating repo in github)
+    git push origin master (pushes master branch to origin of repo)
+
+
+Cloning remote to local drive:
+    git clone cloneLinkFromGithub folderWhereToClone
