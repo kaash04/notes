@@ -2738,21 +2738,13 @@
         std::cin >> choice;
 
         if (choice == 1)
-        {
             return 1;
-        }
         else if (choice == 2)
-        {
             return 2;
-        }
         else if (choice == 3)
-        {
             return 3;
-        }
         else if (choice == 4)
-        {
             exit(0);
-        }
         else
         {
             std::cout << " INVALID CHOICE!! " << std::endl;
