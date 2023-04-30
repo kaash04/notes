@@ -903,3 +903,120 @@
             // rotating about index 1: {3, 6, 7, 1} -> index 1 ke pehele e saare element end mei chale jayege
 
         // rotate() function takes 3 arguments, all 3 being iterators of first, node, and last element respectively
+
+
+
+// Char, Strings and arrays
+    // String = 1D array of characters
+    // suppose we store "coding" in a string then it would take 7 bytes of continuous memory space for,
+        // 'c' 'o' 'd' 'i' 'n' 'g' and '\0'
+        // '\0' is terminator or null character used to represent end of string
+        // ASCII value of null character = 0
+
+    //Ex:
+        #include <bits/stdc++.h>
+        using namespace std;
+
+        int main()
+        {
+            char name[20];
+            cout << "Enter Your Name: ";
+            cin >> name;
+            cout << "Your Name is " << name << "\n";
+            return 0;
+        }
+
+    // WORKS FINE WHEN NAME ENTERED DOESNT CONTAIN SPACE
+    // agar space hua then, just space ke pehele wala store hoga
+    // this is bcoz cin stops execution on receiving space( ), tab(\t) or enter(\n)
+
+    // Ex:
+        #include <bits/stdc++.h>
+        using namespace std;
+
+        int main()
+        {
+            char name[20] = "coding";
+            name[2] = '\0';
+            cout << name << "\n";
+            return 0;
+        }
+    // This code will print only "co" and not "coding" bcoz null character is received at 2nd index so it would stops printing
+    // * * ACCESSING NULL TERMINATOR IS ONLY POSSIBLE IN char array and std::String does not allow that
+
+
+
+// 2D arrays
+    // its just a linear array but every element represented in its matrix form, corresponds to a specific element in an linear array
+    // Ex: in arr[3][3], 1st element of 2nd row ( arr[1][0] ) will correspond to 4th element in linear array stored in memory
+    // Ex: in arr[3][3], 1st element of 2nd row ( arr[1][0] ) will correspond to 4th element in linear array stored in memory
+    /*
+        providing value to array along with declaring:
+        -> int arr[2][2] = {1, 2, 3, 4}
+            here, 1 and 2 would be elements of 1st row and 3 and 4 would be of 2nd
+        -> int arr[2][2] = {{1, 3}, {2, 4}}
+            here elements in first bracket would be elements of first row and that of 2nd bracket would be in 2nd row
+    */
+
+    // Function to check if an element is present in an array:
+        bool isPresent(int arr[][3], int col, int row, int target) // must specify at least number of columns in 2D array
+        {
+            for (int i = 0; i < row; i++)
+                for (int j = 0; j < col; j++)
+                    if (arr[i][j] == target)
+                        return 1;
+            return 0;
+        }
+    // calling : isPresent(arr, 3, 3, 4)  // just pass name of array
+
+    // * * * See spiral printing question in lec 23 @ 47min
+
+
+    // Conversion between linear form of array and matrix form
+    /*
+        suppose there is 3x3 matrix = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+        in linear form:
+            start index = 0
+            end index = (row*col) - 1
+
+        * * to obtain the index we obtain in linear form to matrix form:
+            index / col = row index
+            index % col = column index
+        
+    */
+
+    // Binary search in 2D array
+    // Use same logic as binar search for 1D array and use it here by converting 2D matri to linear form
+    // Ex:
+        bool binarySearch(vector<vector<int>> &matrix, int target)
+        {
+            int row = matrix.size();
+            int col = matrix[0].size();
+
+            int start = 0, end = (row * col) - 1, mid;
+
+            while (start <= end)
+            {
+                mid = (start + end) / 2;
+                if (matrix[mid / col][mid % col] == target)
+                    return 1;
+                else if (matrix[mid / col][mid % col] > target)
+                    end = mid - 1;
+                else
+                    start = mid + 1;
+            }
+            return 0;
+        }
+    // IMP ques so see working carefully
+    // to use this, matri must be sorted in its linear form
+    // thus, it must be sorted row wise and irst element of each row should be greater than last element of prev row 
+
+
+
+// MATHS FOR DSA
+    // Sieve of Eratosthenes
+        /*
+            Ques: count prime numbers from 0-n where n is given input
+            approach: for loop to traverse from 0-n, other for loop to check prime
+            Thus, Complexity => O(n^2)
+        */
