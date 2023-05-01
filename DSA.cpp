@@ -1019,4 +1019,37 @@
             Ques: count prime numbers from 0-n where n is given input
             approach: for loop to traverse from 0-n, other for loop to check prime
             Thus, Complexity => O(n^2)
+
+            Optimised way = sieve of eratosthenes
+            mark every number from 2 to n-1 as prime (bcoz 1, 0 are niether prime nor composite)
+            now 2 is prime so cut all numbers that come in 2's table
+            3 is prime so cut all numbers from 3's table
+            and so on...
+            this would also have O(n^2) complexity but
+            'n' would be way lesser as we ain't traversing through each element every time.
         */
+        // Implementation:
+        int countPrime(int n)
+        {
+            std::vector<bool> numbers(n, true); // created a vector and set all number as prime
+            numbers[0] = false;
+            numbers[1] = false; // set 0, 1 as not prime
+            int count = 0;
+
+            for (int i = 2; i < n; i++)
+            {
+                if(numbers[i]==true)
+                {
+                    count++;
+                    for (int j = 2*i; j < n; j+=i)
+                    {
+                        // for loop for marking not prime
+                        // initialised at 2*i i.e. 2x in table of that number
+                        // and increment by i each time
+                        numbers[j] = false;
+                    }
+                    
+                }
+            }
+            cout << count; 
+        }
