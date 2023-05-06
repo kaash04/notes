@@ -1053,3 +1053,42 @@
             }
             cout << count; 
         }
+
+
+
+    // Euclid's Algorithm
+        // gcd = hcf = smallest number jiske table ei dono aaye
+        /*
+            According to euclid's algorithm:
+                gcd(a, b) = gcd(a-b, b)   [ofc, jo bada hai usme se chota subtract... as gcd of negative is undefined]
+           
+            If one of the element is 0, the other one is gcd
+            else, keep subtracting smaller on from greater until they both are equal
+            bcoz gcd(x, x) = x
+            easyyy...
+        */
+        // Implementation:
+        int gcd(int a, int b)
+        {
+            if(a==0)
+                return b;
+
+            if(b==0)
+                return a;
+            
+
+            while (a != b)
+            {
+                if(a>b)
+                    a -= b;
+                else
+                    b -= a;
+            }
+            return a;
+        }
+
+
+
+    // Modulo operator [ % ]
+        // if its given in ques to print ans in modulo 10^9+7 it means print ans%(10^9+7)
+        // this is generally done to bring answer in specific range
