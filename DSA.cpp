@@ -1087,8 +1087,56 @@
             return a;
         }
 
+    // LCM(a, b) * GCD(a, b) = a * b
+    // use this relation to find unknown values
 
 
     // Modulo operator [ % ]
         // if its given in ques to print ans in modulo 10^9+7 it means print ans%(10^9+7)
         // this is generally done to bring answer in specific range
+
+    // Value of a%n always lies in the range [0, n-1]
+
+
+    
+    // Fast Exponentiation
+    // To find a^b
+    /*
+        Method 1:
+        using for loop
+        T.C. = O(b)
+
+        Method 2:
+        * * efficient one
+        T.C. = O(log n)
+
+        if b is even:
+            a^b could be written as (a^2)^b/2       [...1]
+        else if b is odd:
+            a^b = a * (a^2)^b/2     [...2]
+    */
+
+    // Thus, logic for fast exponentiation:
+    // make var res = 1
+    // check if odd/even
+    // if odd -> multiply a in res [using 2]
+    // set a = a square and b = b/2
+    // repeat until b!=0
+
+    // CODE:
+        int expo(int x, int y)
+        {
+            int res = 1;
+            if(x==0)
+                return y;
+            if(y==0)
+                return x;
+            while(y!=0)
+            {
+                if(y&1)
+                    res *= x;
+                x *= x;
+                y /= 2;
+            }
+            return res;
+        }
