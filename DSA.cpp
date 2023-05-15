@@ -1140,3 +1140,37 @@
             }
             return res;
         }
+
+
+
+// POINTERS
+    // pointers are special variables that store memory address
+    // computer memory contains symbol table that maps variable name to their memory addresses
+    // Address of operator (&) is used to fetch address of a variable
+
+    /* 
+        Initialisation of a pointer:
+            int* p = &var
+        creates a pointer for int data type and sets it to point var
+
+        - always initialise a pointer while creating it, else it would have some garbage value and would point to se random address in the memory which might not even belong to the program 
+
+        - dereferencing a pointer = usme stored address par ki value read karna
+            this is done using ' * ' operator
+        
+        - equivalents:
+            *p -> var
+            (*p)++ -> var++
+            p -> &var
+
+        - pointer would always take 8 bytes regardless of the data type it is pointing to..
+            this is because it might point to any data type, but it would always store a address
+
+        * * * IMP CONCEPT
+        
+        *t = *t + 1     => increments the value to which t is pointing by 1
+        t = t + 1       => points to the next value considering the same data type
+            ex: if t is of pointer of int data type, it would not point to oldAddress+1 on incrementing by 1,
+                instead it would point to oldAddress+4 as int take 4
+                thus mostly used to traverse through data structures like arrays
+    */
