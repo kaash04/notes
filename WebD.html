@@ -105,3 +105,62 @@ It is used for wrapping parts of code together. -->
 
     Inline Elements: Content ke hisab se space lete hai
 -->
+
+
+
+<!-- TABLES IN HTML -->
+arrangement of data in cells (formed by combination of rows and columns)
+
+Tags related to tables:
+    <table></table> -> used to create a table
+    <thead></thead> -> used to specify headings inside tables
+    <tbody></tbody> -> used to specify body of table
+    <tfoot></tfoot> -> used for footer and summarization
+    <tr></tr>       -> creates row in table
+    <td></td>       -> creates cell in that row
+    <th></th>       -> creates headings in thead tag ( just like td is for tr, th is for thead)
+
+* * * <td></td> has an attribute "colspan" and "rowspan" used to expand a cell vertically and horizontally.
+rowspan = row khayega => thus, expands vertically
+colspan = col khayega => thus, expands horizontally
+
+
+
+<!-- FORMS IN HTML -->
+used to take input from user
+
+Tags related to forms:
+    <form></form> -> used to create a form
+    <input type="#"> -> used to take input
+    ( input tag has an attribute "type" whose value can be specified to get certain type of input )
+    <label for="!"></label> -> used to create a label for input
+    * * always fill the for attribute of label tag with id of input tag for which it belongs.
+
+    Placeholder: faded text that appears by default when the textbox is empty.
+    it is a attribute in input tag and its value = text to be displayed.
+
+Elements of HTML FORMS:
+    <input type="#"> used to take input from user
+    <select name="" id=""></select> used to create dropdown menu
+    <option value=""></option> used to create options in that dropdown menu 
+    (value attributes tells the val that would be registered if that option is selected)
+    <textarea cols="30" rows="10"></textarea> used to create a multi-line textbox
+    <fieldset></fieldset> used to group similar things together
+    ( different from div as it has border and spacing by default and also allows to provide a caption)
+    <legend></legend> used to provide that caption to fieldset
+
+Values for type attribute of input tag:
+    text (default)
+    submit (creates submit button)
+    radio (creates radio button)
+    checkbox
+    file (creates file selector)
+    image (creates image button)
+    date (date picker)
+    password
+    email
+    tel
+
+
+
+<!--  -->

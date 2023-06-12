@@ -1174,3 +1174,17 @@
                 instead it would point to oldAddress+4 as int take 4
                 thus mostly used to traverse through data structures like arrays
     */
+
+    /*
+        for an array, writing array name without index returns address of first element (0th index)
+        i.e. &arr[0] is equivalent to arr
+
+        thus int *p = arr 
+            would create a pointer and make it point to 0th index element of array.
+            now doing p++ would point to next element.
+
+        General formula for value at an index:
+            arr[i] = *(arr + i)
+                bcoz arr would give address of 0th
+                so +i for ith index
+    */
