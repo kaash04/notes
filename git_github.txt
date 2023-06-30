@@ -49,7 +49,7 @@ To remove file and make it untracked:
 
 
 To ignore files in git:
-    make a file named .gitignore (using touh .gitignore)
+    make a file named .gitignore (using touch .gitignore)
 
     then add names of files with extension to ignore inside gitignore (1 name in each line)
     ex:     abc.txt
