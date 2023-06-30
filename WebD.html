@@ -163,4 +163,22 @@ Values for type attribute of input tag:
 
 
 
-<!--  -->
+<!-- Media in HTML -->
+<img src="source" alt="alt text if image is not loaded">
+img tag has loading attribute whose value can either be set to 
+    "eager"(default) -> to load img immediately
+    "lazy" -> to load img when user scrolls web page near it
+this helps in improve webpage load times and increasing performance
+
+<audio src="sourceLocation"></audio>
+BUT, just using above tag wont show audio file playback in webpage (must add controls attribute)
+<audio src="sourceLocation" controls></audio>
+
+<video src="sourceLocation" controls></video>
+
+IFRAME * * IMP
+used to embed external webpage to our website
+<iframe src="referencePathOfOtherHTML" frameborder="0"></iframe>
+Ex:
+<iframe src="https://www.youtube.com/embed/0oe7CF-TY_U" frameborder="0"></iframe>
+Tip: Add "?autoplay=1&mute=1" at end of yt link to auto play muted video (0=false, 1=true) 
