@@ -182,3 +182,85 @@ used to embed external webpage to our website
 Ex:
 <iframe src="https://www.youtube.com/embed/0oe7CF-TY_U" frameborder="0"></iframe>
 Tip: Add "?autoplay=1&mute=1" at end of yt link to auto play muted video (0=false, 1=true) 
+
+
+
+<!-- SEO AND HEAD TAG -->
+Data inside head tag is NOT displayed in web page
+generally contains SEO related data
+
+<title></title> -> Adds title to document in brower's tab
+
+favicon = icon shown in browers tab (emmet abbrevation: link:favicon )
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+linking css file: (emmet abb.: link:css )
+<link rel="stylesheet" href="style.css">
+
+linking Javascript file (emmet abb.: script:src )
+<script src="brain.js"></script>
+
+META tag play imp role in SEO (does not have closing tag)
+<meta charset="UTF-8">
+one of the popular character encoding used for majority of the websites as it supports multi lingual support.
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+bhide ke jamane mei, different version of browser used to render website differently
+this tag makes the browser use latest render engine, to maintain uniformity
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+sets website width = device width and inital zoom to 100%
+
+<meta name="description" content="abcd...">
+sets value of content attribute as description for website (displayed in search results)
+
+<meta name="keywords" content="kash, webd">
+put keywords as comma separated values in content attribute. This keywords are used to rank website.
+
+<meta name="author" content="kash04">
+sets author of doc (so if someone searches for author then too web will rank)
+
+<meta name="robots" content="index, follow">
+parameters:
+    index: tells search engine to index webpage
+    noindex: tells not to index the webpage
+    follow: allow web crawlers/bots to follow links in webpage
+    nofollow: doesnt allow crawlers
+    
+    For better SEO, most websites allow indexing and follow as it helps rank the content
+
+
+
+<!-- CASCADING STYLE SHEET ( CSS ) -->
+used to style skeleton/structure generated for our webpage using html
+CSS could be added in 3 different ways
+    -inline (specifying css in same line as html tag(using style attribute). not preffered as it makes code hard to read & modify)
+    -internal (css added in head tag ke andar style tag)
+    -external (css written in different file and linked to html. MOST COMMONLY USED)
+
+CSS styling has 3 elements: selector, property and value
+Ex: h1 { color: green }
+    here, h1 is selector, used to select elements
+        color is property whose value is going to be modified
+        green is value that would be assigned to that property
+
+* * IF same property is defined in both inline, external and internal css, inline would be given preference
+    (though we could use !important after value to make it imp)
+
+
+Types of selectors in CSS:
+    element (tag ke naam se)
+    h1 { color: red; }
+
+    id
+    #idName { color: red; }
+
+    class
+    .className { color: red; }
+
+    group
+    used to apply style to multiple items at once (selector names entered as comma separated)
+    .className,p { color: red; }
+
+    also, using element selector follow by '.' and className would style only items having both that element and class Name
+    h1.class { color: red; }
