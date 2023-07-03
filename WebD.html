@@ -264,3 +264,63 @@ Types of selectors in CSS:
 
     also, using element selector follow by '.' and className would style only items having both that element and class Name
     h1.class { color: red; }
+
+
+<!-- CSS Typography -->
+Typography = visual styling (fonts, colors, etc.)
+<style>
+    p{
+        font-style: italic;
+        font-family: 'Times New Roman', Times, serif;
+    }
+</style>
+* * just write font and it would suggest properties related to it
+font-family has 3 values, 
+    actual font that is to be used(times new roman)
+    if not present then use any font from family (times)
+    if still not present then use a font of same type (serif)
+
+
+* * Using custom fonts in our webpage
+    fonts suggested by emmet on typing font-family are websafe fonts and are available in most of the browsers.
+To use any other custom font:
+    go to google fonts
+    select font and weight
+    copy link tag shown and paste in head tag (this would import the font to our webpage)
+
+
+<!-- COLORS -->
+colors in CSS can be used in different ways:
+<style>
+    p{
+        background-color: yellow;
+        /* named color */
+
+        background-color: rgb(255, 255, 255);
+        /* using rgb value */
+
+        background-color: rgba(100, 109, 192, 0.5);
+        /* using rgba (a=alpha, lies between 0 and 1, describes transparency) */
+
+        background-color: #121212;
+        /* using hex values */
+
+        background-color: hsl(172, 27, 79);
+        /* using HSL(hue, saturation, lightness) */
+    }
+</style>
+
+
+
+<!-- CSS Box Model -->
+* Everything on a webpage is made of boxes *
+Relates CSS properties and their usage:
+    border-style -> used to set style of border for given element
+    border-width -> sets thickness of border
+    border-color -> sets color of border
+
+    * * short hand notation for borders:
+        border: (type) (color) (width);
+    ex: border: solid brown 3px;
+
+    border-radius property is used to make rounded corners
