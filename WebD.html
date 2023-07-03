@@ -324,3 +324,51 @@ Relates CSS properties and their usage:
     ex: border: solid brown 3px;
 
     border-radius property is used to make rounded corners
+
+
+We can use width and height property to specify height and width of element
+(works only on block elements, thus wont work on inline element like span)
+(so, if we have to give height and width to elements like span, first convert them to block)
+
+In Box Model,
+    Padding = distance between content and border
+    margin = distance beside border that would be left empty
+So, while moving from out to in:
+    Margin -> border -> Padding -> Content
+
+By default webpage has default margin for each element
+    to remove this we could use 'Universal Selector'
+    properties changed using this selector apply to all the content in the webpage
+syntax:
+    <style>
+        *{
+            /* properties to be changed here */
+        }
+        
+    </style>
+
+* * ' box-sizing ' Property:
+    by default its value is 'content-box' but can be changed to 'border-box'
+    content-box => width set using width property = content width
+    border-box => width set = content width + padding + borderWidth (margin excluded!!)
+
+
+
+<!-- CSS Display Property -->
+Block Element:
+    - includes tags like div, p, h1, etc.
+    - hamesha new line par aate hai
+    - default width = whole horizontal space of viewport
+    - respect custom width and height given
+    - respect custom margin and padding
+
+Inline Element:
+    - includes tags like a, span, etc.
+    - same line mei aane ka try karte hai
+    - width = content width
+    - custom width and height CANNOT be applied
+    - margin can be applied only in horizontal, not in vertical
+    - padding works fine
+
+Inline-block Property:
+    - behaves same like inline, but allows us to set custom height and width
