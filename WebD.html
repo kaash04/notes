@@ -343,6 +343,7 @@ syntax:
     <style>
         *{
             /* properties to be changed here */
+            color: aliceblue;
         }
         
     </style>
@@ -355,6 +356,12 @@ syntax:
 
 
 <!-- CSS Display Property -->
+can be specified using:
+<style> 
+    *{
+        display: block;
+    } 
+</style>
 Block Element:
     - includes tags like div, p, h1, etc.
     - hamesha new line par aate hai
@@ -372,3 +379,66 @@ Inline Element:
 
 Inline-block Property:
     - behaves same like inline, but allows us to set custom height and width
+
+
+
+<!-- CSS Position Property -->
+specified using:
+<style>
+    *{
+        position: relative;
+        top: 10px;
+    }
+</style>
+
+Default positioning property = Static
+As, default position prop is static, we cannot specify top, left, right, bottom to move element.
+(even if we do, it wont work)
+
+Relative positioning:
+    positions an element relative to its normal position (the one in static)
+    original position of the element would remain empty and intact (other elements wont occupy it)
+
+    i.e similar to making element invisible and copying it at other Z index so that it doesnt affect position of other elements
+
+
+Absolute positioning:
+    Used mainly when we need to overlap elements
+    Positioned relative to its closest ancestor ( nearest parent container )
+    * * It is considered good practice to mark that ancestor as relative while marking element as absolute
+    original position of element would NOT remain intact
+
+    i.e. similar to bringing element forward in Z index and vacating the prior space
+
+
+Fixed positioning:
+    removes the image from normal document flow and fixes it at specified point on viewport
+    removed from flow, so space occupy nahi karega.
+
+Sticky positioning:
+    Similar to fixed, removed from normal document flow and fixed at viewport
+    BUT, fixed within the limits of its parent container (nearest ancestor)
+    i.e. if parent container is scrolled out of viewport, it would also be scrolled out
+
+
+
+<!-- CSS Size Units -->
+Percent(%): Specifies what percent of width/height to use relative to its nearest parent
+
+VH: Specifies what percent of ViewPort's height should be given to element
+VW: Specifies what percent of ViewPort's width should be given to element
+
+Pixel(px): Physical pixel = 1/96 of an inch
+Thus, pixel is not a relative unit like above mentioned
+
+* * em:
+    For typographical properties like font size: 
+        10em = 10*(font size of its parent container)
+    For other properties:
+        10em = 10*(font size of current container)
+
+* * rem:
+    10rem = 10*(font size of root element [<html>])
+    By default, font size of root element = 16px
+    THUS, by setting font size of root element relative to screen size using media query, 
+    and then using rem, we could make responsive designs
