@@ -442,3 +442,68 @@ Thus, pixel is not a relative unit like above mentioned
     By default, font size of root element = 16px
     THUS, by setting font size of root element relative to screen size using media query, 
     and then using rem, we could make responsive designs
+
+
+<!-- Float, Clear and Overflow -->
+Float:
+    lets us place and image together, 
+    ex: "float: right" would place image in right and text could be written (or an other element) starting from left. This text would actually take whole space after finishing of image dimension. (used by wikipedia alot)
+
+Clear:
+    Used to clear the float queue in either left or right direction.
+    i.e. if we specify 2 images as float and then used property "clear: right" on the one with is relatively on left.
+    it would clear float to to its right, and place that image on next line
+
+Overflow:
+    If all the elements of a parent container are marked as float, the parent container collapses with negligibe height (just a single line is displayed)
+    And, the elements inside it, that we marked as float overflow through it.
+    this is not good practice and thus overflow property is used to overcome this issue.
+
+    Overflow Values:
+        auto -> adjusts height to fit content
+        hidden -> hide content thats overflowing
+        scroll -> hides overflowing content but allows us to scroll through it
+
+
+<!-- FLEXBOX * * IMP -->
+Used to align child elements (flex items)
+This can be done either vertically or horizontally (using flex direction property [default is row])
+flex direction property could be set to row, column, row-reverse, column-reverse
+
+In responsive design,
+    on smaller devices, flex items would adjust their width to fit inside flexbox (even if they have some specific width specified)
+
+To make flex item move to next line instead of shrinking: set "flex-wrap: wrap" (works similar to word wrap)
+BUT, items would still shrink when enough space isnt available and each line has single flex item remaining (so no element could be moved to next line)
+
+Justify content property:
+    Places items according to main axis [main axis = axis of flex direction]
+    It has various values such as
+        start (places flex item from start)
+        end (places flex item from end)
+        centre (places at centre of main axis)
+        space-between (places 1st element at start, last element at end and other elements evenly spaced between them)
+        space-around (har element ke left aur right mei equal space)
+        space-even (har element evenly spaced, distance between them equal)
+
+Align items property:
+    Just like justify-content property => main axis
+    align-items property => cross axis (axis other than main axis, i.e. axis opposite of flex direction)
+    Some common values:
+        centre (places items to centre of cross axis)
+        stretch (streches items to fit full width of flexbox)
+
+Align content property:
+    suppose we have flex-wrap on and that breaks our flex items in multiple lines.
+    align content property is used for alignment of this multiline content
+
+Order property:
+    Used to change order of flex items (by providing integers values)
+
+flex-shrink and flex-grow property:
+    Used to define speed at which a flex items shrinks/grows in responsive layout on changing screen width
+    default value of flex-grow or flex-shrink is 1 for each flex item
+    If we set it to 3, that specific item would shrink/grow 3x faster compared to others
+
+Align self property:
+    used to align single flex item w.r.t. cross axis
