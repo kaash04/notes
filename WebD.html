@@ -507,3 +507,88 @@ flex-shrink and flex-grow property:
 
 Align self property:
     used to align single flex item w.r.t. cross axis
+
+
+
+<!-- Media Query -->
+Used to apply CSS based on type, resolution, etc. of device.
+Syntax:
+    <style>
+        @media (max-width: 1000px) and (min-width: 500px) {
+            .box{
+                background-color: green;
+            }
+        }
+    </style>
+
+
+<!-- Shadows in CSS -->
+2 Types -> text shadow and box shadow
+Shorthand notation for box shadow:
+    box-shadow: (x offset) (y offset) (color)
+    box-shadow: (x offset) (y offset) (blur radius) (color)
+    box-shadow: (x offset) (y offset) (blur radius) (spread) (color)
+* * Similar for text-shadow * *
+    Just, text-shadow does not have spread parameter
+
+
+
+<!-- CSS Animations -->
+can be used by adding animation-name property to an element
+the element name that we specify is called "identifier".
+Keyframes is used to specify what would happen in an animation.
+keyframe syntax:
+    <style>
+        @keyframes identifier {
+            from{
+                /* inital state */
+            }
+
+            to{
+                /* destination/final state */
+            }
+        }
+    </style>
+
+Other animation related properties:
+    animation-duration (time to reach destination state)
+    animation-iteration-count (kitni baar animation karwana hai)
+    animation-delay (wait time before animation start)
+    animation-timing-function (ease, linear, ease-in, ease-out, etc)
+    animation-direction (used to specify direction)
+        alternate = loop animation start->end->start...
+        reverser = keyframe mei specified ka ulta end->start
+        alternate-reverse = end->start->end...
+
+    animation-fill-mode (used to define ki animation se pehele and animation ke baad kya karna hai)
+        forwards -> retains value set in end keyframe after animation
+        backwards -> retains value set in start keyframe after animation
+        initial -> retains initial value set to the element after animation
+
+    animation-play-state (used to control state of animation) [its value can either be set to running or paused]
+
+
+
+<!-- Transitions in CSS -->
+Transition = source state -> destination state
+Animation  = Series of complex movement between different states
+Thus,
+    Transition is subset of Animation.
+Syntax:
+    transition: (name_of_property) (duration) (timing-function) (delay)
+    transition: (name_of_property) (duration) (delay)
+    transition: (name_of_property) (duration) (timing-function)
+    transition: (name_of_property) (duration)
+
+* * For Both Animation and Transition, we can add multiple of them using comma, separated values.
+
+
+
+<!-- 2D Transform in CSS -->
+Used to transform an element along X and Y direction (rotate an element, move it along x/y axis, etc)
+    rotate() -> for rotating at some angle
+    skew() -> for tilting at some angle [rectangle ka parallelogram]
+    scale() -> size kam jyada
+    translate(x, y) -> move w.r.t. current position 
+    matrix(a, b, c, d, e, f) [takes 6 values] -> matrix(scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY())
+        ONLY constants, no unit.
