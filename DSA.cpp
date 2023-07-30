@@ -1188,3 +1188,100 @@
                 bcoz arr would give address of 0th
                 so +i for ith index
     */
+
+
+
+/*
+    * * * specifying size of array (or any other data type) at runtime is BAD PRACTICE
+    program has 2 types of memory allocated: stack and heap
+    stack = smaller in size, used to allocate memory for compile time elements
+    heap = larger in size, used to allocate memory to runtime created elements (created using 'new' keyword)
+
+    Thus,
+        instead of using int arr[n] -> use int* arr = new int[n]
+        
+        in directly declaring arr[n], all the memory is used from stack
+        but in other case, only memory for pointer (8bytes) used from stack, and that ptr will point to array created in heap memory using new keyword
+
+    Allocation of stack memory = static memory allocation
+    Allocation of heap memory = dynamic memory allocation
+
+    Disadvantage of dynamic allocation:
+        static mei memory apne aap released jab variable a scope ends
+        but, in dynamic allocation, you need to manually do that using delete keyword
+
+    Syntax for delete keyword:
+        delete ptr; //deletes var
+        delete []ptr; //deletes array
+*/
+
+// Dynamic memory allocation for 2D array
+    void dalloc()
+    {
+        int r, c;
+        int arr[r][c]; // static allocation
+        /* VISUALIZE */
+        // For dynamic allocation, make array of pointers with number of elements = number of rows
+        // and then each pointer will point to linear array with elements = number of columns
+        int** ar = new int*[r]; // array of 'r' number of pointers
+        for(int i = 0; i < c; i++)
+        {
+            ar[i] = new int[c]; // ar[i] is equivalent to *(ar + i)
+            // creating an array of length 'c' corresponding to each ptr
+        }
+        // done creation
+
+        // now, access like normal 2D array ( ar[i][j] )
+    }
+
+
+
+// Macros, global vars and inline functions
+    // Macros = used to define a piece of code that would be replaced at each place when the macro name is called
+    // macros are made using following syntax:
+        #define pi 3.14 // ( #define [macro_name] [value_to_be_replaced] )
+
+
+    // global variable = variable declared in global space
+    // it can be accessed in global space (anywhere in program)
+    // BUT, bad practice... AVOID using
+    // nusan = koi bhi change kar sakta hai so 1 func ne modify karne par sabko affect hoga
+    // instead use reference variable ab bhi variable share karna ho between functions and namespaces
+
+
+    // inline func => used to reduce function calls (thus improving performance)
+    // function ko inline banane se functon call nahi hogi, and function body would be replaced at each call during compilation.
+    // readability like funcs, and execution like normal statements
+    // * * use inline func only for smaller functions, as it would drasticall increase executable size for large func
+    // generally, aise case mei compiler inline banayega hi nahi
+
+
+
+// RECURSION
+    // Function calling itself OR function calling another function that calls it back
+    // used if a big problems solution can be obtained converting it into smaller problems of same type
+    // Ex: 2^4 can be obtained by 2 * 2^3 
+    // here, 2^4 is badi problem and 2^3 is choti problem but of same type
+    /*
+        thus, here the recursive relation is:
+        2^n = 2 * 2^(n-1)
+        => f(n) = 2 * f(n-1)
+    */ 
+
+    // Recursive function consists of 2 mandatory components: base case, and recursive relation 
+    // (other than this their could be additional components like processing etc. based on desired output)
+    // base condition = condition jispe function recurse nahi karega and would exit
+    // agar base case nahi hogi to func infinite loop mei fasega, calling itself again and again
+
+    // in recursive function, check for base case is always done first... else it would get in infinite loop
+    // tail recursion = base case -> processing -> recursive call
+    // head recursion = base case -> recursive call -> processing
+
+    //Ex:
+    int twoKiPower(int n)
+    {
+        if(n==1)
+            return 1; // base case
+        
+        return n * twoKiPower(n-1); // recursive relation that we made f(n) = n * f(n-1)
+    }
