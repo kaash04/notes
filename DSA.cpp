@@ -1336,4 +1336,42 @@
         cout << spell[n % 10] << " ";
     }
     // see carefully, it uses tal recursion as n%10 gives last digit and we want to spell first digit first
-    // so, recurse first and print its output, then own processing and output
+    // so, recurse first and print its output (isse recursion tree ke end node ka output sabse pehele print hoga and top ka last mei)
+
+
+    // Implementing linear search using recursion:
+    bool linearS(int arr[], int s, int key)
+    {
+        if (s == 0)
+            return 0;
+        if (arr[0] == key)
+            return 1;
+        return linearS((arr + 1), s - 1, key);
+    }
+
+    // Implementation of binary search using recursion
+    bool binS(int *arr, int s, int key)
+    {
+        int mid = s / 2;
+        if (s == 0)
+            return 0;
+        if (arr[mid] == key)
+            return 1;
+        if (arr[mid] > key)
+            return binS(arr, (s / 2), key);
+        return binS((arr + mid + 1), (s / 2), key);
+    }
+
+    // check palindrome using recursion
+    bool palindrome(string s, int i = 0)
+    {
+        if (s.length() - 1 - i <= 0)
+            return 1;
+        if (s.at(i) != s.at(s.length() - 1 - i))
+            return 0;
+        return palindrome(s, i + 1);
+    }
+
+    // Bubble sort using recursion
+    // Selection sort using recursion
+    // Insertion sort using recursion
