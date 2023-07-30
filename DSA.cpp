@@ -1272,6 +1272,7 @@
     // (other than this their could be additional components like processing etc. based on desired output)
     // base condition = condition jispe function recurse nahi karega and would exit
     // agar base case nahi hogi to func infinite loop mei fasega, calling itself again and again
+    // overflow of stack memory, segmentation fault
 
     // in recursive function, check for base case is always done first... else it would get in infinite loop
     // tail recursion = base case -> processing -> recursive call
@@ -1285,3 +1286,54 @@
         
         return n * twoKiPower(n-1); // recursive relation that we made f(n) = n * f(n-1)
     }
+
+    // Ex(2):
+    void fibonacci(int &n, int n1, int n2)
+    {
+        if (n == 0)
+            return;
+        n--;
+        cout << n1 + n2 << " ";
+        fibonacci(n, n2, n1 + n2);
+    }
+
+    /* 
+    Ques: * * IMP * * 
+    You are standing at 0th stair, and u are given an integer n. Find total number of unique ways to reach nth stair.
+    You are allowed to climb 1/2 stairs at a time.
+
+    Always make recursive relation first..
+    we are given 'n' so relation would be related to n.
+    if we reach nth stair, we must have came from n-1 or n-2 th stair.
+    again for n-1th stair we must have came from (n-1)-1 or (n-1)-2 th stair and so on...
+    thus f(n) = f(n-1) + f(n-2)
+
+    for base condition, check when we need to stop.
+    here, stop on reaching 0th stair or negative number of stair
+    thus, +0 ways if it goes negative and +1 ways if it reaches 0th stair (as we need to start from 0, so its valid solution)
+    */
+    // Solution:
+    int count(int n)
+    {
+        if(n == 0) // added this because, its valid way if we reach 0th stair at end
+            return 1;
+        if(n < 0) // invalid way so + 0
+            return 0;
+        return count(n-1) + count(n-2);
+    }
+
+    // ALWAYS DRAW RECURSION TREE FOR BETTER UNDERSTANDNG OF RECURSION CODE
+
+
+    //Recursion code to spell out a number:
+    void say(int n)
+    {
+        string spell[10] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
+        if (n == 0)
+            return;
+
+        say(n / 10);
+        cout << spell[n % 10] << " ";
+    }
+    // see carefully, it uses tal recursion as n%10 gives last digit and we want to spell first digit first
+    // so, recurse first and print its output, then own processing and output
