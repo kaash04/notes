@@ -512,7 +512,7 @@
                 done!!
     */
 
-   // Code for left shifting and element in array:
+   // Code for left shifting an element in array:
         void leftShift(int *arr, int currentIndex, int destinationIndex)
         {
             int temp = *(arr + currentIndex);
@@ -1373,5 +1373,118 @@
     }
 
     // Bubble sort using recursion
+    void bubble(int *arr, int s)
+    {
+        if (s == 0 || s == 1)
+            return;
+        for (int i = 0; i < s - 1; i++)
+        {
+            if (arr[i] > arr[i + 1])
+                swap(arr[i], arr[i + 1]);
+        }
+        bubble(arr, s - 1);
+    }
+    // basic funda of recursion = solve 1 smaller problem and recurse for remaining
+    // so largest element ko last mei le gaye and recursed for remaining array
+
+
     // Selection sort using recursion
+    // selection smallest and swap with first position of unsorted
+    void selection(int *arr, int s)
+    {
+        if (s == 0 || s == 1)
+            return;
+        int minIndex = 0;
+        for (int i = 1; i < s; i++)
+        {
+            if (arr[i] < arr[minIndex])
+                minIndex = i;
+        }
+        swap(arr[0], arr[minIndex]);
+        selection(arr + 1, s - 1);
+    }
+
     // Insertion sort using recursion
+    void insertion(int *arr, int s, int k = 1)
+    {
+        int destinationIndex = k;
+        if (s == 0 || s == 1 || k == s)
+            return;
+        for (int i = 0; i < k; i++)
+        {
+            if (arr[i] > arr[k])
+            {
+                destinationIndex = i;
+                break;
+            }
+        }
+        for (int i = k; i > destinationIndex; i--)
+        {
+            swap(arr[i], arr[i - 1]);
+        }
+        insertion(arr, s, k + 1);
+    }
+
+
+    // * * * * * * * VIMP * * * * * * *
+    // implementing merge sort using recursion
+    // merge sort = divide array into sub array unit it has 1 element, then combine while sorting (merge 2 sorted array, classic problem)
+    // SEE CODE CAREFULLY * * * * 
+    void mergeSort(int *arr, int s, int e)
+    {
+        if (s >= e)
+            return;
+
+        // recursively dividing array into 2 parts until it has 2 elements in it
+        int mid = (s + e) / 2;
+        mergeSort(arr, s, mid);
+        mergeSort(arr, mid + 1, e);
+
+        merger(arr, s, e); // tail recursion to sort array
+    }
+
+    void merger(int *arr, int s, int e)
+    {
+        // mid nikalo -> start se mid tak pehela sorted array hoga (bcoz tail recursion se sort karte hue aaye hai) and mid+1 se end tak dusra
+        int mid = (s + e) / 2;
+        int i = s, j = mid + 1;
+        int len = e - s + 1;
+        int *sorted = new int[len]; // make new array to merged elements of those 2 arrays in sorted order
+        int ins = 0;
+
+        // classic merge 2 sorted arrays problem jaisa same
+        while (i <= mid && j <= e)
+        {
+            if (arr[i] < arr[j])
+            {
+                sorted[ins] = arr[i];
+                i++;
+            }
+            else
+            {
+                sorted[ins] = arr[j];
+                j++;
+            }
+            ins++;
+        }
+        while (i <= mid)
+        {
+            sorted[ins] = arr[i];
+            i++;
+            ins++;
+        }
+        while (j <= e)
+        {
+            sorted[ins] = arr[j];
+            j++;
+            ins++;
+        }
+
+        // copy elements in sorted order to our original array
+        for(int i=0; i < len; i++)
+        {
+            arr[s] = sorted[i];
+            s++;
+        }
+        delete sorted; // delete dynamically allocated heap memory
+    }
