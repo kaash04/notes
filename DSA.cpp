@@ -1427,7 +1427,7 @@
 
 
     // * * * * * * * VIMP * * * * * * *
-    // implementing merge sort using recursion
+    // implementing merge sort using recursion (T.C. = O(nlogn))
     // merge sort = divide array into sub array unit it has 1 element, then combine while sorting (merge 2 sorted array, classic problem)
     // SEE CODE CAREFULLY * * * * 
     void mergeSort(int *arr, int s, int e)
@@ -1487,4 +1487,42 @@
             s++;
         }
         delete []sorted; // delete dynamically allocated heap memory
+    }
+
+
+    // Quick Sort
+    // first element ko uthao and sorted array mei uski jo position hogi vaha rakho (find that using usse chote kitne number hai array mei)
+    // now swap usse chote wale number before it [so array would be like all elements less than x -> x -> all elements greater than x]
+    // now repeat the process in both halves
+    // TC => best case, avg case = nlogn , in worst case = n^2
+    void quick(int *arr, int n)
+    {
+        // base case
+        if (n == 0 || n == 1)
+            return;
+        int pivot = arr[0], count = 0; // set pivot = first element
+        for (int i = 1; i < n; i++)
+        {
+            if (arr[i] < pivot)
+                count++; // count represents number of elements less than it, thus it also shows index of pivot element to be placed
+        }
+        swap(arr[0], arr[count]);
+
+        int i = 0, j = n - 1;
+        while (i < count && j > count) // loop to make all elements b4 pivot less than it, and all elements after it greater than it
+        {
+            if (arr[i] > pivot && arr[j] < pivot)
+            {
+                swap(arr[i], arr[j]);
+                i++;
+                j++;
+            }
+            if (arr[i] < pivot)
+                i++;
+            if (arr[j] > pivot)
+                j++;
+        }
+
+        quick(arr, count); // recursive call for left part
+        quick(arr + count + 1, n - count - 1); // recursive call for right part
     }
