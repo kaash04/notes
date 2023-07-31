@@ -1486,5 +1486,5 @@
             arr[s] = sorted[i];
             s++;
         }
-        delete sorted; // delete dynamically allocated heap memory
+        delete []sorted; // delete dynamically allocated heap memory
     }
