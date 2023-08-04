@@ -1526,3 +1526,97 @@
         quick(arr, count); // recursive call for left part
         quick(arr + count + 1, n - count - 1); // recursive call for right part
     }
+
+
+
+    // * * * Classic question: to find power set (set of all subsets of given array)
+    // Approach: traverse through each index
+    // either include that index in output array or else dont (2 recursive calls, 1 excluding and other including)
+    // do this for all indices and each element to get all 2^n possible subsets
+    void subsets(vector<int> arr, vector<vector<int>> &res, int index = 0, vector<int> output = {})
+    {
+        // base case
+        if (index >= arr.size()) // index = arr.size means we traversed whole array and either included or excluded that element
+        {
+            res.push_back(output); // push our generated output array to resultant vec and exit that func call
+            return;
+        }
+
+        subsets(arr, res, index + 1, output); // in first possibility, dont include that specific element and move on to next
+
+        output.push_back(arr.at(index)); // include that element in output and then move on to next
+        subsets(arr, res, index + 1, output);
+        // (must do include call later, coz we using same array as parameter for both)
+    }
+
+
+
+    // Popular interview ques: find all permutations of a given string
+    // approach => we need to find all permutations i.e. put every char on every place
+    // for each index belonging to string, swap its value with every char, move index to next pos, recurse same thing
+    // dry run on paper for better understanding
+    void perm(string s, vector<string> &res, int index = 0)
+    {
+        if (index >= s.length() - 1) 
+        {
+            res.push_back(s); // base case, push the generated string when index we are swapping reaches end
+            return;
+        }
+        for (int i = index; i < s.length(); i++) // start with 'index' and swap with all elements after it one by one
+        {
+            swap(s.at(index), s.at(i));
+            perm(s, res, index + 1);
+            swap(s.at(index), s.at(i)); // back track to prev state of string before swapping again with different index 
+        }
+    }
+
+    // VIMP * * * * => solve rat in maze problem by self
+
+
+
+// Time and Space Complexity of Recursive algorithms
+    // Time complexity = time required for each run * number of runs of recursive function
+    /* 
+        Ex: linear search (see algo above): O(k*n) such that, k is constant time required for single run
+        thus, linear Search => O(n) [eliminating 'k' as its constant]
+
+        for binary Search:
+            lets say we have array of n elements, so while doing binary search we find mid and so on... 'a' times
+            thus, T.C. => O(k*a)
+            we are actually decreasing size of array to 1 in following order:- n->n/2->n/4->n/8->....->1 [in 'a' times]
+            thus, 2^a = n (think mathematically multiplying 2 a times would reverse the effect of dividing by 2 n times)
+            taking log on both sides:
+                a log2 = logn -> O(a) = O(logn) [neglected const time O(log2)]
+            thus,
+                Binary Search => O(k*a) => O(a) => O(logn)
+
+        Merge sort: O(nlogn) 
+        [O(logn) as number of runs = 2logn, O(n) for merging 2 sorted array (see merger code, it has O(n) complexity)]
+
+        Fibonacci using recursion: O(2^n) [exponential time complexity == ghatiya]
+    */
+    /*
+        Space Complexity: maximum space required at an time instant
+        see how many instance of recursive func would be running at once * space required by each
+
+        Ex:
+            int factorial(int n)
+            {
+                if(n==0)
+                    return 1;
+                return n * factorial(n-1);
+            }
+            here, at a time n func instances would be running and each would require const space 'k'
+            thus space complexity => O(k*n) => O(n)
+
+
+            In binary search: at a time 'a' instances, i.e. logn instances and const space 'k' for each
+            thus S.C => O(logn*k) => O(logn)
+
+            merge sort (see algo): 
+            space in func = K+n
+            number of runs = logn
+            thus, S.C => O(n + logn)
+            also, n >>>>> logn
+            therefore, S.C. => O(n)
+    */
