@@ -1644,3 +1644,26 @@
 
     // 'this' keyword stores address of current object [thus, we could access member methods and variables using "this->"]
     // it stores address of object so, it is pointer to object
+
+    // copy constructor = constructor that takes reference to object of same class as input and copies its value to new object
+    // when we define a custom copy constructor, default copy constructor set by compiler is destroyed
+
+    // Shallow copy and Deep copy
+        // Shallow copy copies the value as it is
+        // thus if a pointer member is pointing to some var (say string containing name), it would copy same address to pointer of other object
+        // This would cause change in name of both object if one is changed, because both pointer are pointing to same memory location
+        // Default copy constructor uses shallow copy
+
+        // Deep copy fixes this issue
+        // This is done by first copying the data (say name) to a different location (by creating new string and coping it their)
+        // and then assigning the value of 2nd objects pointer to point that address
+        // so both objects would have different address to store data
+
+        // we could use '=' to copy all data members values from 1 object to other (copy assignment operator)
+
+    
+    // Destructor = function/method called when object is of no use and about to go out of scope
+    // destructor helps in deallocating the memory
+    // Statically created objects [ class_name obj; ] ke liye destructor automatically call hoga (bcoz vo delete bhi to automatically hote hai)
+    // Dynamically created objects [ class_name *a = new class_name(); ]
+    // inke case mei it is called when we manually delete object (bcoz vo automatically delete nahi hote)
