@@ -1620,3 +1620,27 @@
             also, n >>>>> logn
             therefore, S.C. => O(n)
     */
+
+
+
+// OOPS Concepts
+    // generally, sizeof(object) = sum of size of variables it has
+    // But, if it has '0' vars (i.e. empty class), then it is assigned 1 byte of memory to keep a track on it
+    // THOUGH, this is not necessary, sometimes sizeof(object) > sum(sizeof(var)) [bcoz some padding might be added]
+    // padding is the addition of some empty bytes of memory in the structure to naturally align the data members in the memory.
+    // This is done to reduce cpu read cycles while accessing data members
+
+    // 3 types of access modifiers (public, private, protected)
+
+    // '->' is equivalent to dereferencing and then accessing member using '.' operator [used while dynamic allocation]
+
+    /*
+        Constructor:
+            invoked while object creation
+            no return type
+            name same as class name
+            always public
+    */
+
+    // 'this' keyword stores address of current object [thus, we could access member methods and variables using "this->"]
+    // it stores address of object so, it is pointer to object
