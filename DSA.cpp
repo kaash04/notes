@@ -1667,3 +1667,117 @@
     // Statically created objects [ class_name obj; ] ke liye destructor automatically call hoga (bcoz vo delete bhi to automatically hote hai)
     // Dynamically created objects [ class_name *a = new class_name(); ]
     // inke case mei it is called when we manually delete object (bcoz vo automatically delete nahi hote)
+
+
+    // 4 Pillars of OOPS:
+    /*
+        1) Encapsulation : wrapping up data members (properties) and functions (methods)
+            we take some data members and functions and encapsule them to form a class. That is encapsulation.
+            Fully Encapsulated class => class in which all data members are private
+        * * * Encapsulation = information hiding & Abstraction = Implementation hiding
+
+        2) Inheritance: ability of a class to derive properties and characteristics from another class
+        syntax: 
+            class child_class : access_modifier parent_class{
+                // body of class
+            };
+
+        3) Polymorphism (many forms): ability of an entity to exist in multiple forms
+            2 types: compile  time (aka static polymorphism), run time (aka dynamic polymorphism)
+
+            Compile Time can be further divided as: function overloading, operator overloading
+            In operator overloading, suppose a + b and we want to overload it to perform subtraction
+            syntax:
+                return__type operator + (input) 
+                {
+                    // code
+                    // for a+b a is object for which function is called and b is given as input [thus use this-> to access members of 'a']
+                }
+            * * not all operators can be overloaded [like scope resolution operator]
+
+            Runtime polymorphism: (runtime par hi pata chalega ki kisi entity ka konsa form use hoga)
+                it consists of method overriding
+            Function overriding happens only when we inherit a class and both parent and child class have function/method with same name and paramters
+            Thus, runtime polymorphism is dependent on inheritance
+
+            Suppose, there is parent class animal having function voice which outputs "speaking".
+            And there's a derived class Dog having same func voice but it outputs "barking".
+            Now, if we make function of class dog then it prints "barking" as function with same name is available in its own class (nahi hota to "speaking")
+
+
+        4) Abstraction: Implementation hiding
+            Hiding implementation partially or fully by using access modifiers and setting data members and methods as private or protected
+    */
+
+
+
+// Linked List and its types
+    // type of linear data structure formed by collection of nodes
+    // each node is combination of data, and address of next node (stored in pointer)
+    // It is a type of dynamic data structure (can be grown or shrunk at runtime)
+    // Insertion/Deletion => easier than array
+    // Does not require continuous storage allocation
+
+    /*
+        Types of linked list:
+            singly linked list (data and ptr to next node)
+            doubly linked list (data and ptr to both prev and next node)
+            Circular linked list (singly + last element again points first)
+            Circular doubl linked list (doubly + last element again points first)
+    */
+
+    // Implementing a singly linked list:
+        class Node
+        {
+        public:
+            int data;
+            Node *ptr; // pointer to next node
+
+            Node(int data) // constructor
+            {
+                this->data = data;
+                this->ptr = NULL;
+            }
+        };
+
+    // Inserting data to front of linked list:
+        void insertFront(Node *&head, int data) // takes pointer to head node (took reference var too to avoid new var creation) and value to insert at input
+        {
+            Node *tmp = new Node(data);
+            tmp->ptr = head;
+            head = tmp;
+        }
+
+    // Printing linked list:
+        void printList(Node *&head) // take reference pointer to head node as input
+        {
+            Node *tmp = head; // copy value of it to temp, i.e. create a local variable that points head in beginning for traversal
+            while (tmp != NULL)
+            {
+                cout << tmp->data << " ";
+                tmp = tmp->ptr;
+            }
+            cout << endl;
+        }
+
+    // * * Similarly use tail ptr for inserting at tail
+
+    // Inserting in between
+    void insertAt(Node *&head, int pos, int data) // pos = position at which insert karna hai
+    {
+        Node *tmp = head;
+        for (int i = 0; i < pos - 2; i++)
+            tmp = tmp->ptr;
+        // After execution of this for loop, tmp will point to pos-1 th node
+        // we need to insert at pos... so ptr(pos-1) points new node & ptr(newNode) points node at pos (before insertion) [visualize]
+
+        Node *n = new Node(data);
+        n->ptr = tmp->ptr;
+        tmp->ptr = n;
+    }
+    // This doesnt work for insertion at first and last and ma give error if position exceeds list size (could be fixed using conditional if's )
+    // like, if pos == 1 then call insertFront function
+
+    // For deleting a Node, make its prev node point to its next node
+    // make a ptr to nde that we are deleting before this, and then use that pointer to deallocate dynamic memory using delete keyword
+    // MUST write a destructor to convey what happens on deleting a node
