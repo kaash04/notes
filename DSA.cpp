@@ -1731,12 +1731,12 @@
         {
         public:
             int data;
-            Node *ptr; // pointer to next node
+            Node *next; // pointer to next node
 
             Node(int data) // constructor
             {
                 this->data = data;
-                this->ptr = NULL;
+                this->next = NULL;
             }
         };
 
@@ -1744,7 +1744,7 @@
         void insertFront(Node *&head, int data) // takes pointer to head node (took reference var too to avoid new var creation) and value to insert at input
         {
             Node *tmp = new Node(data);
-            tmp->ptr = head;
+            tmp->next = head;
             head = tmp;
         }
 
@@ -1755,7 +1755,7 @@
             while (tmp != NULL)
             {
                 cout << tmp->data << " ";
-                tmp = tmp->ptr;
+                tmp = tmp->next;
             }
             cout << endl;
         }
@@ -1767,13 +1767,13 @@
     {
         Node *tmp = head;
         for (int i = 0; i < pos - 2; i++)
-            tmp = tmp->ptr;
+            tmp = tmp->next;
         // After execution of this for loop, tmp will point to pos-1 th node
         // we need to insert at pos... so ptr(pos-1) points new node & ptr(newNode) points node at pos (before insertion) [visualize]
 
         Node *n = new Node(data);
-        n->ptr = tmp->ptr;
-        tmp->ptr = n;
+        n->next = tmp->next;
+        tmp->next = n;
     }
     // This doesnt work for insertion at first and last and ma give error if position exceeds list size (could be fixed using conditional if's )
     // like, if pos == 1 then call insertFront function
@@ -1781,3 +1781,169 @@
     // For deleting a Node, make its prev node point to its next node
     // make a ptr to nde that we are deleting before this, and then use that pointer to deallocate dynamic memory using delete keyword
     // MUST write a destructor to convey what happens on deleting a node
+
+
+    // Implementing Doubly Linked list:
+        class Node
+        {
+        public:
+            int data;
+            Node *prev;
+            Node *next;
+
+            Node(int data)
+            {
+                this->data = data;
+                this->next = NULL;
+                this->prev = NULL;
+            }
+
+            ~Node()
+            {
+                this->next = NULL;
+                this->prev = NULL;
+                int d = this->data;
+                delete next;
+                delete prev;
+                cout << "DC called for " << d << endl;
+            }
+        };
+
+    // Inserting at head
+    void insertAtHead(Node *&head, int data)
+    {
+        Node *tmp = new Node(data);
+        tmp->next = head;
+        head->prev = tmp;
+        head = tmp;
+    }
+
+    // Printing list
+    void printList(Node *head)
+    {
+        while (head != NULL)
+        {
+            cout << head->data << " ";
+            head = head->next;
+        }
+        cout << endl;
+    }
+
+    // Get length of doubly linked list
+    int getLength(Node *head)
+    {
+        int count = 0;
+        while (head != NULL)
+        {
+            count++;
+            head = head->next;
+        }
+        return count;
+    }
+
+    // * * Inserting at any given position in doubly linked list
+    void insertAt(int pos, Node *head, int data)
+    {
+        if (pos == 1) // insert head
+        {
+            insertAtHead(head, data);
+        }
+        else if (pos > getLength(head) + 1) // out of indexing order
+        {
+            cout << "Cannot insert at invalid index" << endl;
+        }
+        else
+        {
+            // inserting in between
+            Node *back = head;
+            int count = 1;
+            while (count < pos - 1)
+            {
+                back = back->next;
+                count++;
+            }
+
+            // creating new object for element
+            Node *tmp = new Node(data);
+
+            // connecting
+            tmp->next = back->next;
+            tmp->prev = back;
+            if (pos != getLength(head) + 1)
+                (back->next)->prev = tmp;
+            // dont execute this statement if inserting at back bcoz back->next = NULL & accessing NULL->prev means segmentation fault
+            back->next = tmp;
+        }
+    }
+
+    // Delete node
+    void deleteNode(Node *&head, int pos)
+    {
+        Node *tmp = head;
+        for (int i = 1; i < pos; i++)
+        {
+            tmp = tmp->next;
+        }
+        // Now tmp is the node to be deleted
+        if (pos > getLength(head)) // Out of index
+        {
+            cout << "Cannot delete a node that doesn't exist!" << endl;
+        }
+        else if (tmp->prev == NULL) // tmp is head
+        {
+            head = tmp->next;
+            head->prev = NULL;
+        }
+        else if (tmp->next == NULL) // tmp is tail
+        {
+            tmp->prev->next = NULL;
+        }
+        else
+        {
+            (tmp->next)->prev = tmp->prev;
+            (tmp->prev)->next = tmp->next;
+        }
+
+        // deleting node
+        delete tmp; // see constructor for what happens on calling this
+    }
+
+
+    // Circular linked list
+        // Node structure same as singly linked list, just last node points again to first one
+        // Thus, we dont need both haid and tail pointer, bcoz head would be tail->next
+        // Also, insertion at head = insertion at tail
+
+
+
+// Classic Linked list ques:
+/*
+    Reverse a singly linked list:
+    suppose we have list a->b->c we need to reverse it and make c->b->a
+    thus, we actually need to make a<-b<-c
+    i.e. each element point its back element from original list & head = previous tail    
+*/
+    void reverseList(Node *&head)
+    {
+        Node *back = NULL;
+        Node *current = head;
+        Node *front = head->next;
+
+        if (head == NULL || head->next == NULL) // empty list or list with 1 element
+            return;
+
+        while (current != NULL)
+        {
+            current->next = back;
+            back = current;
+            current = front;
+            if (front != NULL)
+                front = front->next;
+        }
+        head = back;
+    }
+
+
+/*
+
+*/
