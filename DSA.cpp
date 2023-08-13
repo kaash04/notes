@@ -1923,6 +1923,7 @@
     thus, we actually need to make a<-b<-c
     i.e. each element point its back element from original list & head = previous tail    
 */
+// Iterative solution
     void reverseList(Node *&head)
     {
         Node *back = NULL;
@@ -1942,8 +1943,21 @@
         }
         head = back;
     }
+// Recursive solution
+    void reverseRecurse(Node *&head, Node *back, Node *current)
+    {
+        if (current == NULL)
+        {
+            head = back;
+            return;
+        }
+        Node *front = current->next;
+        current->next = back;
+        reverseRecurse(head, current, front);
+    }
 
 
-/*
-
-*/
+// Middle of linked list
+// We need to find mid node of linked list
+// Naive approach: iterate through list to find its length and hence find pos of mid node. Then iterate again to find its value.
+// Optimised Approach: create 2 pointers, one of them woud move 2 nodes front at a time and other would move 1
