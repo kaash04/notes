@@ -1961,3 +1961,45 @@
 // We need to find mid node of linked list
 // Naive approach: iterate through list to find its length and hence find pos of mid node. Then iterate again to find its value.
 // Optimised Approach: create 2 pointers, one of them woud move 2 nodes front at a time and other would move 1
+
+
+// Reverse a singly linked list in groups of 'K' elements
+    // approach: use recursion to reverse last k element grp, and return its head
+    // use that head as back fr prior group and do same for each grp
+    // base case: head=null or else k element grp not possible (if last few elements cant form group, have to embed them in same order)
+    // * * * * * IMP (Amazon, Paypal, MakeMyTrip, etc)
+    Node *kReverse(Node *head, int k)
+    {
+        if (head == NULL)
+            return NULL;
+        int a = 1;
+        Node *s = head;
+        Node *e = s;
+        while (e->next != NULL && a != k)
+        {
+            e = e->next;
+            a++;
+        }
+        if (e->next == NULL && a != k)
+            return s;
+        Node *back = kReverse(e->next, k);
+        while (s != e)
+        {
+            Node *front = s->next;
+            s->next = back;
+            back = s;
+            s = front;
+        }
+        s->next = back;
+        return s;
+    }
+
+
+// Detect loop in linked list
+    // approach: create a map with [key, value] pair = [Node* , bool]
+    // Node* = address and bool represents if its visited
+
+    // METHOD 2: Floyds cycle detection algorithm
+    // 2 pointers slow(1 step) and fast(2 step) at head of list in beginning
+    // dono ko chalo ab... if fast reaches NULL, theres no loop
+    // if slow = fast again after some iterations, there's a loop
