@@ -190,7 +190,7 @@
 
 
 // Linear search
-    // In an array check element on every index or given value = linear search
+    // In an array check element on every index for given value = linear search
     // Ex:
         int linearSearch(int *ar, int sizee, int key)
         {
@@ -277,7 +277,7 @@
 // Time and Space Complexity
     //Time complexity
         // it is the amount of time taken by an algorithm to run, as a function of length of input
-        // NOT counted in sec bcoz eecution time will depend on power of machine executing the algorithm
+        // NOT counted in sec bcoz execution time will depend on power of machine executing the algorithm
         /*
             Thus, time complexity is represented in:
                 BIG O notation (gives upper bound, i.e. max time that algorithm might take)
@@ -669,7 +669,7 @@
 
             * if we just create vec and dont add any element, its capacity = 0
             if we add 1 element, size=1  capacity = 1
-            adding 2 elements in vec, size = 2, capaity = 2
+            adding 2 elements in vec, size = 2, capacity = 2
             adding 3 elements, size = 3, capacity = 4        // because vec full hone par capacity double karega
 
             if we already know size and want static sized vec:
@@ -1335,7 +1335,7 @@
         say(n / 10);
         cout << spell[n % 10] << " ";
     }
-    // see carefully, it uses tal recursion as n%10 gives last digit and we want to spell first digit first
+    // see carefully, it uses tail recursion as n%10 gives last digit and we want to spell first digit first
     // so, recurse first and print its output (isse recursion tree ke end node ka output sabse pehele print hoga and top ka last mei)
 
 
@@ -2003,3 +2003,241 @@
     // 2 pointers slow(1 step) and fast(2 step) at head of list in beginning
     // dono ko chalo ab... if fast reaches NULL, theres no loop
     // if slow = fast again after some iterations, there's a loop
+
+// Remove Duplicates in a sorted list
+    // Simply, if a->data = a->next->data 
+    // then a->next = a->next->next
+    // O(n)
+
+// Remove Duplicates in unsorted linked list
+    // Approach 1:
+        // dual for loop
+        // for first occurence of each element, remove all other occurences of that element
+        // O(n^2)
+    void delNode(Node* head, int val){
+        if(head == NULL || head->next == NULL)
+            return;
+        if(head->next->data == val){
+            head->next = head->next->next;
+            delNode(head, val);
+        }
+        else
+            delNode(head->next, val);
+    }
+    Node *removeDuplicates(Node *head) {
+        // your code goes here
+        Node* t = head;
+        while(t != NULL){
+            delNode(t, t->data);
+            t = t->next;
+        }
+        return head;
+    }
+
+    // Approach 2:
+        // Sort linked list first O(n logn)
+        // Previous method O(n)
+        // O(n logn)
+        // But, this wont maintain their order
+
+    // Approach 3:
+        // Can be solved using map/set (unordered, to maintain order) in O(n), but then Space complexity also changes from O(1) to O(n)
+    Node* insertList(Node* head, int data){
+        Node* t = head;
+        Node* tmp = new Node(data);
+        if(t == NULL){
+            head = tmp;
+            return head;
+        }
+        while(t->next != NULL){
+            t = t->next;
+        }
+        t->next = tmp;
+        return tmp;
+    }
+    Node *removeDuplicates(Node *head) {
+        // your code goes here
+        unordered_set<int> s;
+        Node* t = head;
+        Node* res = NULL;
+        Node* lastPtr = NULL;
+        while(t !=  NULL)
+        {
+            if(s.find(t->data) == s.end()){
+                lastPtr = insertList(lastPtr, t->data);
+                if(res == NULL)
+                    res = lastPtr;
+            }
+            s.insert(t->data);
+            t = t->next;
+        }
+        return res;
+    }
+
+
+
+// Sort 0s 1s 2s in Linked list
+    // Approach 1:
+        // using additonal space O(n)
+        // TC: o(n logn)
+        Node* ins(Node* l, int data){
+            Node* tmp = new Node(data);
+            if(l != nullptr){
+                l->next = tmp;
+            }
+            return tmp;
+        }
+        Node* sortList(Node* head) {
+            vector<int> v;
+            while(head != nullptr){
+                v.push_back(head->data);
+                head = head->next;
+            }
+            sort(v.begin(), v.end());
+            Node* res = NULL;
+            Node* tail = NULL;
+            for(auto i : v){
+                tail = ins(tail, i);
+                if(res == nullptr)
+                    res = tail;
+            }
+            return res;
+        }
+
+    // Approach 2:
+        // swap nodes, custom sort algo
+
+// Merge 2 sorted linked list
+    // Approach 1: 
+        // Push both to vec, sort, create
+        // TC: O(n logn)    SC: O(n)
+
+
+    // Approach 2:
+        // Ek list se uthao, dusre sorted mei insert karo bich mei
+        // TC: O(n)     SC: O(1)
+        Node* ins(Node* l, Node* i){
+            if(l->data > i->data){
+                i->next = l;
+                return i;
+            }
+            Node* head = l;
+            while(l->next != NULL){
+                if(l->data <= i->data && l->next->data > i->data){
+                    Node* tmp = l->next;
+                    l->next = i;
+                    i->next = tmp;
+                    return head;
+                }
+                l = l->next;
+            }
+            l->next = i;
+            i->next = nullptr;
+            return head;
+        }
+        Node* mergeTwoLists(Node* list1, Node* list2) {
+            if(list1 == nullptr)
+                    return list2;
+            if(list2 == nullptr)
+                    return list1;
+            while(list2 != nullptr){
+                Node* fe = list2->next;
+                list1 = ins(list1, list2);
+                list2 = fe;
+            }
+            return list1;
+        }
+
+    // Approach 3:
+        // Create new list
+        // Two pointer approach
+        // SC: O(n)   TC: O(n)
+
+
+// Check if Linked list is a Palindrome
+    // Approach 1:
+    // Convert to array, check normal palindrome
+    // TC: O(n)     SC: O(n)
+
+    // Approach 2:
+    // Find mid, reverse list after mid, increment head & mid together to verify
+    // TC: O(n)     SC: O(1)
+    Node* findMid(Node* head){
+        Node* fast = head;
+        Node* slow = head;
+        while(fast!=nullptr && fast->next!=nullptr){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        if(fast == nullptr)
+            return slow;
+        return slow->next;
+    }
+    
+    Node* revList(Node* back, Node* curr, Node* front){
+        curr->next = back;
+        if(front == NULL)
+            return curr;
+        return revList(curr, front, front->next);
+    }
+    bool isPalindrome(Node* head) {
+        if(head->next == NULL)
+            return 1;
+        Node* head2 = findMid(head);
+        head2 = revList(nullptr, head2, head2->next);
+        while(head != nullptr && head2 != nullptr){
+            if(head->data != head2->data)
+                return 0;
+            head = head->next;
+            head2 = head2->next;
+        }
+        return 1;
+    }
+
+
+
+// Add two numbers represented by linked list
+// You are given two non-empty linked lists representing two non-negative integers.
+// The digits are stored in * * reverse order * *, and each of their nodes contains a single digit. 
+// Add the two numbers and return the sum as a linked list (reverse).
+// Ex: {5, 4, 3} and {5, 4} gives {0, 9, 3} 
+// because, 345 + 45 = 390
+
+    // Approach:
+    // add from head, maintain carry = sum/10, and value of each node = sum%10
+    Node* insertTail(Node* tail, int data){
+        Node* tmp = new Node(data);
+        if(tail == nullptr)
+            return tmp;
+        tail->next = tmp;
+        return tmp;
+    }
+    
+    int adder(Node* &tail, int carry, int a=0, int b=0){
+        tail = insertTail(tail, (a+b+carry)%10);
+        return (a+b+carry)/10;
+    }
+    
+    Node* addTwoNumbers(Node* l1, Node* l2) {
+        Node* tail = nullptr;
+        Node* head = nullptr;
+        int carry = 0;
+        while(l1 != nullptr && l2 != nullptr){
+            carry = adder(tail, carry, l1->data, l2->data);
+            l1 = l1->next;
+            l2 = l2->next;
+            if(head == nullptr)
+                head = tail;
+        }
+        while(l1 != nullptr){
+            carry = adder(tail, carry, l1->data, 0);
+            l1 = l1->next;
+        }
+        while(l2 != nullptr){
+            carry = adder(tail, carry, l2->data, 0);
+            l2 = l2->next;
+        }
+        while(carry != 0)
+            carry = adder(tail, carry, 0, 0);
+        return head;
+    }

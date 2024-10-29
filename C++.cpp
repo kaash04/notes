@@ -404,7 +404,7 @@
         {
             for (int i = 0; i < s.length(); i++)
             {
-                if (s.at(i) != '0' && s.at(i) != '1')
+                if (s.at(i) != '0' || s.at(i) != '1')
                 {
                     std::cout << "INVALID BINARY FORMAT!!" << std::endl;
                     exit(0);
