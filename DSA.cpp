@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+using namespace std;
 
 // Bitwise operators
     /*
@@ -61,124 +62,109 @@
                     if result = 0 , last bit is 0
                     and if result = 1, last bit is 1
                     right shift to make last bit disappear and bring last second bit to last bit position
-                    repeat until all bits of number are 0, i.e. number = 0 
+                    repeat until all bits of number are 0, i.e. number = 0
                 */
                // Ex Code:
-                    int main()
-                    {
-                    int dec, bit, bin = 0;
-                    printf("Enter your decimal number: ");
-                    scanf("%d", &dec);
-                    for (int i = 0; dec != 0; i++, dec = dec >> 1)
-                    {
-                        bit = dec & 1;
-                        bin = (bit * pow(10, i)) + bin; // logic for storing binary (hand run to see how it works)
-                        // if bit is 0, bin = bin thus no change
-                        // but if bit is 1, bin = (bit * 10 ki power i) + bin = 10 ki power i + old bin value
-                    }
+int main() {
+    int dec, bit, bin = 0;
+    printf("Enter your decimal number: ");
+    scanf("%d", &dec);
+    for (int i = 0; dec != 0; i++, dec = dec >> 1) {
+        bit = dec & 1;
+        bin = (bit * pow(10, i)) + bin; // logic for storing binary (hand run to see how it works)
+        // if bit is 0, bin = bin thus no change
+        // but if bit is 1, bin = (bit * 10 ki power i) + bin = 10 ki power i + old bin value
+    }
 
-                    printf("Binary representation: %d\n", bin);
+    printf("Binary representation: %d\n", bin);
 
-                    return 0;
-                    }
+    return 0;
+}
 
 
 
-    // Binary to Decimal
-        // summation of 2 ki power index where bit is 1
-        // Ex: 10101 => 1 is present at index 0, 2, 4 (count from left and start with 0)
-        // thus decimal represention = 2 ki power 0 + 2 ki power 2 + 2 ki power 4 = 21
+// Binary to Decimal
+    // summation of 2 ki power index where bit is 1
+    // Ex: 10101 => 1 is present at index 0, 2, 4 (count from left and start with 0)
+    // thus decimal represention = 2 ki power 0 + 2 ki power 2 + 2 ki power 4 = 21
 
-        // Code:
-            // WRONG!!
-            int main()
-            {
-            int bin, dec=0;
-            scanf("%d", &bin);
-            for (int i = 0; bin!=0; i++, bin = bin >> 1)
-            {
-                if (bin&1 == 1)
-                {
-                dec += pow(2, i);
-                }
-                
-            }
-            printf("Decimal representation: %d\n", dec);
-            
-            return 0;
-            }
-            // Gives incorrect output because bin&1 karne par bin mei jo decimal number input liya ai uska binar form ke sath &1 hoga
-            // Ex: 101 enter karne par
-                // we want last digit i.e. 1 & 1
-                // but & is bitwise operator and 101 that we entered is an integer for compiler
-                // thus compiler converts it to its binary (i.e. 1100101) and then does & 1
-                // so instead of doing bit & 1, extract last digit using remainder method
+    // Code:
+        // WRONG!!
+int main() {
+    int bin, dec = 0;
+    scanf("%d", &bin);
+    for (int i = 0; bin != 0; i++, bin = bin >> 1) {
+        if (bin & 1 == 1) {
+            dec += pow(2, i);
+        }
 
-            // Code:
-                int main()
-                {
-                int bin, dec=0;
-                scanf("%d", &bin);
-                for (int i = 0; bin!=0; i++, bin /= 10)
-                {
-                    if (bin%10 == 1)
-                    {
-                    dec += pow(2, i);
-                    }
-                    
-                }
-                printf("Decimal representation: %d\n", dec);
-                
-                return 0;
-                }
+    }
+    printf("Decimal representation: %d\n", dec);
+
+    return 0;
+}
+// Gives incorrect output because bin&1 karne par bin mei jo decimal number input liya ai uska binar form ke sath &1 hoga
+// Ex: 101 enter karne par
+    // we want last digit i.e. 1 & 1
+    // but & is bitwise operator and 101 that we entered is an integer for compiler
+    // thus compiler converts it to its binary (i.e. 1100101) and then does & 1
+    // so instead of doing bit & 1, extract last digit using remainder method
+
+// Code:
+int main() {
+    int bin, dec = 0;
+    scanf("%d", &bin);
+    for (int i = 0; bin != 0; i++, bin /= 10) {
+        if (bin % 10 == 1) {
+            dec += pow(2, i);
+        }
+
+    }
+    printf("Decimal representation: %d\n", dec);
+
+    return 0;
+}
 
 
-            // Ques: return true is number is power of 2 else return false
-            // IF it could be represented in 2 ki power something that means its binar representation must contain 1 at only 1 place
-            // Code:
-                long int binary(int dec)
-                {
-                    int bit;
-                    long int bin = 0;
-                    for (int i = 0; dec != 0; i++, dec = dec >> 1)
-                    {
-                        bit = dec & 1;
-                        bin = (bit * pow(10, i)) + bin;
-                    }
+// Ques: return true is number is power of 2 else return false
+// IF it could be represented in 2 ki power something that means its binar representation must contain 1 at only 1 place
+// Code:
+long int binary(int dec) {
+    int bit;
+    long int bin = 0;
+    for (int i = 0; dec != 0; i++, dec = dec >> 1) {
+        bit = dec & 1;
+        bin = (bit * pow(10, i)) + bin;
+    }
 
-                    return bin;
-                }
+    return bin;
+}
 
-                int main()
-                {
-                    int num;
-                    scanf("%d", &num);
-                    long int bin = binary(num);
-                    printf("Binary: %ld\n", bin);
+int main() {
+    int num;
+    scanf("%d", &num);
+    long int bin = binary(num);
+    printf("Binary: %ld\n", bin);
 
-                    int count = 0;
+    int count = 0;
 
-                    while (bin != 0)
-                    {
-                        if (bin % 2 == 1)
-                        {
-                        count += 1;
-                        }
-                        bin /= 10;
-                    }
+    while (bin != 0) {
+        if (bin % 2 == 1) {
+            count += 1;
+        }
+        bin /= 10;
+    }
 
-                    printf("Count: %d\n",count);
-                    if (count == 1)
-                    {
-                        printf("True\n");
-                    }
-                    else
-                    {
-                        printf("False\n");
-                    }
+    printf("Count: %d\n", count);
+    if (count == 1) {
+        printf("True\n");
+    }
+    else {
+        printf("False\n");
+    }
 
-                    return 0;
-                }
+    return 0;
+}
 
 
 
@@ -192,86 +178,74 @@
 // Linear search
     // In an array check element on every index for given value = linear search
     // Ex:
-        int linearSearch(int *ar, int sizee, int key)
-        {
-            int count = 0;
-            for (int p = 0; p < sizee; p++)
-            {
-                if (key == *(ar + p))
-                {
-                    count += 1;
-                }
-            }
-            return count;
+int linearSearch(int* ar, int sizee, int key) {
+    int count = 0;
+    for (int p = 0; p < sizee; p++) {
+        if (key == *(ar + p)) {
+            count += 1;
         }
+    }
+    return count;
+}
 
-        int main()
-        {
-            int sizee, key;
-            printf("How many elements do you want in array: ");
-            scanf("%d", &sizee);
-            int arr[sizee];
+int main() {
+    int sizee, key;
+    printf("How many elements do you want in array: ");
+    scanf("%d", &sizee);
+    int arr[sizee];
 
-            printf("Enter your elements: ");
-            for (int i = 0; i < sizee; i++)
-            {
-                scanf("%d", &arr[i]);
-            }
+    printf("Enter your elements: ");
+    for (int i = 0; i < sizee; i++) {
+        scanf("%d", &arr[i]);
+    }
 
-            printf("Which value would you like to search for: ");
-            scanf("%d", &key);
+    printf("Which value would you like to search for: ");
+    scanf("%d", &key);
 
-            int counter = linearSearch(arr, sizee, key);
+    int counter = linearSearch(arr, sizee, key);
 
-            if (counter == 0)
-            {
-                printf("FALSE - 0 Occurences\n");
-            }
-            else
-            {
-                printf("TRUE - %d Occurences\n", counter);
-            }
+    if (counter == 0) {
+        printf("FALSE - 0 Occurences\n");
+    }
+    else {
+        printf("TRUE - %d Occurences\n", counter);
+    }
 
-            return 0;
-        }
+    return 0;
+}
 
 
 // Reversing an array:
     // swap first and last, then swap second and last second and so on...
-    void swap(int *a, int *b)
-    {
-        int t = *a;
-        *a = *b;
-        *b = t;
+void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+int main() {
+    int sizee;
+    printf("Enter size of array: ");
+    scanf("%d", &sizee);
+
+    int arr[sizee];
+    printf("Enter elements for array: ");
+    for (int i = 0; i < sizee; i++) {
+        scanf("%d", &arr[i]);
     }
 
-    int main()
-    {
-        int sizee;
-        printf("Enter size of array: ");
-        scanf("%d", &sizee);
-
-        int arr[sizee];
-        printf("Enter elements for array: ");
-        for (int i = 0; i < sizee; i++)
-        {
-            scanf("%d", &arr[i]);
-        }
-
-        int cpy = sizee - 1; // contains last index
-        for (int i = 0; i < (sizee / 2); i++, cpy--)
-        {
-            swap(&arr[i], &arr[cpy]);
-        }
-
-        printf("Swapped array: ");
-        for (int i = 0; i < sizee; i++)
-        {
-            printf("%d ", arr[i]);
-        }
-
-        return 0;
+    int cpy = sizee - 1; // contains last index
+    for (int i = 0; i < (sizee / 2); i++, cpy--) {
+        swap(&arr[i], &arr[cpy]);
     }
+
+    printf("Swapped array: ");
+    for (int i = 0; i < sizee; i++) {
+        printf("%d ", arr[i]);
+    }
+
+    return 0;
+}
 
 
 // Time and Space Complexity
@@ -376,54 +350,48 @@
     // else check rightward using same process
 
     //Code:
-        int binarySearch(int *ar, int sizee, int key)
-        {
-            int start = 0, end = sizee - 1, mid;
-            while (start <= end)
-            {
-                mid = (start + end) / 2;
+int binarySearch(int* ar, int sizee, int key) {
+    int start = 0, end = sizee - 1, mid;
+    while (start <= end) {
+        mid = (start + end) / 2;
 
-                if (*(ar + mid) == key)
-                    return mid;
-                else if (*(ar + mid) > key)
-                    end = mid - 1;
-                else
-                    start = mid + 1;
-                // must use mid+1 AND mid-1 else stuck in loop if ke not present
-                // because end will eventually become start+1 so mid = start and stuck there
+        if (*(ar + mid) == key)
+            return mid;
+        else if (*(ar + mid) > key)
+            end = mid - 1;
+        else
+            start = mid + 1;
+        // must use mid+1 AND mid-1 else stuck in loop if ke not present
+        // because end will eventually become start+1 so mid = start and stuck there
 
-            }
-            return -1;
-        }
+    }
+    return -1;
+}
 
-        int main()
-        {
-            int n, key;
-            printf("Enter number of elements you want to enter: ");
-            scanf("%d", &n);
+int main() {
+    int n, key;
+    printf("Enter number of elements you want to enter: ");
+    scanf("%d", &n);
 
-            int arr[n];
-            printf("Enter elements of array: ");
-            for (int i = 0; i < n; i++)
-            {
-                scanf("%d", &arr[i]);
-            }
+    int arr[n];
+    printf("Enter elements of array: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
 
-            printf("Enter number to search: ");
-            scanf("%d", &key);
+    printf("Enter number to search: ");
+    scanf("%d", &key);
 
-            int index = binarySearch(arr, n, key);
-            if (index != -1)
-            {
-                printf("Key found at index %d\n", index);
-            }
-            else
-            {
-                printf("Key not found in given array\n");
-            }
+    int index = binarySearch(arr, n, key);
+    if (index != -1) {
+        printf("Key found at index %d\n", index);
+    }
+    else {
+        printf("Key not found in given array\n");
+    }
 
-            return 0;
-        }
+    return 0;
+}
 
 // in linear search if 1000 elements present, we need to do 1000 comparisons
     // but using binary search we need to do only 10
@@ -435,7 +403,7 @@
 // Selection sort
     // TIME COMPLEXITY = O(n^2)
     // thus use on small sized array only
-    /* 
+    /*
         Select minimum element from array
         Swap it with element at index 0
         Select min element from remaining (index 0 chodke)
@@ -443,25 +411,24 @@
         and so on...
     */
     // CODE:
-        void selectionSort(int *arr, int sizee)
-        {
-            for (int i = 0; i < sizee - 1; i++) // outer for loop for swapping elements
-            {
-                int minIndex = i; // hame ever time +1 inde se min search karna hai, 
-                //like in first iteration we need to check all
-                // in second index 1 and above (bcoz 0 inde pr sabse min value aa ayegi using swap)
-                // so declared min index = i, har ek iteration par 1 se aage jayega
+void selectionSort(int* arr, int sizee) {
+    for (int i = 0; i < sizee - 1; i++) // outer for loop for swapping elements
+    {
+        int minIndex = i; // hame ever time +1 inde se min search karna hai, 
+        //like in first iteration we need to check all
+        // in second index 1 and above (bcoz 0 inde pr sabse min value aa ayegi using swap)
+        // so declared min index = i, har ek iteration par 1 se aage jayega
 
-                for (int j = i + 1; j < sizee; j++) // inner for loop for find min value
-                // value search always next element of i se karna hai so used i+1 as start
-                // ex: if arr[0]=3, we need to check if there is value less than 3 frm arr[1]
-                {
-                    if (*(arr + minIndex) > *(arr + j))
-                        minIndex = j; // stored index of minimum value in minIndex
-                }
-                swap((arr + minIndex), (arr + i));
-            }
+        for (int j = i + 1; j < sizee; j++) // inner for loop for find min value
+        // value search always next element of i se karna hai so used i+1 as start
+        // ex: if arr[0]=3, we need to check if there is value less than 3 frm arr[1]
+        {
+            if (*(arr + minIndex) > *(arr + j))
+                minIndex = j; // stored index of minimum value in minIndex
         }
+        swap((arr + minIndex), (arr + i));
+    }
+}
 
 
 
@@ -471,23 +438,22 @@
         if a[0] > a[1], swap
         if a[1] > a[2], swap
         and so on... to bring the largest element to end
-        repeat again to bring second largest to second last pos 
+        repeat again to bring second largest to second last pos
         and so on ...
     */
     // CODE:
-        void bubbleSort(int *arr, int sizee)
+void bubbleSort(int* arr, int sizee) {
+    for (int i = 0; i < sizee - 1; i++) // outer for loop for number of rounds, har round mei 1 largest last mei jayega
+    {
+        for (int j = 0; j < (sizee - i); j++) // inner for loop to bring 1 largest element to last each time
+        // loop ko sizee-i tak hi run kiya bcoz har bar last i elements would be already sorted
+        // bccoz after eery round, 1 largest element would go to last
         {
-            for (int i = 0; i < sizee - 1; i++) // outer for loop for number of rounds, har round mei 1 largest last mei jayega
-            {
-                for (int j = 0; j < (sizee - i); j++) // inner for loop to bring 1 largest element to last each time
-                // loop ko sizee-i tak hi run kiya bcoz har bar last i elements would be already sorted
-                // bccoz after eery round, 1 largest element would go to last
-                {
-                    if (*(arr + j) > *(arr + j + 1))
-                        swap((arr + j), (arr + j + 1));
-                }
-            }
+            if (*(arr + j) > *(arr + j + 1))
+                swap((arr + j), (arr + j + 1));
         }
+    }
+}
 
 
 
@@ -513,55 +479,49 @@
     */
 
    // Code for left shifting an element in array:
-        void leftShift(int *arr, int currentIndex, int destinationIndex)
-        {
-            int temp = *(arr + currentIndex);
-            for (int i = currentIndex; i > destinationIndex; i--)
-            {
-                *(arr + i) = *(arr + i - 1);
-            }
-            *(arr + destinationIndex) = temp;
+void leftShift(int* arr, int currentIndex, int destinationIndex) {
+    int temp = *(arr + currentIndex);
+    for (int i = currentIndex; i > destinationIndex; i--) {
+        *(arr + i) = *(arr + i - 1);
+    }
+    *(arr + destinationIndex) = temp;
+}
+
+// Insertion sort code:
+void insertionSort(int* arr, int sizee) {
+    for (int i = 0; i < sizee - 1; i++) {
+        for (int j = i + 1; j < sizee; j++) {
+            if (*(arr + j) < *(arr + i))
+                leftShift(arr, j, i);
+
         }
 
-    // Insertion sort code:
-        void insertionSort(int *arr, int sizee)
+    }
+
+}
+// TC = O(n^3)
+
+
+
+// Optimised way to use insertion sort:
+void insertionSort(int* arr, int sizee) {
+    for (int i = 0; i < sizee - 1; i++) // outer for loop for number of insertions = n-1
+    {
+        int temp = *(arr + i + 1); // temp mei 1 inde ki val store karo starting with index 1
+        int j = i; // j ko index of temp - 1 par initialize
+
+        for (; j >= 0; j--) // j ko 0th index tak leke jao
         {
-            for (int i = 0; i < sizee-1; i++)
-            {
-                for (int j = i+1; j < sizee; j++)
-                {
-                    if (*(arr+j) < *(arr+i))
-                        leftShift(arr, j, i);
-                    
-                }
-                
-            }
-            
+            if (*(arr + j) > temp)
+                *(arr + j + 1) = *(arr + j); // right shift till no. at index is > temp
+            else
+                break; // jab number temp se bada na ho, break inner loop
         }
-        // TC = O(n^3)
+        *(arr + j + 1) = temp; // and cpy temp to jth index, i.e. index jaha par loop break hua tha
+    }
+}
 
-
-
-    // Optimised way to use insertion sort:
-        void insertionSort(int *arr, int sizee)
-        {
-            for (int i = 0; i < sizee - 1; i++) // outer for loop for number of insertions = n-1
-            {
-                int temp = *(arr + i + 1); // temp mei 1 inde ki val store karo starting with index 1
-                int j = i; // j ko index of temp - 1 par initialize
-
-                for (; j >= 0; j--) // j ko 0th index tak leke jao
-                {
-                    if (*(arr + j) > temp)
-                        *(arr + j + 1) = *(arr + j); // right shift till no. at index is > temp
-                    else
-                        break; // jab number temp se bada na ho, break inner loop
-                }
-                *(arr + j + 1) = temp; // and cpy temp to jth index, i.e. index jaha par loop break hua tha
-            }
-        }
-
-        // TC = O(n^2)
+// TC = O(n^2)
 
 
 
@@ -639,7 +599,7 @@
         */
 
 
-       
+
     // VECTOR
         // similar to array but, agar vector full hua and we try to add element, then vo apni size double kar lega
         // pehele vo ek naya vector banaega of double size
@@ -649,7 +609,7 @@
         /*
             syntax:
                 ' #include <vector> '
-                
+
                 vector<data_type> vecName;
 
             accessing elements:
@@ -688,7 +648,7 @@
         /*
             syntax:
                 ' #include <deque> '
-                
+
                 deque<data_type> dequeName;
         */
         /*
@@ -715,7 +675,7 @@
         /*
             syntax:
                 ' #include <list> '
-                
+
                 list<data_type> listName;
         */
         /*
@@ -733,7 +693,7 @@
         /*
             syntax:
                 ' #include <stack> '
-                
+
                 stack<data_type> stackName;
         */
         /*
@@ -753,7 +713,7 @@
         /*
             syntax:
                 ' #include <queue> '
-                
+
                 queue<data_type> queueName;
         */
         /*
@@ -850,59 +810,57 @@
         // stl does contain optimised codes for algorithms that could save lot of time instead of re-writing
         // Binary search
             // ex:
-                int main()
-                {
-                    std::vector<int> v;
-                    v.push_back(1);
-                    v.push_back(3);
-                    v.push_back(6);
-                    v.push_back(7);
-                    bool isPresent = std::binary_search(v.begin(), v.end(), 6);
-                    std::cout << isPresent << std::endl;
-                    return 0;
-                }
-            // binary search function takes 3 arguments, iterator to first element jaha se aage binary search lagana hai
-            // iterator to last element, jaha tak binary search lagana hai
-            // and value to check i it is present or not
+int main() {
+    std::vector<int> v;
+    v.push_back(1);
+    v.push_back(3);
+    v.push_back(6);
+    v.push_back(7);
+    bool isPresent = std::binary_search(v.begin(), v.end(), 6);
+    std::cout << isPresent << std::endl;
+    return 0;
+}
+// binary search function takes 3 arguments, iterator to first element jaha se aage binary search lagana hai
+// iterator to last element, jaha tak binary search lagana hai
+// and value to check i it is present or not
 
 
-        // lower/upper bound
-            // lower bound
-                // lower bound method in c++ return an iterator to the value that is equal to or just greater than provided value
-                // i.e. jo val provide ki hai, uske equal ya usse just bade element ka iterator return karega
-                // ex: 
-                    int main()
-                    {
-                        std::vector<int> v;
-                        v.push_back(1);
-                        v.push_back(3);
-                        v.push_back(6);
-                        v.push_back(7);
-                        std::vector<int>::iterator itera = std::lower_bound(v.begin(), v.end(), 6);
-                        std::cout << (itera-v.begin()) << std::endl;
-                        // itera - v.begin kiya to get index
-                        // bcoz, itera would be technically = v.begin() + index 
-                        // [cant be fetched like that directly though, because its a object not a pointer]
-                        return 0;
-                    }
+// lower/upper bound
+    // lower bound
+        // lower bound method in c++ return an iterator to the value that is equal to or just greater than provided value
+        // i.e. jo val provide ki hai, uske equal ya usse just bade element ka iterator return karega
+        // ex: 
+int main() {
+    std::vector<int> v;
+    v.push_back(1);
+    v.push_back(3);
+    v.push_back(6);
+    v.push_back(7);
+    std::vector<int>::iterator itera = std::lower_bound(v.begin(), v.end(), 6);
+    std::cout << (itera - v.begin()) << std::endl;
+    // itera - v.begin kiya to get index
+    // bcoz, itera would be technically = v.begin() + index 
+    // [cant be fetched like that directly though, because its a object not a pointer]
+    return 0;
+}
 
-            // Upper bound
-                // upper bound mei ek to vo value a usse just chote wale element ka iterator return hoga
-                // baki same...
+// Upper bound
+    // upper bound mei ek to vo value a usse just chote wale element ka iterator return hoga
+    // baki same...
 
-            // * * * in upper bound and lower bound, agar provided value ke multiple occurences hai, then first occurence ka iterator return hoga
+// * * * in upper bound and lower bound, agar provided value ke multiple occurences hai, then first occurence ka iterator return hoga
 
-        
-        // max(), min(), swap(), sort() are basic functions in STL and need no explaination
 
-        // reverse() is used to reverse a string and takes iterator to first and last element as argument
+// max(), min(), swap(), sort() are basic functions in STL and need no explaination
 
-        // rotate() is used to rotate a vector around node
-        // i.e. node ke pehele wale saare element rotate hokar end mei chale jayege
-        // ex: vec = {1, 3, 6, 7}
-            // rotating about index 1: {3, 6, 7, 1} -> index 1 ke pehele e saare element end mei chale jayege
+// reverse() is used to reverse a string and takes iterator to first and last element as argument
 
-        // rotate() function takes 3 arguments, all 3 being iterators of first, node, and last element respectively
+// rotate() is used to rotate a vector around node
+// i.e. node ke pehele wale saare element rotate hokar end mei chale jayege
+// ex: vec = {1, 3, 6, 7}
+    // rotating about index 1: {3, 6, 7, 1} -> index 1 ke pehele e saare element end mei chale jayege
+
+// rotate() function takes 3 arguments, all 3 being iterators of first, node, and last element respectively
 
 
 
@@ -914,35 +872,33 @@
         // ASCII value of null character = 0
 
     //Ex:
-        #include <bits/stdc++.h>
-        using namespace std;
+#include <bits/stdc++.h>
+using namespace std;
 
-        int main()
-        {
-            char name[20];
-            cout << "Enter Your Name: ";
-            cin >> name;
-            cout << "Your Name is " << name << "\n";
-            return 0;
-        }
+int main() {
+    char name[20];
+    cout << "Enter Your Name: ";
+    cin >> name;
+    cout << "Your Name is " << name << "\n";
+    return 0;
+}
 
-    // WORKS FINE WHEN NAME ENTERED DOESNT CONTAIN SPACE
-    // agar space hua then, just space ke pehele wala store hoga
-    // this is bcoz cin stops execution on receiving space( ), tab(\t) or enter(\n)
+// WORKS FINE WHEN NAME ENTERED DOESNT CONTAIN SPACE
+// agar space hua then, just space ke pehele wala store hoga
+// this is bcoz cin stops execution on receiving space( ), tab(\t) or enter(\n)
 
-    // Ex:
-        #include <bits/stdc++.h>
-        using namespace std;
+// Ex:
+#include <bits/stdc++.h>
+using namespace std;
 
-        int main()
-        {
-            char name[20] = "coding";
-            name[2] = '\0';
-            cout << name << "\n";
-            return 0;
-        }
-    // This code will print only "co" and not "coding" bcoz null character is received at 2nd index so it would stops printing
-    // * * ACCESSING NULL TERMINATOR IS ONLY POSSIBLE IN char array and std::String does not allow that
+int main() {
+    char name[20] = "coding";
+    name[2] = '\0';
+    cout << name << "\n";
+    return 0;
+}
+// This code will print only "co" and not "coding" bcoz null character is received at 2nd index so it would stops printing
+// * * ACCESSING NULL TERMINATOR IS ONLY POSSIBLE IN char array and std::String does not allow that
 
 
 
@@ -959,57 +915,55 @@
     */
 
     // Function to check if an element is present in an array:
-        bool isPresent(int arr[][3], int col, int row, int target) // must specify at least number of columns in 2D array
-        {
-            for (int i = 0; i < row; i++)
-                for (int j = 0; j < col; j++)
-                    if (arr[i][j] == target)
-                        return 1;
-            return 0;
-        }
-    // calling : isPresent(arr, 3, 3, 4)  // just pass name of array
+bool isPresent(int arr[][3], int col, int row, int target) // must specify at least number of columns in 2D array
+{
+    for (int i = 0; i < row; i++)
+        for (int j = 0; j < col; j++)
+            if (arr[i][j] == target)
+                return 1;
+    return 0;
+}
+// calling : isPresent(arr, 3, 3, 4)  // just pass name of array
 
-    // * * * See spiral printing question in lec 23 @ 47min
+// * * * See spiral printing question in lec 23 @ 47min
 
 
-    // Conversion between linear form of array and matrix form
-    /*
-        suppose there is 3x3 matrix = {1, 2, 3, 4, 5, 6, 7, 8, 9}
-        in linear form:
-            start index = 0
-            end index = (row*col) - 1
+// Conversion between linear form of array and matrix form
+/*
+    suppose there is 3x3 matrix = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+    in linear form:
+        start index = 0
+        end index = (row*col) - 1
 
-        * * to obtain the index we obtain in linear form to matrix form:
-            index / col = row index
-            index % col = column index
-        
-    */
+    * * to obtain the index we obtain in linear form to matrix form:
+        index / col = row index
+        index % col = column index
 
-    // Binary search in 2D array
-    // Use same logic as binar search for 1D array and use it here by converting 2D matri to linear form
-    // Ex:
-        bool binarySearch(vector<vector<int>> &matrix, int target)
-        {
-            int row = matrix.size();
-            int col = matrix[0].size();
+*/
 
-            int start = 0, end = (row * col) - 1, mid;
+// Binary search in 2D array
+// Use same logic as binar search for 1D array and use it here by converting 2D matri to linear form
+// Ex:
+bool binarySearch(vector<vector<int>>& matrix, int target) {
+    int row = matrix.size();
+    int col = matrix[0].size();
 
-            while (start <= end)
-            {
-                mid = (start + end) / 2;
-                if (matrix[mid / col][mid % col] == target)
-                    return 1;
-                else if (matrix[mid / col][mid % col] > target)
-                    end = mid - 1;
-                else
-                    start = mid + 1;
-            }
-            return 0;
-        }
-    // IMP ques so see working carefully
-    // to use this, matri must be sorted in its linear form
-    // thus, it must be sorted row wise and irst element of each row should be greater than last element of prev row 
+    int start = 0, end = (row * col) - 1, mid;
+
+    while (start <= end) {
+        mid = (start + end) / 2;
+        if (matrix[mid / col][mid % col] == target)
+            return 1;
+        else if (matrix[mid / col][mid % col] > target)
+            end = mid - 1;
+        else
+            start = mid + 1;
+    }
+    return 0;
+}
+// IMP ques so see working carefully
+// to use this, matri must be sorted in its linear form
+// thus, it must be sorted row wise and irst element of each row should be greater than last element of prev row 
 
 
 
@@ -1029,117 +983,109 @@
             'n' would be way lesser as we ain't traversing through each element every time.
         */
         // Implementation:
-        int countPrime(int n)
-        {
-            std::vector<bool> numbers(n, true); // created a vector and set all number as prime
-            numbers[0] = false;
-            numbers[1] = false; // set 0, 1 as not prime
-            int count = 0;
+int countPrime(int n) {
+    std::vector<bool> numbers(n, true); // created a vector and set all number as prime
+    numbers[0] = false;
+    numbers[1] = false; // set 0, 1 as not prime
+    int count = 0;
 
-            for (int i = 2; i < n; i++)
-            {
-                if(numbers[i]==true)
-                {
-                    count++;
-                    for (int j = 2*i; j < n; j+=i)
-                    {
-                        // for loop for marking not prime
-                        // initialised at 2*i i.e. 2x in table of that number
-                        // and increment by i each time
-                        numbers[j] = false;
-                    }
-                    
-                }
+    for (int i = 2; i < n; i++) {
+        if (numbers[i] == true) {
+            count++;
+            for (int j = 2 * i; j < n; j += i) {
+                // for loop for marking not prime
+                // initialised at 2*i i.e. 2x in table of that number
+                // and increment by i each time
+                numbers[j] = false;
             }
-            cout << count; 
+
         }
+    }
+    cout << count;
+}
 
 
 
-    // Euclid's Algorithm
-        // gcd = hcf = smallest number jiske table ei dono aaye
-        /*
-            According to euclid's algorithm:
-                gcd(a, b) = gcd(a-b, b)   [ofc, jo bada hai usme se chota subtract... as gcd of negative is undefined]
-           
-            If one of the element is 0, the other one is gcd
-            else, keep subtracting smaller on from greater until they both are equal
-            bcoz gcd(x, x) = x
-            easyyy...
-        */
-        // Implementation:
-        int gcd(int a, int b)
-        {
-            if(a==0)
-                return b;
-
-            if(b==0)
-                return a;
-            
-
-            while (a != b)
-            {
-                if(a>b)
-                    a -= b;
-                else
-                    b -= a;
-            }
-            return a;
-        }
-
-    // LCM(a, b) * GCD(a, b) = a * b
-    // use this relation to find unknown values
-
-
-    // Modulo operator [ % ]
-        // if its given in ques to print ans in modulo 10^9+7 it means print ans%(10^9+7)
-        // this is generally done to bring answer in specific range
-
-    // Value of a%n always lies in the range [0, n-1]
-
-
-    
-    // Fast Exponentiation
-    // To find a^b
+// Euclid's Algorithm
+    // gcd = hcf = smallest number jiske table ei dono aaye
     /*
-        Method 1:
-        using for loop
-        T.C. = O(b)
+        According to euclid's algorithm:
+            gcd(a, b) = gcd(a-b, b)   [ofc, jo bada hai usme se chota subtract... as gcd of negative is undefined]
 
-        Method 2:
-        * * efficient one
-        T.C. = O(log n)
-
-        if b is even:
-            a^b could be written as (a^2)^b/2       [...1]
-        else if b is odd:
-            a^b = a * (a^2)^b/2     [...2]
+        If one of the element is 0, the other one is gcd
+        else, keep subtracting smaller on from greater until they both are equal
+        bcoz gcd(x, x) = x
+        easyyy...
     */
+    // Implementation:
+int gcd(int a, int b) {
+    if (a == 0)
+        return b;
 
-    // Thus, logic for fast exponentiation:
-    // make var res = 1
-    // check if odd/even
-    // if odd -> multiply a in res [using 2]
-    // set a = a square and b = b/2
-    // repeat until b!=0
+    if (b == 0)
+        return a;
 
-    // CODE:
-        int expo(int x, int y)
-        {
-            int res = 1;
-            if(x==0)
-                return y;
-            if(y==0)
-                return x;
-            while(y!=0)
-            {
-                if(y&1)
-                    res *= x;
-                x *= x;
-                y /= 2;
-            }
-            return res;
-        }
+
+    while (a != b) {
+        if (a > b)
+            a -= b;
+        else
+            b -= a;
+    }
+    return a;
+}
+
+// LCM(a, b) * GCD(a, b) = a * b
+// use this relation to find unknown values
+
+
+// Modulo operator [ % ]
+    // if its given in ques to print ans in modulo 10^9+7 it means print ans%(10^9+7)
+    // this is generally done to bring answer in specific range
+
+// Value of a%n always lies in the range [0, n-1]
+
+
+
+// Fast Exponentiation
+// To find a^b
+/*
+    Method 1:
+    using for loop
+    T.C. = O(b)
+
+    Method 2:
+    * * efficient one
+    T.C. = O(log n)
+
+    if b is even:
+        a^b could be written as (a^2)^b/2       [...1]
+    else if b is odd:
+        a^b = a * (a^2)^b/2     [...2]
+*/
+
+// Thus, logic for fast exponentiation:
+// make var res = 1
+// check if odd/even
+// if odd -> multiply a in res [using 2]
+// set a = a square and b = b/2
+// repeat until b!=0
+
+// CODE:
+int expo(int x, int y) {
+    int res = 1;
+    if (x == 0)
+        return y;
+    if (y == 0)
+        return x;
+    while (y != 0) {
+        if (y & 1)
+            res *= x;
+        x *= x;
+        y /= 2;
+    }
+    return res;
+}
 
 
 
@@ -1148,16 +1094,16 @@
     // computer memory contains symbol table that maps variable name to their memory addresses
     // Address of operator (&) is used to fetch address of a variable
 
-    /* 
+    /*
         Initialisation of a pointer:
             int* p = &var
         creates a pointer for int data type and sets it to point var
 
-        - always initialise a pointer while creating it, else it would have some garbage value and would point to se random address in the memory which might not even belong to the program 
+        - always initialise a pointer while creating it, else it would have some garbage value and would point to se random address in the memory which might not even belong to the program
 
         - dereferencing a pointer = usme stored address par ki value read karna
             this is done using ' * ' operator
-        
+
         - equivalents:
             *p -> var
             (*p)++ -> var++
@@ -1167,7 +1113,7 @@
             this is because it might point to any data type, but it would always store a address
 
         * * * IMP CONCEPT
-        
+
         *t = *t + 1     => increments the value to which t is pointing by 1
         t = t + 1       => points to the next value considering the same data type
             ex: if t is of pointer of int data type, it would not point to oldAddress+1 on incrementing by 1,
@@ -1179,7 +1125,7 @@
         for an array, writing array name without index returns address of first element (0th index)
         i.e. &arr[0] is equivalent to arr
 
-        thus int *p = arr 
+        thus int *p = arr
             would create a pointer and make it point to 0th index element of array.
             now doing p++ would point to next element.
 
@@ -1199,7 +1145,7 @@
 
     Thus,
         instead of using int arr[n] -> use int* arr = new int[n]
-        
+
         in directly declaring arr[n], all the memory is used from stack
         but in other case, only memory for pointer (8bytes) used from stack, and that ptr will point to array created in heap memory using new keyword
 
@@ -1216,44 +1162,42 @@
 */
 
 // Dynamic memory allocation for 2D array
-    void dalloc()
-    {
-        int r, c;
-        int arr[r][c]; // static allocation
-        /* VISUALIZE */
-        // For dynamic allocation, make array of pointers with number of elements = number of rows
-        // and then each pointer will point to linear array with elements = number of columns
-        int** ar = new int*[r]; // array of 'r' number of pointers
-        for(int i = 0; i < c; i++)
-        {
-            ar[i] = new int[c]; // ar[i] is equivalent to *(ar + i)
-            // creating an array of length 'c' corresponding to each ptr
-        }
-        // done creation
-
-        // now, access like normal 2D array ( ar[i][j] )
+void dalloc() {
+    int r, c;
+    int arr[r][c]; // static allocation
+    /* VISUALIZE */
+    // For dynamic allocation, make array of pointers with number of elements = number of rows
+    // and then each pointer will point to linear array with elements = number of columns
+    int** ar = new int* [r]; // array of 'r' number of pointers
+    for (int i = 0; i < c; i++) {
+        ar[i] = new int[c]; // ar[i] is equivalent to *(ar + i)
+        // creating an array of length 'c' corresponding to each ptr
     }
+    // done creation
+
+    // now, access like normal 2D array ( ar[i][j] )
+}
 
 
 
 // Macros, global vars and inline functions
     // Macros = used to define a piece of code that would be replaced at each place when the macro name is called
     // macros are made using following syntax:
-        #define pi 3.14 // ( #define [macro_name] [value_to_be_replaced] )
+#define pi 3.14 // ( #define [macro_name] [value_to_be_replaced] )
 
 
-    // global variable = variable declared in global space
-    // it can be accessed in global space (anywhere in program)
-    // BUT, bad practice... AVOID using
-    // nusan = koi bhi change kar sakta hai so 1 func ne modify karne par sabko affect hoga
-    // instead use reference variable ab bhi variable share karna ho between functions and namespaces
+// global variable = variable declared in global space
+// it can be accessed in global space (anywhere in program)
+// BUT, bad practice... AVOID using
+// nusan = koi bhi change kar sakta hai so 1 func ne modify karne par sabko affect hoga
+// instead use reference variable ab bhi variable share karna ho between functions and namespaces
 
 
-    // inline func => used to reduce function calls (thus improving performance)
-    // function ko inline banane se functon call nahi hogi, and function body would be replaced at each call during compilation.
-    // readability like funcs, and execution like normal statements
-    // * * use inline func only for smaller functions, as it would drasticall increase executable size for large func
-    // generally, aise case mei compiler inline banayega hi nahi
+// inline func => used to reduce function calls (thus improving performance)
+// function ko inline banane se functon call nahi hogi, and function body would be replaced at each call during compilation.
+// readability like funcs, and execution like normal statements
+// * * use inline func only for smaller functions, as it would drasticall increase executable size for large func
+// generally, aise case mei compiler inline banayega hi nahi
 
 
 
@@ -1266,7 +1210,7 @@
         thus, here the recursive relation is:
         2^n = 2 * 2^(n-1)
         => f(n) = 2 * f(n-1)
-    */ 
+    */
 
     // Recursive function consists of 2 mandatory components: base case, and recursive relation 
     // (other than this their could be additional components like processing etc. based on desired output)
@@ -1279,347 +1223,453 @@
     // head recursion = base case -> recursive call -> processing
 
     //Ex:
-    int twoKiPower(int n)
-    {
-        if(n==1)
-            return 1; // base case
-        
-        return n * twoKiPower(n-1); // recursive relation that we made f(n) = n * f(n-1)
+int twoKiPower(int n) {
+    if (n == 1)
+        return 1; // base case
+
+    return n * twoKiPower(n - 1); // recursive relation that we made f(n) = n * f(n-1)
+}
+
+// Ex(2):
+void fibonacci(int& n, int n1, int n2) {
+    if (n == 0)
+        return;
+    n--;
+    cout << n1 + n2 << " ";
+    fibonacci(n, n2, n1 + n2);
+}
+
+/*
+Ques: * * IMP * *
+You are standing at 0th stair, and u are given an integer n. Find total number of unique ways to reach nth stair.
+You are allowed to climb 1/2 stairs at a time.
+
+Always make recursive relation first..
+we are given 'n' so relation would be related to n.
+if we reach nth stair, we must have came from n-1 or n-2 th stair.
+again for n-1th stair we must have came from (n-1)-1 or (n-1)-2 th stair and so on...
+thus f(n) = f(n-1) + f(n-2)
+
+for base condition, check when we need to stop.
+here, stop on reaching 0th stair or negative number of stair
+thus, +0 ways if it goes negative and +1 ways if it reaches 0th stair (as we need to start from 0, so its valid solution)
+*/
+// Solution:
+int count(int n) {
+    if (n == 0) // added this because, its valid way if we reach 0th stair at end
+        return 1;
+    if (n < 0) // invalid way so + 0
+        return 0;
+    return count(n - 1) + count(n - 2);
+}
+
+// ALWAYS DRAW RECURSION TREE FOR BETTER UNDERSTANDNG OF RECURSION CODE
+
+
+//Recursion code to spell out a number:
+void say(int n) {
+    string spell[10] = { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine" };
+    if (n == 0)
+        return;
+
+    say(n / 10);
+    cout << spell[n % 10] << " ";
+}
+// see carefully, it uses tail recursion as n%10 gives last digit and we want to spell first digit first
+// so, recurse first and print its output (isse recursion tree ke end node ka output sabse pehele print hoga and top ka last mei)
+
+
+// Implementing linear search using recursion:
+bool linearS(int arr[], int s, int key) {
+    if (s == 0)
+        return 0;
+    if (arr[0] == key)
+        return 1;
+    return linearS((arr + 1), s - 1, key);
+}
+
+// Implementation of binary search using recursion
+bool binS(int* arr, int s, int key) {
+    int mid = s / 2;
+    if (s == 0)
+        return 0;
+    if (arr[mid] == key)
+        return 1;
+    if (arr[mid] > key)
+        return binS(arr, (s / 2), key);
+    return binS((arr + mid + 1), (s / 2), key);
+}
+
+// check palindrome using recursion
+bool palindrome(string s, int i = 0) {
+    if (s.length() - 1 - i <= 0)
+        return 1;
+    if (s.at(i) != s.at(s.length() - 1 - i))
+        return 0;
+    return palindrome(s, i + 1);
+}
+
+// Bubble sort using recursion
+void bubble(int* arr, int s) {
+    if (s == 0 || s == 1)
+        return;
+    for (int i = 0; i < s - 1; i++) {
+        if (arr[i] > arr[i + 1])
+            swap(arr[i], arr[i + 1]);
     }
+    bubble(arr, s - 1);
+}
+// basic funda of recursion = solve 1 smaller problem and recurse for remaining
+// so largest element ko last mei le gaye and recursed for remaining array
 
-    // Ex(2):
-    void fibonacci(int &n, int n1, int n2)
-    {
-        if (n == 0)
-            return;
-        n--;
-        cout << n1 + n2 << " ";
-        fibonacci(n, n2, n1 + n2);
+
+// Selection sort using recursion
+// selection smallest and swap with first position of unsorted
+void selection(int* arr, int s) {
+    if (s == 0 || s == 1)
+        return;
+    int minIndex = 0;
+    for (int i = 1; i < s; i++) {
+        if (arr[i] < arr[minIndex])
+            minIndex = i;
     }
+    swap(arr[0], arr[minIndex]);
+    selection(arr + 1, s - 1);
+}
 
-    /* 
-    Ques: * * IMP * * 
-    You are standing at 0th stair, and u are given an integer n. Find total number of unique ways to reach nth stair.
-    You are allowed to climb 1/2 stairs at a time.
-
-    Always make recursive relation first..
-    we are given 'n' so relation would be related to n.
-    if we reach nth stair, we must have came from n-1 or n-2 th stair.
-    again for n-1th stair we must have came from (n-1)-1 or (n-1)-2 th stair and so on...
-    thus f(n) = f(n-1) + f(n-2)
-
-    for base condition, check when we need to stop.
-    here, stop on reaching 0th stair or negative number of stair
-    thus, +0 ways if it goes negative and +1 ways if it reaches 0th stair (as we need to start from 0, so its valid solution)
-    */
-    // Solution:
-    int count(int n)
-    {
-        if(n == 0) // added this because, its valid way if we reach 0th stair at end
-            return 1;
-        if(n < 0) // invalid way so + 0
-            return 0;
-        return count(n-1) + count(n-2);
-    }
-
-    // ALWAYS DRAW RECURSION TREE FOR BETTER UNDERSTANDNG OF RECURSION CODE
-
-
-    //Recursion code to spell out a number:
-    void say(int n)
-    {
-        string spell[10] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
-        if (n == 0)
-            return;
-
-        say(n / 10);
-        cout << spell[n % 10] << " ";
-    }
-    // see carefully, it uses tail recursion as n%10 gives last digit and we want to spell first digit first
-    // so, recurse first and print its output (isse recursion tree ke end node ka output sabse pehele print hoga and top ka last mei)
-
-
-    // Implementing linear search using recursion:
-    bool linearS(int arr[], int s, int key)
-    {
-        if (s == 0)
-            return 0;
-        if (arr[0] == key)
-            return 1;
-        return linearS((arr + 1), s - 1, key);
-    }
-
-    // Implementation of binary search using recursion
-    bool binS(int *arr, int s, int key)
-    {
-        int mid = s / 2;
-        if (s == 0)
-            return 0;
-        if (arr[mid] == key)
-            return 1;
-        if (arr[mid] > key)
-            return binS(arr, (s / 2), key);
-        return binS((arr + mid + 1), (s / 2), key);
-    }
-
-    // check palindrome using recursion
-    bool palindrome(string s, int i = 0)
-    {
-        if (s.length() - 1 - i <= 0)
-            return 1;
-        if (s.at(i) != s.at(s.length() - 1 - i))
-            return 0;
-        return palindrome(s, i + 1);
-    }
-
-    // Bubble sort using recursion
-    void bubble(int *arr, int s)
-    {
-        if (s == 0 || s == 1)
-            return;
-        for (int i = 0; i < s - 1; i++)
-        {
-            if (arr[i] > arr[i + 1])
-                swap(arr[i], arr[i + 1]);
+// Insertion sort using recursion
+void insertion(int* arr, int s, int k = 1) {
+    int destinationIndex = k;
+    if (s == 0 || s == 1 || k == s)
+        return;
+    for (int i = 0; i < k; i++) {
+        if (arr[i] > arr[k]) {
+            destinationIndex = i;
+            break;
         }
-        bubble(arr, s - 1);
     }
-    // basic funda of recursion = solve 1 smaller problem and recurse for remaining
-    // so largest element ko last mei le gaye and recursed for remaining array
-
-
-    // Selection sort using recursion
-    // selection smallest and swap with first position of unsorted
-    void selection(int *arr, int s)
-    {
-        if (s == 0 || s == 1)
-            return;
-        int minIndex = 0;
-        for (int i = 1; i < s; i++)
-        {
-            if (arr[i] < arr[minIndex])
-                minIndex = i;
-        }
-        swap(arr[0], arr[minIndex]);
-        selection(arr + 1, s - 1);
+    for (int i = k; i > destinationIndex; i--) {
+        swap(arr[i], arr[i - 1]);
     }
-
-    // Insertion sort using recursion
-    void insertion(int *arr, int s, int k = 1)
-    {
-        int destinationIndex = k;
-        if (s == 0 || s == 1 || k == s)
-            return;
-        for (int i = 0; i < k; i++)
-        {
-            if (arr[i] > arr[k])
-            {
-                destinationIndex = i;
-                break;
-            }
-        }
-        for (int i = k; i > destinationIndex; i--)
-        {
-            swap(arr[i], arr[i - 1]);
-        }
-        insertion(arr, s, k + 1);
-    }
+    insertion(arr, s, k + 1);
+}
 
 
-    // * * * * * * * VIMP * * * * * * *
-    // implementing merge sort using recursion (T.C. = O(nlogn))
-    // merge sort = divide array into sub array unit it has 1 element, then combine while sorting (merge 2 sorted array, classic problem)
-    // SEE CODE CAREFULLY * * * * 
-    void mergeSort(int *arr, int s, int e)
-    {
-        if (s >= e)
-            return;
+// * * * * * * * VIMP * * * * * * *
+// implementing merge sort using recursion (T.C. = O(nlogn))
+// merge sort = divide array into sub array unit it has 1 element, then combine while sorting (merge 2 sorted array, classic problem)
+// SEE CODE CAREFULLY * * * * 
+void mergeSort(int* arr, int s, int e) {
+    if (s >= e)
+        return;
 
-        // recursively dividing array into 2 parts until it has 2 elements in it
-        int mid = (s + e) / 2;
-        mergeSort(arr, s, mid);
-        mergeSort(arr, mid + 1, e);
+    // recursively dividing array into 2 parts until it has 2 elements in it
+    int mid = (s + e) / 2;
+    mergeSort(arr, s, mid);
+    mergeSort(arr, mid + 1, e);
 
-        merger(arr, s, e); // tail recursion to sort array
-    }
+    merger(arr, s, e); // tail recursion to sort array
+}
 
-    void merger(int *arr, int s, int e)
-    {
-        // mid nikalo -> start se mid tak pehela sorted array hoga (bcoz tail recursion se sort karte hue aaye hai) and mid+1 se end tak dusra
-        int mid = (s + e) / 2;
-        int i = s, j = mid + 1;
-        int len = e - s + 1;
-        int *sorted = new int[len]; // make new array to merged elements of those 2 arrays in sorted order
-        int ins = 0;
+void merger(int* arr, int s, int e) {
+    // mid nikalo -> start se mid tak pehela sorted array hoga (bcoz tail recursion se sort karte hue aaye hai) and mid+1 se end tak dusra
+    int mid = (s + e) / 2;
+    int i = s, j = mid + 1;
+    int len = e - s + 1;
+    int* sorted = new int[len]; // make new array to merged elements of those 2 arrays in sorted order
+    int ins = 0;
 
-        // classic merge 2 sorted arrays problem jaisa same
-        while (i <= mid && j <= e)
-        {
-            if (arr[i] < arr[j])
-            {
-                sorted[ins] = arr[i];
-                i++;
-            }
-            else
-            {
-                sorted[ins] = arr[j];
-                j++;
-            }
-            ins++;
-        }
-        while (i <= mid)
-        {
+    // classic merge 2 sorted arrays problem jaisa same
+    while (i <= mid && j <= e) {
+        if (arr[i] < arr[j]) {
             sorted[ins] = arr[i];
             i++;
-            ins++;
         }
-        while (j <= e)
-        {
+        else {
             sorted[ins] = arr[j];
             j++;
-            ins++;
         }
-
-        // copy elements in sorted order to our original array
-        for(int i=0; i < len; i++)
-        {
-            arr[s] = sorted[i];
-            s++;
-        }
-        delete []sorted; // delete dynamically allocated heap memory
+        ins++;
+    }
+    while (i <= mid) {
+        sorted[ins] = arr[i];
+        i++;
+        ins++;
+    }
+    while (j <= e) {
+        sorted[ins] = arr[j];
+        j++;
+        ins++;
     }
 
+    // copy elements in sorted order to our original array
+    for (int i = 0; i < len; i++) {
+        arr[s] = sorted[i];
+        s++;
+    }
+    delete[]sorted; // delete dynamically allocated heap memory
+}
 
-    // Quick Sort
-    // first element ko uthao and sorted array mei uski jo position hogi vaha rakho (find that using usse chote kitne number hai array mei)
-    // now swap usse chote wale number before it [so array would be like all elements less than x -> x -> all elements greater than x]
-    // now repeat the process in both halves
-    // TC => best case, avg case = nlogn , in worst case = n^2
-    void quick(int *arr, int n)
+
+// Quick Sort
+// first element ko uthao and sorted array mei uski jo position hogi vaha rakho (find that using usse chote kitne number hai array mei)
+// now swap usse chote wale number before it [so array would be like all elements less than x -> x -> all elements greater than x]
+// now repeat the process in both halves
+// TC => best case, avg case = nlogn , in worst case = n^2
+void quick(int* arr, int n) {
+    // base case
+    if (n == 0 || n == 1)
+        return;
+    int pivot = arr[0], count = 0; // set pivot = first element
+    for (int i = 1; i < n; i++) {
+        if (arr[i] < pivot)
+            count++; // count represents number of elements less than it, thus it also shows index of pivot element to be placed
+    }
+    swap(arr[0], arr[count]);
+
+    int i = 0, j = n - 1;
+    while (i < count && j > count) // loop to make all elements b4 pivot less than it, and all elements after it greater than it
     {
-        // base case
-        if (n == 0 || n == 1)
-            return;
-        int pivot = arr[0], count = 0; // set pivot = first element
-        for (int i = 1; i < n; i++)
-        {
-            if (arr[i] < pivot)
-                count++; // count represents number of elements less than it, thus it also shows index of pivot element to be placed
+        if (arr[i] > pivot && arr[j] < pivot) {
+            swap(arr[i], arr[j]);
+            i++;
+            j++;
         }
-        swap(arr[0], arr[count]);
-
-        int i = 0, j = n - 1;
-        while (i < count && j > count) // loop to make all elements b4 pivot less than it, and all elements after it greater than it
-        {
-            if (arr[i] > pivot && arr[j] < pivot)
-            {
-                swap(arr[i], arr[j]);
-                i++;
-                j++;
-            }
-            if (arr[i] < pivot)
-                i++;
-            if (arr[j] > pivot)
-                j++;
-        }
-
-        quick(arr, count); // recursive call for left part
-        quick(arr + count + 1, n - count - 1); // recursive call for right part
+        if (arr[i] < pivot)
+            i++;
+        if (arr[j] > pivot)
+            j++;
     }
 
+    quick(arr, count); // recursive call for left part
+    quick(arr + count + 1, n - count - 1); // recursive call for right part
+}
 
 
-    // * * * Classic question: to find power set (set of all subsets of given array)
-    // Approach: traverse through each index
-    // either include that index in output array or else dont (2 recursive calls, 1 excluding and other including)
-    // do this for all indices and each element to get all 2^n possible subsets
-    void subsets(vector<int> arr, vector<vector<int>> &res, int index = 0, vector<int> output = {})
+
+// * * * Classic question: to find power set (set of all subsets of given array)
+// Approach: traverse through each index
+// either include that index in output array or else dont (2 recursive calls, 1 excluding and other including)
+// do this for all indices and each element to get all 2^n possible subsets
+void subsets(vector<int> arr, vector<vector<int>>& res, int index = 0, vector<int> output = {}) {
+    // base case
+    if (index >= arr.size()) // index = arr.size means we traversed whole array and either included or excluded that element
     {
-        // base case
-        if (index >= arr.size()) // index = arr.size means we traversed whole array and either included or excluded that element
-        {
-            res.push_back(output); // push our generated output array to resultant vec and exit that func call
-            return;
-        }
-
-        subsets(arr, res, index + 1, output); // in first possibility, dont include that specific element and move on to next
-
-        output.push_back(arr.at(index)); // include that element in output and then move on to next
-        subsets(arr, res, index + 1, output);
-        // (must do include call later, coz we using same array as parameter for both)
+        res.push_back(output); // push our generated output array to resultant vec and exit that func call
+        return;
     }
 
+    subsets(arr, res, index + 1, output); // in first possibility, dont include that specific element and move on to next
+
+    output.push_back(arr.at(index)); // include that element in output and then move on to next
+    subsets(arr, res, index + 1, output);
+    // (must do include call later, coz we using same array as parameter for both)
+}
 
 
-    // Popular interview ques: find all permutations of a given string
-    // approach => we need to find all permutations i.e. put every char on every place
-    // for each index belonging to string, swap its value with every char, move index to next pos, recurse same thing
-    // dry run on paper for better understanding
-    void perm(string s, vector<string> &res, int index = 0)
+
+// Popular interview ques: find all permutations of a given string
+// approach => we need to find all permutations i.e. put every char on every place
+// for each index belonging to string, swap its value with every char, move index to next pos, recurse same thing
+// dry run on paper for better understanding
+void perm(string s, vector<string>& res, int index = 0) {
+    if (index >= s.length() - 1) {
+        res.push_back(s); // base case, push the generated string when index we are swapping reaches end
+        return;
+    }
+    for (int i = index; i < s.length(); i++) // start with 'index' and swap with all elements after it one by one
     {
-        if (index >= s.length() - 1) 
-        {
-            res.push_back(s); // base case, push the generated string when index we are swapping reaches end
-            return;
-        }
-        for (int i = index; i < s.length(); i++) // start with 'index' and swap with all elements after it one by one
-        {
-            swap(s.at(index), s.at(i));
-            perm(s, res, index + 1);
-            swap(s.at(index), s.at(i)); // back track to prev state of string before swapping again with different index 
-        }
+        swap(s.at(index), s.at(i));
+        perm(s, res, index + 1);
+        swap(s.at(index), s.at(i)); // back track to prev state of string before swapping again with different index 
     }
+}
 
-    // VIMP * * * * => solve rat in maze problem by self
+// VIMP * * * * => solve rat in maze problem by self
 
 
 
 // Time and Space Complexity of Recursive algorithms
-    // Time complexity = time required for each run * number of runs of recursive function
-    /* 
-        Ex: linear search (see algo above): O(k*n) such that, k is constant time required for single run
-        thus, linear Search => O(n) [eliminating 'k' as its constant]
+    /*  Ex:
+        int fact(int n){
+            if(n == 0)
+                return 1;
 
-        for binary Search:
-            lets say we have array of n elements, so while doing binary search we find mid and so on... 'a' times
-            thus, T.C. => O(k*a)
-            we are actually decreasing size of array to 1 in following order:- n->n/2->n/4->n/8->....->1 [in 'a' times]
-            thus, 2^a = n (think mathematically multiplying 2 a times would reverse the effect of dividing by 2 n times)
-            taking log on both sides:
-                a log2 = logn -> O(a) = O(logn) [neglected const time O(log2)]
-            thus,
-                Binary Search => O(k*a) => O(a) => O(logn)
+            return n*fact(n-1);
+        }
 
-        Merge sort: O(nlogn) 
-        [O(logn) as number of runs = 2logn, O(n) for merging 2 sorted array (see merger code, it has O(n) complexity)]
+        Step 1: Try to write the recurrence relation Equation
+            Factorial(n) = n * Factorial(n-1)
+            Now, if we see carefully, reccursive function has
+                base case (that would take constant time, say K)
+                recursive call for (n-1)
+        Step 2:
+            let time required for F(n) = T(n)
+            thus, time for F(n-1) = T(n-1)
+                F(n-2) = T(n-2)
+                and so on...
 
-        Fibonacci using recursion: O(2^n) [exponential time complexity == ghatiya]
+        Step 3:
+            Combining step 1 and 2:
+            T(n) = K + T(n-1)
+
+        Step 4:
+            T(n) = K + T(n-1)
+            T(n-1) = K + T(n-2)
+            T(n-2) = K + T(n-3)
+            ...
+            this will continue till n = 1, bcoz at n=0 it is constant time only (base case)
+
+        Step 5:
+            " = " ke right and left mei same value hoge to cancel out - simple maths
+            thus, adding all the above equations
+            T(n) = n * K = O(n * K) = O(n)
+
     */
-    /*
-        Space Complexity: maximum space required at an time instant
-        see how many instance of recursive func would be running at once * space required by each
 
-        Ex:
-            int factorial(int n)
-            {
-                if(n==0)
-                    return 1;
-                return n * factorial(n-1);
-            }
-            here, at a time n func instances would be running and each would require const space 'k'
-            thus space complexity => O(k*n) => O(n)
+bool binS(int* arr, int s, int key) {
+    int mid = s / 2;
+    if (s == 0)
+        return 0;
+    if (arr[mid] == key)
+        return 1;
+    if (arr[mid] > key)
+        return binS(arr, (s / 2), key);
+    return binS((arr + mid + 1), (s / 2), key);
+}
+/*
+     Example 2: Binary search
+
+     Recursive Relation:
+         T(n) = K + T(n/2)
+
+     thus..
+         T(n) = K + T(n/2)
+         T(n/2) = K + T(n/4)
+         T(n/4) = K + T(n/8)
+         ...
+     this will continue till worst base case (as we are finding worst TC)..
+     Now, kisi bhi number 'n' ko half karte karte 1 tak laane mei 'log n' attempts lagte hai
+
+     hence, above equations will be present log n times
+     thus,
+         T(n) = K * logn = O(log n)
+*/
+ /*
+     * * * * Ex 3: Merge Sort (See algo along, to get idea)
+     let,
+         K = constant time for processing in algo
+         T(n/2) = time fr recursive call for half of the array
+         X = time for merger function
+     Recursive Relation:
+         T(n) = K + T(n/2) + T(n/2) + X
+             = K + 2T(n/2) + X
+
+     thus
+         T(n) = K + 2T(n/2) + X
+         T(n/2) = K + 2T(n/4) + X
+         T(n/4) = K + 2T(n/8) + X
+         ...
+
+     Multiply each equation, except first on both LHS and RHS
+         T(n) = K + 2T(n/2) + X
+         2T(n/2) = 2K + 2*2T(n/4) + 2X -> multipled 2
+         4T(n/4) = 4K + 4*2T(n/8) + 4X -> multiplied 4
+         ...
+
+     therefore,
+         K will occur logn times and will be multiplied with some other constant, say P
+         X will occur logn times and will be multiplied with some other constant, say Q
+         T(n) = K*P*(logn) + X*Q*(logn)
+     eliminating constants:
+         T(n) = (logn) + X(log n)
+     now, we know, X is TC of merger function, which is O(N) -> because it has just one loop to traverse and merge
+     thus,
+         T(n) = O(logn) + O(n logn)
+             = O(n logn)
+ */
+ /*
+     Ex 4: Fibonaci Series * * *
+     Method 1:
+     void fibonacci(int &n, int n1, int n2)
+     {
+         if (n == 0)
+             return;
+         n--;
+         cout << n1 + n2 << " ";
+         fibonacci(n, n2, n1 + n2);
+     }
+     T(n) = K + T(n-1) => O(n) as we saw earlier
+
+     Method 2:
+     int fib(int n) {
+         if (n == 0 || n == 1)
+             return n;
+         return fib(n-1) + fib(n-2);
+     }
+     T(n) = K + T(n-1) + T(n-2)
+     T(n-1) = K + T(n-2) + T(n-3)
+     T(n-2) = K + T(n-3) + T(n-4)
+     ...
+     In this case we cant cancel ut the functions of 'T'
+
+     So, ALTERNATE METHOD THAT WORKS IN THIS TYPE OF SITUATION: * * *
+     Consider a recursion tree for the algo
+     each node requires constant time (K) - time f function excluding recursive call)
+     and its recursive calls are depicted by its childs
+     For above ques, Recursive tree would look like: (ex inp: 3)
+                         3
+                        / \
+                      2    1
+                     / \
+                    1   0
+
+     thus, 0th level would have 1 node, 1st would have 2, then 4 and so on...
+     similarly: nth level will have 2^n nodes
+     In worst case, the largest depth = leftmost depth in above example (when we subtract just 1 each time)
+     thus, maximum levels = n
+
+     total nodes = nodes in level 0 + nodes in level 1 + ...
+                 = 2^0 + 2^1 + 2^2...+ 2^n
+                 = 2^(n+1) - 1
+
+     Now we have number of nodes, and each node need time K
+     thus,
+         T(n) = K * number of nodes
+             = K * 2^(n+1) -1
+             = K * 2^n * 2 - 1
+         eliminating constants:
+         T(n) = O(2^n)
+ */
 
 
-            In binary search: at a time 'a' instances, i.e. logn instances and const space 'k' for each
-            thus S.C => O(logn*k) => O(logn)
+/*
+     Space Complexity: maximum space required at an time instant
+     - See space we are allocating
+     - See Recursive stack space
+     see how many instance of recursive func would be running at once * space required by each
 
-            merge sort (see algo): 
-            space in func = K+n
-            number of runs = logn
-            thus, S.C => O(n + logn)
-            also, n >>>>> logn
-            therefore, S.C. => O(n)
-    */
+     Ex:
+         int factorial(int n)
+         {
+             if(n==0)
+                 return 1;
+             return n * factorial(n-1);
+         }
+         here, at a time n func instances would be running and each would require const space 'k'
+         thus space complexity => O(k*n) => O(n)
+
+
+         In binary search: at a time 'a' instances, i.e. logn instances and const space 'k' for each
+         thus S.C => O(logn*k) => O(logn)
+
+         merge sort (see algo):
+         space in func = K+n
+         number of runs = logn
+         thus, S.C => O(n + logn)
+         also, n >>>>> logn
+         therefore, S.C. => O(n)
+ */
 
 
 
@@ -1661,7 +1711,7 @@
 
         // we could use '=' to copy all data members values from 1 object to other (copy assignment operator)
 
-    
+
     // Destructor = function/method called when object is of no use and about to go out of scope
     // destructor helps in deallocating the memory
     // Statically created objects [ class_name obj; ] ke liye destructor automatically call hoga (bcoz vo delete bhi to automatically hote hai)
@@ -1677,7 +1727,7 @@
         * * * Encapsulation = information hiding & Abstraction = Implementation hiding
 
         2) Inheritance: ability of a class to derive properties and characteristics from another class
-        syntax: 
+        syntax:
             class child_class : access_modifier parent_class{
                 // body of class
             };
@@ -1688,7 +1738,7 @@
             Compile Time can be further divided as: function overloading, operator overloading
             In operator overloading, suppose a + b and we want to overload it to perform subtraction
             syntax:
-                return__type operator + (input) 
+                return__type operator + (input)
                 {
                     // code
                     // for a+b a is object for which function is called and b is given as input [thus use this-> to access members of 'a']
@@ -1727,192 +1777,176 @@
     */
 
     // Implementing a singly linked list:
-        class Node
-        {
-        public:
-            int data;
-            Node *next; // pointer to next node
+class Node {
+public:
+    int data;
+    Node* next; // pointer to next node
 
-            Node(int data) // constructor
-            {
-                this->data = data;
-                this->next = NULL;
-            }
-        };
-
-    // Inserting data to front of linked list:
-        void insertFront(Node *&head, int data) // takes pointer to head node (took reference var too to avoid new var creation) and value to insert at input
-        {
-            Node *tmp = new Node(data);
-            tmp->next = head;
-            head = tmp;
-        }
-
-    // Printing linked list:
-        void printList(Node *&head) // take reference pointer to head node as input
-        {
-            Node *tmp = head; // copy value of it to temp, i.e. create a local variable that points head in beginning for traversal
-            while (tmp != NULL)
-            {
-                cout << tmp->data << " ";
-                tmp = tmp->next;
-            }
-            cout << endl;
-        }
-
-    // * * Similarly use tail ptr for inserting at tail
-
-    // Inserting in between
-    void insertAt(Node *&head, int pos, int data) // pos = position at which insert karna hai
+    Node(int data) // constructor
     {
-        Node *tmp = head;
-        for (int i = 0; i < pos - 2; i++)
-            tmp = tmp->next;
-        // After execution of this for loop, tmp will point to pos-1 th node
-        // we need to insert at pos... so ptr(pos-1) points new node & ptr(newNode) points node at pos (before insertion) [visualize]
-
-        Node *n = new Node(data);
-        n->next = tmp->next;
-        tmp->next = n;
+        this->data = data;
+        this->next = NULL;
     }
-    // This doesnt work for insertion at first and last and ma give error if position exceeds list size (could be fixed using conditional if's )
-    // like, if pos == 1 then call insertFront function
+};
 
-    // For deleting a Node, make its prev node point to its next node
-    // make a ptr to nde that we are deleting before this, and then use that pointer to deallocate dynamic memory using delete keyword
-    // MUST write a destructor to convey what happens on deleting a node
+// Inserting data to front of linked list:
+void insertFront(Node*& head, int data) // takes pointer to head node (took reference var too to avoid new var creation) and value to insert at input
+{
+    Node* tmp = new Node(data);
+    tmp->next = head;
+    head = tmp;
+}
+
+// Printing linked list:
+void printList(Node*& head) // take reference pointer to head node as input
+{
+    Node* tmp = head; // copy value of it to temp, i.e. create a local variable that points head in beginning for traversal
+    while (tmp != NULL) {
+        cout << tmp->data << " ";
+        tmp = tmp->next;
+    }
+    cout << endl;
+}
+
+// * * Similarly use tail ptr for inserting at tail
+
+// Inserting in between
+void insertAt(Node*& head, int pos, int data) // pos = position at which insert karna hai
+{
+    Node* tmp = head;
+    for (int i = 0; i < pos - 2; i++)
+        tmp = tmp->next;
+    // After execution of this for loop, tmp will point to pos-1 th node
+    // we need to insert at pos... so ptr(pos-1) points new node & ptr(newNode) points node at pos (before insertion) [visualize]
+
+    Node* n = new Node(data);
+    n->next = tmp->next;
+    tmp->next = n;
+}
+// This doesnt work for insertion at first and last and ma give error if position exceeds list size (could be fixed using conditional if's )
+// like, if pos == 1 then call insertFront function
+
+// For deleting a Node, make its prev node point to its next node
+// make a ptr to nde that we are deleting before this, and then use that pointer to deallocate dynamic memory using delete keyword
+// MUST write a destructor to convey what happens on deleting a node
 
 
-    // Implementing Doubly Linked list:
-        class Node
-        {
-        public:
-            int data;
-            Node *prev;
-            Node *next;
+// Implementing Doubly Linked list:
+class Node {
+public:
+    int data;
+    Node* prev;
+    Node* next;
 
-            Node(int data)
-            {
-                this->data = data;
-                this->next = NULL;
-                this->prev = NULL;
-            }
-
-            ~Node()
-            {
-                this->next = NULL;
-                this->prev = NULL;
-                int d = this->data;
-                delete next;
-                delete prev;
-                cout << "DC called for " << d << endl;
-            }
-        };
-
-    // Inserting at head
-    void insertAtHead(Node *&head, int data)
-    {
-        Node *tmp = new Node(data);
-        tmp->next = head;
-        head->prev = tmp;
-        head = tmp;
+    Node(int data) {
+        this->data = data;
+        this->next = NULL;
+        this->prev = NULL;
     }
 
-    // Printing list
-    void printList(Node *head)
-    {
-        while (head != NULL)
-        {
-            cout << head->data << " ";
-            head = head->next;
-        }
-        cout << endl;
+    ~Node() {
+        this->next = NULL;
+        this->prev = NULL;
+        int d = this->data;
+        delete next;
+        delete prev;
+        cout << "DC called for " << d << endl;
     }
+};
 
-    // Get length of doubly linked list
-    int getLength(Node *head)
+// Inserting at head
+void insertAtHead(Node*& head, int data) {
+    Node* tmp = new Node(data);
+    tmp->next = head;
+    head->prev = tmp;
+    head = tmp;
+}
+
+// Printing list
+void printList(Node* head) {
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+// Get length of doubly linked list
+int getLength(Node* head) {
+    int count = 0;
+    while (head != NULL) {
+        count++;
+        head = head->next;
+    }
+    return count;
+}
+
+// * * Inserting at any given position in doubly linked list
+void insertAt(int pos, Node* head, int data) {
+    if (pos == 1) // insert head
     {
-        int count = 0;
-        while (head != NULL)
-        {
+        insertAtHead(head, data);
+    }
+    else if (pos > getLength(head) + 1) // out of indexing order
+    {
+        cout << "Cannot insert at invalid index" << endl;
+    }
+    else {
+        // inserting in between
+        Node* back = head;
+        int count = 1;
+        while (count < pos - 1) {
+            back = back->next;
             count++;
-            head = head->next;
         }
-        return count;
-    }
 
-    // * * Inserting at any given position in doubly linked list
-    void insertAt(int pos, Node *head, int data)
+        // creating new object for element
+        Node* tmp = new Node(data);
+
+        // connecting
+        tmp->next = back->next;
+        tmp->prev = back;
+        if (pos != getLength(head) + 1)
+            (back->next)->prev = tmp;
+        // dont execute this statement if inserting at back bcoz back->next = NULL & accessing NULL->prev means segmentation fault
+        back->next = tmp;
+    }
+}
+
+// Delete node
+void deleteNode(Node*& head, int pos) {
+    Node* tmp = head;
+    for (int i = 1; i < pos; i++) {
+        tmp = tmp->next;
+    }
+    // Now tmp is the node to be deleted
+    if (pos > getLength(head)) // Out of index
     {
-        if (pos == 1) // insert head
-        {
-            insertAtHead(head, data);
-        }
-        else if (pos > getLength(head) + 1) // out of indexing order
-        {
-            cout << "Cannot insert at invalid index" << endl;
-        }
-        else
-        {
-            // inserting in between
-            Node *back = head;
-            int count = 1;
-            while (count < pos - 1)
-            {
-                back = back->next;
-                count++;
-            }
-
-            // creating new object for element
-            Node *tmp = new Node(data);
-
-            // connecting
-            tmp->next = back->next;
-            tmp->prev = back;
-            if (pos != getLength(head) + 1)
-                (back->next)->prev = tmp;
-            // dont execute this statement if inserting at back bcoz back->next = NULL & accessing NULL->prev means segmentation fault
-            back->next = tmp;
-        }
+        cout << "Cannot delete a node that doesn't exist!" << endl;
     }
-
-    // Delete node
-    void deleteNode(Node *&head, int pos)
+    else if (tmp->prev == NULL) // tmp is head
     {
-        Node *tmp = head;
-        for (int i = 1; i < pos; i++)
-        {
-            tmp = tmp->next;
-        }
-        // Now tmp is the node to be deleted
-        if (pos > getLength(head)) // Out of index
-        {
-            cout << "Cannot delete a node that doesn't exist!" << endl;
-        }
-        else if (tmp->prev == NULL) // tmp is head
-        {
-            head = tmp->next;
-            head->prev = NULL;
-        }
-        else if (tmp->next == NULL) // tmp is tail
-        {
-            tmp->prev->next = NULL;
-        }
-        else
-        {
-            (tmp->next)->prev = tmp->prev;
-            (tmp->prev)->next = tmp->next;
-        }
-
-        // deleting node
-        delete tmp; // see constructor for what happens on calling this
+        head = tmp->next;
+        head->prev = NULL;
+    }
+    else if (tmp->next == NULL) // tmp is tail
+    {
+        tmp->prev->next = NULL;
+    }
+    else {
+        (tmp->next)->prev = tmp->prev;
+        (tmp->prev)->next = tmp->next;
     }
 
+    // deleting node
+    delete tmp; // see constructor for what happens on calling this
+}
 
-    // Circular linked list
-        // Node structure same as singly linked list, just last node points again to first one
-        // Thus, we dont need both haid and tail pointer, bcoz head would be tail->next
-        // Also, insertion at head = insertion at tail
+
+// Circular linked list
+    // Node structure same as singly linked list, just last node points again to first one
+    // Thus, we dont need both haid and tail pointer, bcoz head would be tail->next
+    // Also, insertion at head = insertion at tail
 
 
 
@@ -1921,40 +1955,36 @@
     Reverse a singly linked list:
     suppose we have list a->b->c we need to reverse it and make c->b->a
     thus, we actually need to make a<-b<-c
-    i.e. each element point its back element from original list & head = previous tail    
+    i.e. each element point its back element from original list & head = previous tail
 */
 // Iterative solution
-    void reverseList(Node *&head)
-    {
-        Node *back = NULL;
-        Node *current = head;
-        Node *front = head->next;
+void reverseList(Node*& head) {
+    Node* back = NULL;
+    Node* current = head;
+    Node* front = head->next;
 
-        if (head == NULL || head->next == NULL) // empty list or list with 1 element
-            return;
+    if (head == NULL || head->next == NULL) // empty list or list with 1 element
+        return;
 
-        while (current != NULL)
-        {
-            current->next = back;
-            back = current;
-            current = front;
-            if (front != NULL)
-                front = front->next;
-        }
-        head = back;
-    }
-// Recursive solution
-    void reverseRecurse(Node *&head, Node *back, Node *current)
-    {
-        if (current == NULL)
-        {
-            head = back;
-            return;
-        }
-        Node *front = current->next;
+    while (current != NULL) {
         current->next = back;
-        reverseRecurse(head, current, front);
+        back = current;
+        current = front;
+        if (front != NULL)
+            front = front->next;
     }
+    head = back;
+}
+// Recursive solution
+void reverseRecurse(Node*& head, Node* back, Node* current) {
+    if (current == NULL) {
+        head = back;
+        return;
+    }
+    Node* front = current->next;
+    current->next = back;
+    reverseRecurse(head, current, front);
+}
 
 
 // Middle of linked list
@@ -1968,31 +1998,28 @@
     // use that head as back fr prior group and do same for each grp
     // base case: head=null or else k element grp not possible (if last few elements cant form group, have to embed them in same order)
     // * * * * * IMP (Amazon, Paypal, MakeMyTrip, etc)
-    Node *kReverse(Node *head, int k)
-    {
-        if (head == NULL)
-            return NULL;
-        int a = 1;
-        Node *s = head;
-        Node *e = s;
-        while (e->next != NULL && a != k)
-        {
-            e = e->next;
-            a++;
-        }
-        if (e->next == NULL && a != k)
-            return s;
-        Node *back = kReverse(e->next, k);
-        while (s != e)
-        {
-            Node *front = s->next;
-            s->next = back;
-            back = s;
-            s = front;
-        }
-        s->next = back;
-        return s;
+Node* kReverse(Node* head, int k) {
+    if (head == NULL)
+        return NULL;
+    int a = 1;
+    Node* s = head;
+    Node* e = s;
+    while (e->next != NULL && a != k) {
+        e = e->next;
+        a++;
     }
+    if (e->next == NULL && a != k)
+        return s;
+    Node* back = kReverse(e->next, k);
+    while (s != e) {
+        Node* front = s->next;
+        s->next = back;
+        back = s;
+        s = front;
+    }
+    s->next = back;
+    return s;
+}
 
 
 // Detect loop in linked list
@@ -2014,65 +2041,64 @@
         // dual for loop
         // for first occurence of each element, remove all other occurences of that element
         // O(n^2)
-    void delNode(Node* head, int val){
-        if(head == NULL || head->next == NULL)
-            return;
-        if(head->next->data == val){
-            head->next = head->next->next;
-            delNode(head, val);
-        }
-        else
-            delNode(head->next, val);
+void delNode(Node* head, int val) {
+    if (head == NULL || head->next == NULL)
+        return;
+    if (head->next->data == val) {
+        head->next = head->next->next;
+        delNode(head, val);
     }
-    Node *removeDuplicates(Node *head) {
-        // your code goes here
-        Node* t = head;
-        while(t != NULL){
-            delNode(t, t->data);
-            t = t->next;
-        }
+    else
+        delNode(head->next, val);
+}
+Node* removeDuplicates(Node* head) {
+// your code goes here
+    Node* t = head;
+    while (t != NULL) {
+        delNode(t, t->data);
+        t = t->next;
+    }
+    return head;
+}
+
+// Approach 2:
+    // Sort linked list first O(n logn)
+    // Previous method O(n)
+    // O(n logn)
+    // But, this wont maintain their order
+
+// Approach 3:
+    // Can be solved using map/set (unordered, to maintain order) in O(n), but then Space complexity also changes from O(1) to O(n)
+Node* insertList(Node* head, int data) {
+    Node* t = head;
+    Node* tmp = new Node(data);
+    if (t == NULL) {
+        head = tmp;
         return head;
     }
-
-    // Approach 2:
-        // Sort linked list first O(n logn)
-        // Previous method O(n)
-        // O(n logn)
-        // But, this wont maintain their order
-
-    // Approach 3:
-        // Can be solved using map/set (unordered, to maintain order) in O(n), but then Space complexity also changes from O(1) to O(n)
-    Node* insertList(Node* head, int data){
-        Node* t = head;
-        Node* tmp = new Node(data);
-        if(t == NULL){
-            head = tmp;
-            return head;
-        }
-        while(t->next != NULL){
-            t = t->next;
-        }
-        t->next = tmp;
-        return tmp;
+    while (t->next != NULL) {
+        t = t->next;
     }
-    Node *removeDuplicates(Node *head) {
-        // your code goes here
-        unordered_set<int> s;
-        Node* t = head;
-        Node* res = NULL;
-        Node* lastPtr = NULL;
-        while(t !=  NULL)
-        {
-            if(s.find(t->data) == s.end()){
-                lastPtr = insertList(lastPtr, t->data);
-                if(res == NULL)
-                    res = lastPtr;
-            }
-            s.insert(t->data);
-            t = t->next;
+    t->next = tmp;
+    return tmp;
+}
+Node* removeDuplicates(Node* head) {
+// your code goes here
+    unordered_set<int> s;
+    Node* t = head;
+    Node* res = NULL;
+    Node* lastPtr = NULL;
+    while (t != NULL) {
+        if (s.find(t->data) == s.end()) {
+            lastPtr = insertList(lastPtr, t->data);
+            if (res == NULL)
+                res = lastPtr;
         }
-        return res;
+        s.insert(t->data);
+        t = t->next;
     }
+    return res;
+}
 
 
 
@@ -2080,32 +2106,32 @@
     // Approach 1:
         // using additonal space O(n)
         // TC: o(n logn)
-        Node* ins(Node* l, int data){
-            Node* tmp = new Node(data);
-            if(l != nullptr){
-                l->next = tmp;
-            }
-            return tmp;
-        }
-        Node* sortList(Node* head) {
-            vector<int> v;
-            while(head != nullptr){
-                v.push_back(head->data);
-                head = head->next;
-            }
-            sort(v.begin(), v.end());
-            Node* res = NULL;
-            Node* tail = NULL;
-            for(auto i : v){
-                tail = ins(tail, i);
-                if(res == nullptr)
-                    res = tail;
-            }
-            return res;
-        }
+Node* ins(Node* l, int data) {
+    Node* tmp = new Node(data);
+    if (l != nullptr) {
+        l->next = tmp;
+    }
+    return tmp;
+}
+Node* sortList(Node* head) {
+    vector<int> v;
+    while (head != nullptr) {
+        v.push_back(head->data);
+        head = head->next;
+    }
+    sort(v.begin(), v.end());
+    Node* res = NULL;
+    Node* tail = NULL;
+    for (auto i : v) {
+        tail = ins(tail, i);
+        if (res == nullptr)
+            res = tail;
+    }
+    return res;
+}
 
-    // Approach 2:
-        // swap nodes, custom sort algo
+// Approach 2:
+    // swap nodes, custom sort algo
 
 // Merge 2 sorted linked list
     // Approach 1: 
@@ -2116,42 +2142,42 @@
     // Approach 2:
         // Ek list se uthao, dusre sorted mei insert karo bich mei
         // TC: O(n)     SC: O(1)
-        Node* ins(Node* l, Node* i){
-            if(l->data > i->data){
-                i->next = l;
-                return i;
-            }
-            Node* head = l;
-            while(l->next != NULL){
-                if(l->data <= i->data && l->next->data > i->data){
-                    Node* tmp = l->next;
-                    l->next = i;
-                    i->next = tmp;
-                    return head;
-                }
-                l = l->next;
-            }
+Node* ins(Node* l, Node* i) {
+    if (l->data > i->data) {
+        i->next = l;
+        return i;
+    }
+    Node* head = l;
+    while (l->next != NULL) {
+        if (l->data <= i->data && l->next->data > i->data) {
+            Node* tmp = l->next;
             l->next = i;
-            i->next = nullptr;
+            i->next = tmp;
             return head;
         }
-        Node* mergeTwoLists(Node* list1, Node* list2) {
-            if(list1 == nullptr)
-                    return list2;
-            if(list2 == nullptr)
-                    return list1;
-            while(list2 != nullptr){
-                Node* fe = list2->next;
-                list1 = ins(list1, list2);
-                list2 = fe;
-            }
-            return list1;
-        }
+        l = l->next;
+    }
+    l->next = i;
+    i->next = nullptr;
+    return head;
+}
+Node* mergeTwoLists(Node* list1, Node* list2) {
+    if (list1 == nullptr)
+        return list2;
+    if (list2 == nullptr)
+        return list1;
+    while (list2 != nullptr) {
+        Node* fe = list2->next;
+        list1 = ins(list1, list2);
+        list2 = fe;
+    }
+    return list1;
+}
 
-    // Approach 3:
-        // Create new list
-        // Two pointer approach
-        // SC: O(n)   TC: O(n)
+// Approach 3:
+    // Create new list
+    // Two pointer approach
+    // SC: O(n)   TC: O(n)
 
 
 // Check if Linked list is a Palindrome
@@ -2162,37 +2188,37 @@
     // Approach 2:
     // Find mid, reverse list after mid, increment head & mid together to verify
     // TC: O(n)     SC: O(1)
-    Node* findMid(Node* head){
-        Node* fast = head;
-        Node* slow = head;
-        while(fast!=nullptr && fast->next!=nullptr){
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-        if(fast == nullptr)
-            return slow;
-        return slow->next;
+Node* findMid(Node* head) {
+    Node* fast = head;
+    Node* slow = head;
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
     }
-    
-    Node* revList(Node* back, Node* curr, Node* front){
-        curr->next = back;
-        if(front == NULL)
-            return curr;
-        return revList(curr, front, front->next);
-    }
-    bool isPalindrome(Node* head) {
-        if(head->next == NULL)
-            return 1;
-        Node* head2 = findMid(head);
-        head2 = revList(nullptr, head2, head2->next);
-        while(head != nullptr && head2 != nullptr){
-            if(head->data != head2->data)
-                return 0;
-            head = head->next;
-            head2 = head2->next;
-        }
+    if (fast == nullptr)
+        return slow;
+    return slow->next;
+}
+
+Node* revList(Node* back, Node* curr, Node* front) {
+    curr->next = back;
+    if (front == NULL)
+        return curr;
+    return revList(curr, front, front->next);
+}
+bool isPalindrome(Node* head) {
+    if (head->next == NULL)
         return 1;
+    Node* head2 = findMid(head);
+    head2 = revList(nullptr, head2, head2->next);
+    while (head != nullptr && head2 != nullptr) {
+        if (head->data != head2->data)
+            return 0;
+        head = head->next;
+        head2 = head2->next;
     }
+    return 1;
+}
 
 
 
@@ -2205,39 +2231,835 @@
 
     // Approach:
     // add from head, maintain carry = sum/10, and value of each node = sum%10
-    Node* insertTail(Node* tail, int data){
-        Node* tmp = new Node(data);
-        if(tail == nullptr)
-            return tmp;
-        tail->next = tmp;
+Node* insertTail(Node* tail, int data) {
+    Node* tmp = new Node(data);
+    if (tail == nullptr)
         return tmp;
+    tail->next = tmp;
+    return tmp;
+}
+
+int adder(Node*& tail, int carry, int a = 0, int b = 0) {
+    tail = insertTail(tail, (a + b + carry) % 10);
+    return (a + b + carry) / 10;
+}
+
+Node* addTwoNumbers(Node* l1, Node* l2) {
+    Node* tail = nullptr;
+    Node* head = nullptr;
+    int carry = 0;
+    while (l1 != nullptr && l2 != nullptr) {
+        carry = adder(tail, carry, l1->data, l2->data);
+        l1 = l1->next;
+        l2 = l2->next;
+        if (head == nullptr)
+            head = tail;
     }
-    
-    int adder(Node* &tail, int carry, int a=0, int b=0){
-        tail = insertTail(tail, (a+b+carry)%10);
-        return (a+b+carry)/10;
+    while (l1 != nullptr) {
+        carry = adder(tail, carry, l1->data, 0);
+        l1 = l1->next;
     }
-    
-    Node* addTwoNumbers(Node* l1, Node* l2) {
-        Node* tail = nullptr;
-        Node* head = nullptr;
-        int carry = 0;
-        while(l1 != nullptr && l2 != nullptr){
-            carry = adder(tail, carry, l1->data, l2->data);
-            l1 = l1->next;
-            l2 = l2->next;
-            if(head == nullptr)
-                head = tail;
-        }
-        while(l1 != nullptr){
-            carry = adder(tail, carry, l1->data, 0);
-            l1 = l1->next;
-        }
-        while(l2 != nullptr){
-            carry = adder(tail, carry, l2->data, 0);
-            l2 = l2->next;
-        }
-        while(carry != 0)
-            carry = adder(tail, carry, 0, 0);
-        return head;
+    while (l2 != nullptr) {
+        carry = adder(tail, carry, l2->data, 0);
+        l2 = l2->next;
     }
+    while (carry != 0)
+        carry = adder(tail, carry, 0, 0);
+    return head;
+}
+
+
+// Create clone of linked list with random ptr
+// You are given a linked list in which each node has an additional random ptr
+// random ptr may either point null or to some random node in the list 
+// we need to create a clone of given list
+    // Approach 1:
+    // Create map<int, vector<int>> and store each
+    // then replicate
+    // TC: O(n)     SC: O(n)
+
+    // Approach 2:
+    // suppose List is as follows:
+    // 1 -> 2 -> 3 -> 4
+    // |         |
+    // \---------/
+    // Create new node after each existing node
+    // list => 1 - 1 - 2 - 2 - 3 - 3
+    // now, for each node, node->next is its new version
+    // so do node->next->random = node->random->next
+    // * * * Understand Carefully * * *
+    // At end, remove old nodes
+    // TC: O(n)     SC: O(1)
+
+
+
+// Stacks
+// Follows LIFO - last in first out
+// Major methods: push, pop, top, empty, size
+
+// Reverse a string using stack
+char* reverse(char* S, int len) {
+    stack<char> st;
+    for (int i = 0; i < len; i++)
+        st.push(S[i]);
+    char* ans = new char[len + 1];
+    int i = 0;
+    while (!st.empty()) {
+        ans[i++] = st.top();
+        st.pop();
+    }
+    ans[i] = '\0';
+    return ans;
+}
+
+
+// Delete middle element from stack
+    // using vec to store upper elements
+    // TC: O(n)     SC: O(n)
+void deleteMid(stack<int>& s, int sizeOfStack) {
+    int len = s.size();
+    vector<int> v;
+    for (int i = 0; i < (len / 2); i++) {
+        v.push_back(s.top());
+        s.pop();
+    }
+    s.pop();
+    for (int i = v.size() - 1; i > -1; i--)
+        s.push(v[i]);
+}
+
+// using recursion * * *
+void deleteMid(stack<int>& s, int sizeOfStack, int index = 0) {
+    int t = s.top(); // store top
+    if (index == sizeOfStack / 2) {
+        s.pop(); // base case, pop 1 extra on reaching required and return
+        return;
+    }
+    s.pop(); // if not base case, pop 1
+    deleteMid(s, sizeOfStack, index + 1); // recurse for remaining
+    s.push(t); // after recursing in whole recursion stack, and deleting required element, push the stored element back
+}
+// TC: O(n)     SC: O(N) (because of recursive calls being pushed to recusion stack)
+
+
+// Valid Parenthesis
+// Check if a given expression is a valid expression of parenthesis
+bool isValid(string s) {
+    stack<char> st;
+    for (char c : s) {
+        if (!st.empty() &&
+            ((st.top() == '(' && c == ')') ||
+                (st.top() == '{' && c == '}') ||
+                (st.top() == '[' && c == ']'))) {
+            st.pop();
+        }
+        else
+            st.push(c);
+    }
+    return (st.empty()) ? 1 : 0;
+}
+
+// Insert at bottom of stack
+// use recursion
+// pop elements until stack is empty using tail recursion.. insert element and then push each element back
+void solve(stack<int>& s, int& x) {
+    if (s.empty()) {
+        s.push(x);
+        return;
+    }
+    int tmp = s.top();
+    s.pop();
+    solve(s, x);
+    s.push(tmp);
+}
+// TC: O(n)     SC: O(n)
+
+
+// * * * sort elements in a stack
+// recurse to make stack empty
+// now push elements in sorted order
+void pushSorted(stack<int>& s, int data) {
+// similar to push at bottom, see logic
+    if (s.empty() || (!s.empty() && s.top() <= data)) {
+        s.push(data);
+        return;
+    }
+    int tmp = s.top();
+    s.pop();
+    pushSorted(s, data);
+    s.push(tmp);
+}
+void sortStack(stack<int>& s) {
+    // main sorting func, removes all elements and calls pushSorted to push them back in sorted manner
+    if (s.empty()) {
+        return;
+    }
+    int tmp = s.top();
+    s.pop();
+    sortStack(s);
+    pushSorted(s, tmp);
+}
+// TC: O(N^2)      SC: O(N)
+// * * * ALWAYS ALWAYS DRAW A RECURSIVE CALL STACK FOR SC
+// Here, we might think 2 functions have recursive stack depth of n, and they are nested.. so SC=O(n^2) 
+// but pushSorted function only uses the stack space that gets unwinded by sortStack function
+// so max stack depth never exceeds n
+
+
+// Monotonic stack = stack in which element are only stored in strictly increasing/decreasing order
+
+// Next Smaller Element
+    // Given an integer array 'A' of length 'n'
+    // Find next smaller element for each element in A
+    // Ex: A = [2, 3, 1] => ans = [1, 1, -1]
+        // thus, for every element, uske baad aane wala usse chota 1st number is answer
+    // can be solved using 2 nested loops -> O(n^2)
+
+// Optimised approach: TC: O(n)
+    // Observe carefully, for every number, uske baad ka 1st smallest matters, baaki se lena dena nahi
+    // how about, traversing from end
+        // and, store elements in strictly increasing order 
+        // bcoz har number ke liye, smaller milne ke baad usse chote/bade hoge to bhi no significance
+
+        // imagine this: if traversing from back..
+            // if we go from y <- x
+            // (y > x) -> x is first smallest
+            // (y < x) -> our stack has elements in increasing order so we will pop until we get element smaller than x
+                // In this case, we will also store x
+
+        // IMP * * * * * Ex: [3, 6, 5, 2]   stack= []   ans = []
+        // for 2:
+            // stack empty so push -1 is ans (bcoz next smallest doesnt exist)
+            // ans = [-1]
+            // stack = [2]      
+        // for 5:
+            // stack top = 2 < 5 => ans = [-1, 2]
+            // stack = [2, 5]
+        // for 6:
+            // stack top = 5 < 6 => ans = [-1, 2, 5]
+            // stack = [2, 5, 6]
+        // for 3:
+            // stack top = 6 > 3
+            // we need smaller so pop until top <= 3 (popped and only 2 remain in stack)
+            // ans = [-1, 2, 5, 2]
+            // stack = [2, 3] .... * * * notice here, we lost the values 5 & 6 BUT doesnt matter bcoz we need first smallest
+                // and, both 5, 6 are greater than 3.. so 3 milne ke baad unki no need
+
+        // thus, ans = [-1, 2, 5, 2] -> reverse it
+
+    // Code:
+vector<int> nextSmallerElement(vector<int>& arr, int n) {
+    vector<int> ans;
+    stack<int> s;
+    for (int i = arr.size() - 1; i >= 0; i--) {
+        while (!s.empty() && s.top() >= arr[i])
+            s.pop(); // pop until top < arr[i]
+        if (s.empty())
+            ans.push_back(-1); // element nahi mila to -1
+        else
+            ans.push_back(s.top()); // element mila to  ans
+        s.push(arr[i]); // push new element in stack (as it would be by default > top)
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+// TC: O(n)
+    // Primary intuition may be that nested loops so its O(n^2)
+    // But, think abit, the while loop wont run always
+    // it only pops each element once in whole code
+    // thus, it would be n + n.. not n * n
+// SC: O(n)
+
+
+
+// Largest Rectangular area in Histogram (bar graph types)
+    // we are given an array representing height of histgram's bars
+    // we need to find the largest rectangular area
+
+// Approach 1:
+    // for each bar, count number of consecutive bars after it, that have height <= curr bar
+        // this way we could get max width of rectangle for each bar
+    // area = length * width = height of curr bar * max width obtained
+    // TC: O(n^2)
+
+// Approach 2:
+    // Imagine:
+        // In histogram, largest rectangle consisting any bar can formed by:
+            // that bar + consecutive neighbouring bars until height of consecutive neighbour is less than curr bar height
+                // try this on pen-paper.. no other rectangle can be formed with higher area
+    // Thus, we could maintain a maxArea var, and do this operation for each bar:
+        // find index previous smaller element
+        // find index of next smaller element
+        // calc area, compare it with maxArea variable
+
+    // To optimise, we could traverse just once and store indices of next, prev small in vec
+    // * * * * VVIMP, SEE CAREFULLY :
+vector<int> nextValidIndices(vector<int>& heights) {
+// monotonic increasing stack, backward traverse
+// we dont need values, we need first and last valid indices for each bar
+    stack<int> s; // stack stores indices 'i' according to increasing order of heights[i]
+    vector<int> ans;
+    for (int i = heights.size() - 1; i >= 0; i--) {
+        while (!s.empty() && heights[s.top()] >= heights[i])
+            s.pop();
+        if (s.empty())
+            ans.push_back(heights.size() - 1);
+        else
+            ans.push_back(s.top() - 1); // top would give index of 1st smallest, so top-1 will give last valid index for area
+        s.push(i);
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+
+vector<int> prevValidIndices(vector<int>& heights) {
+// monotonic increasing stack, traverse from start
+    stack<int> s; // stack stores indices such that height[i] is monotonic (stack isnt)
+    vector<int> ans;
+    for (int i = 0; i < heights.size(); i++) {
+        while (!s.empty() && heights[s.top()] >= heights[i])
+            s.pop();
+        if (s.empty())
+            ans.push_back(0);
+        else
+            ans.push_back(s.top() + 1);
+        s.push(i);
+    }
+    return ans;
+}
+
+int largestRectangleArea(vector<int>& heights) {
+    int maxArea = 0;
+    vector<int> prev = prevValidIndices(heights);
+    vector<int> next = nextValidIndices(heights);
+
+    for (int i = 0; i < heights.size(); i++) {
+        int height = heights[i];
+        int width = next[i] - prev[i] + 1;
+        if (height * width > maxArea)
+            maxArea = height * width;
+    }
+    return maxArea;
+}
+// TC: O(n)     SC: O(n) 
+
+
+
+// The Celebrity Problem
+    /*
+        A celebrity is a person who is known to all but does not know anyone at a party. A party is being organized by some people.  A square matrix mat (n*n) is used to represent people at the party such that if an element of row i and column j is set to 1 it means ith person knows jth person. You need to return the index of the celebrity in the party, if the celebrity does not exist, return -1.
+
+        Input: mat[][] = [[0 1 0],
+                        [0 0 0],
+                        [0 1 0]]
+        Output: 1
+        Explanation: 0th and 2nd person both know 1. Therefore, 1 is the celebrity.
+    */
+
+    // Approach 1: Brute force
+        // if for any number i, row[i] sum = 0 & column[i] sum = n-1, then 'i' is celebrity
+        // Can be solved using nested loops in O(n^2)
+
+    // Approach 2:
+        // It is guaranteed that there would be either 1 celebrity or 0
+        // Put all element in stack
+        // pop 2, say A and B
+        // if A knows B -> A is not a celebrity, remove it, push other
+        // thus, in every operation, at least 1 element is removed
+        // do this until stack has 1 element (possible celeb)
+        // validate celeb by checking if everyone knows him but he knows none
+int celebrity(vector<vector<int> >& mat) {
+    stack<int> s;
+    for (int i = 0; i < mat.size(); i++)
+        s.push(i);
+    while (s.size() > 1) {
+        int a = s.top();
+        s.pop();
+        int b = s.top();
+        s.pop();
+        if (mat[a][b] == 1)
+            s.push(b);
+        else
+            s.push(a);
+    }
+    int celeb = s.top();
+    // Validation
+    for (int i = 0; i < mat[celeb].size(); i++) {
+        if (i == celeb)
+            continue;
+        if (mat[celeb][i] == 1 || mat[i][celeb] == 0)
+            return -1;
+    }
+    return celeb;
+}
+// TC: O(n)     SC: O(n)
+
+
+
+// Largest Rectangular area made by 1's in a binary matrix
+    /*
+        Given a binary matrix, find the largest rectangle containing only 1's and return its area
+        Input:
+        0 1 1 0
+        1 1 1 1
+        1 1 1 1
+        1 1 0 0
+        Output :
+        8
+    */
+    // Must know largest area in histogram to solve this * * * * *
+    // bcoz this ques can be divided into it as sub-problem
+    // Approach:
+    // traverse for each row from 0 - (n-1)
+    // consider current row as base and calculate max height (base se upar first 0 encounter hone tk)
+    // we will get an array of heights, apply largestArea in histogram on this.. and store it in maxHeight
+    // do this for all rows and update maxHeight
+
+    // if we consider base and then try to calculate histo, it takes O(n^2)
+    // better to start from first row and store previous histo
+    // easy way for histo:
+void makeHistogram(vector<char>& row, vector<int>& prevHisto) {
+    for (int i = 0; i < row.size(); i++) {
+        if (row[i] != '0') // if base is not 0, increase histo height for current level as well as further levels
+            prevHisto[i]++;
+        else
+            prevHisto[i] = 0; // if base is 0, make histo height = 0 for current as well as further levels
+    }
+}
+vector<int> prevValidIndices(vector<int>& hist) {
+    vector<int> ans;
+    stack<int> s;
+    for (int i = 0; i < hist.size(); i++) {
+        while (!s.empty() && hist[s.top()] >= hist[i])
+            s.pop();
+        if (s.empty())
+            ans.push_back(0);
+        else
+            ans.push_back(s.top() + 1);
+        s.push(i);
+    }
+    return ans;
+}
+vector<int> nextValidIndices(vector<int>& hist) {
+    vector<int> ans;
+    stack<int> s;
+
+    for (int i = hist.size() - 1; i >= 0; i--) {
+        while (!s.empty() && hist[s.top()] >= hist[i])
+            s.pop();
+        if (s.empty())
+            ans.push_back(hist.size() - 1);
+        else
+            ans.push_back(s.top() - 1);
+        s.push(i);
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+int maximalRectangle(vector<vector<char>>& matrix) {
+    int maxArea = 0;
+    vector<int> hist(matrix[0].size(), 0);
+    for (int i = 0; i < matrix.size(); i++) {
+        // cout << "considering row " << i << endl;
+        makeHistogram(matrix[i], hist);
+        vector<int> prev = prevValidIndices(hist);
+        vector<int> next = nextValidIndices(hist);
+        for (int j = 0; j < hist.size(); j++) {
+            int height = hist[j];
+            int width = next[j] - prev[j] + 1;
+            // cout << "area = " << height << "*" << width << " = " << height*width << endl;
+            if (height * width > maxArea)
+                maxArea = height * width;
+        }
+    }
+    return maxArea;
+}
+// TC: O(rows * columns) => O(n * m)    SC: O(m)
+// n = rows,    m = columns
+
+
+// 2 stack in a array
+    // Use an array data structure to implement 2 stacks
+    // Approach:
+        // make a stack, consider one stack from its front end and other from back
+        // If end.top - 1 = start.top => stack full
+
+// N stack in a array * * *
+    // Use a single array to implement 'N' stacks
+    // Approach:
+        // Suppose length of array = K
+        // divide array N parts.
+        // thus, we would get N stacks of size 'K/N'
+        // BUT, this approach is not Space Optimised
+        // (it is possible ki 1 stack full ho jaye and other one is completely empty)
+
+
+    // Approach 2:
+        // Make another array of length 'N' (say 'top') (to store top of each of the 'N' stacks)
+
+        // Also, make an array of size (say 'K') = combined buffer for all stack
+            // Let, this array be 'info[]'
+            // now.. info has 2 functions:
+                // 1. size of arr and info is same.. so if arr[i] holds some data, info[i] would point to previous element in the same stack
+                // 2. if arr[i] does not hold data (i.e. it's an empty space), info[i] would point to the next empty space
+
+        // And, maintain a variable 'freespot' to store first free space
+
+        // Using this, the push and pop operations could be done as follows:
+            // Initialise top[] = -1
+            // At beginning whole array is empty.. thus, info[0] = 1, info[1] = 2 and so on.. (next empty space)
+                // BUT, info[lastIndex] = -1 bcoz theres no empty space after lastIndex
+            // freeSpot = 0 (bcoz whole array is free)
+
+        // On push operation in stack 'P':
+            // if freeSpot = -1, overflow
+            // arr[freeSpot] = value    // occupy free spot with value
+            // int nextFreeSpot = info[freeSpot] // temporarily store next empty space
+            // info[freeSpot] = top[P]  // make info[i] point to prev element
+            // top[P] = freeSpot    // set top = index of currently stored
+            // freeSpot = nextFreeSpot   // Update freeSpot to next empty space
+
+        // On pop operation in stack 'P':
+            // int indexToPop = top[P]
+            // if indexToPop == -1, underflow
+            // arr[indexToPop] = -1     // vacant the space
+            // top[P] = info[indexToPop]    // bcoz info[indexToPop will store index of prev element in that stack]
+            // info[indexToPop] = freeSpot  // no element at that index now, so store next free space
+            // freeSpot = indexToPop
+
+class NStack {
+public:
+    vector<int> arr;
+    vector<int> top;
+    vector<int> info;
+    int freeSpot = 0;
+    NStack(int N, int S) {
+        // Constructor
+        arr = *(new vector<int>(S, -1));
+        top = *(new vector<int>(N, -1));
+        info = *(new vector<int>(S, -1));
+        for (int i = 0; i < S - 1; i++)
+            info[i] = i + 1;
+    }
+
+    // Pushes 'X' into the Mth stack. Returns true if it gets pushed into the stack, and false otherwise.
+    bool push(int x, int m) {
+        if (freeSpot == -1)
+            return 0;
+        arr[freeSpot] = x;
+        int nextFreeSpot = info[freeSpot];
+        info[freeSpot] = top[m - 1];  // did m - 1 bcoz top is 0 indexed and our input isnt
+        top[m - 1] = freeSpot;
+        freeSpot = nextFreeSpot;
+        return 1;
+    }
+
+    // Pops top element from Mth Stack. Returns -1 if the stack is empty, otherwise returns the popped element.
+    int pop(int m) {
+        if (top[m - 1] == -1)
+            return -1;
+        int indexToPop = top[m - 1];
+        int poppedElement = arr[indexToPop];
+        top[m - 1] = info[indexToPop];
+        info[indexToPop] = freeSpot;
+        freeSpot = indexToPop;
+        return poppedElement;
+    }
+};
+
+
+// Design a special stack that supports push, pop, top, and retrieving the minimum element.
+// i.e. we could get minElement of elements present
+    // Approach 1:
+        // Create a new stack to store corresponding min
+class MinStack {
+public:
+    stack<int> s;
+    stack<int> mins;
+    MinStack() {}
+    void push(int val) {
+        s.push(val);
+        if (mins.empty())
+            mins.push(val);
+        else
+            mins.push(min(val, mins.top()));
+    }
+
+    void pop() {
+        if (s.empty())
+            return;
+        s.pop();
+        mins.pop();
+    }
+
+    int top() {
+        return s.top();
+    }
+
+    int getMin() {
+        return mins.top();
+    }
+};
+// TC: O(1)     SC: O(n)
+
+
+// Approach 2: * * *
+// To solve in O(1) space, make var 'mini' to store minimum
+// Keep pushing elements normally... 
+    // BUT if we get new mini element,
+    // Dont push normal element to stack
+    // Instead, push 2*currentElement - prevMini
+    // let currElement = x
+    // thus, pushedElement = 2*x - prevMini * * *
+    // also, x would be stored in mini, as we encountered new mini
+
+// While Popping
+    // Pop normally when current is greater than mini
+    // If, current is less than mini, we have encountered our changed value (i.e. pushedElement)
+    // As we know.. pushedElement = 2*x - prevMini
+    // prevMini = 2*x - pushedElement * * *
+
+// Basically,
+    // While pushing: push a = 2*element - mini & set mini = element
+    // Now while popping, we have element(in mini), a in stack top... so we could get prevMini by rearranging formula
+
+// THESE 2 FORMULAS SOLVE WHOLE PROBLEM BY PROVIDING RELATION BETWEEN PREV AND CURRENT MINI
+
+class MinStack {
+public:
+    stack<long> s;  // usual stack
+    long mini;  // to store minimum till realtime top
+    void push(int val) {
+        if (s.empty()) {    // 0 elements, normal push
+            s.push(val);
+            mini = val;
+            return;
+        }
+        if (val >= mini)    // no change in minimum value, normal push
+            s.push(val);
+        else {
+            s.push((2 * long(val)) - mini);     // new minimum found, push encoded value & update mini
+            mini = val;
+        }
+    }
+    void pop() {
+        if (s.empty())
+            return;
+        if (s.top() >= mini) {  // normal pop, bcoz top isnt our encoded values (encoded value is always less than mini)
+            s.pop();
+            return;
+        }
+        mini = 2 * mini - s.top();  // encoded value found, update mini
+        s.pop();
+    }
+    int top() {
+        if (s.top() >= mini)
+            return s.top();     // top value normal, return
+        return mini;    // top value encoded, normalValue = mini
+    }
+    int getMin() {
+        return mini;
+    }
+};
+
+
+// Queues
+    // Follows FIFO
+    // Enqueue: Adding element to queue
+    // Dequeue: Removing element from queue
+
+    // Circular queue = special type of queue in which last element points back to the first
+
+    // Dequeue (aka double ended queue): special type of queue which allows adding and removing elements from both ends
+
+
+// STL Methods:
+    // queue<int> q;    // for normal queue
+    // deque<int> dq;   // for dequeue
+
+
+// Reverse a given STL queue
+    // given is a STL queue, thus we could just pushBack and popFront (and ofc, access or see both front and back element)
+
+// Approach 1
+    //  Create a stack -> push elements frm queue to stack (from front bcoz thats only way of removing from queue)
+    // Stack would contain elements in reverse order, pop top and pushBack in queue
+queue<int> rev(queue<int> q) {
+    stack<int> s;
+    while (!q.empty()) {
+        s.push(q.front());
+        q.pop();
+    }
+    while (!s.empty()) {
+        q.push(s.top());
+        s.pop();
+    }
+    return q;
+}
+// TC: O(n)     SC: O(n)
+
+// Approach 2:
+    // Using recursive stack
+void solve(queue<int>& q) {
+    if (q.empty())
+        return;
+    int tmp = q.front();
+    q.pop();
+    solve(q);
+    q.push(tmp);
+}
+queue<int> rev(queue<int> q) {
+    solve(q);
+    return q;
+}
+// TC: O(n)     SC: O(n) -> bcoz of recursive stack
+
+
+// Find 1st negative integer (from left) for every window of size 'k' in an array of length 'n' (k <= n)
+    // If no negative number in a window, consider '0'
+    /*
+        Ex: arr = [-8, 2, 3, -6, 10], k = 2
+        windows = [[-8, 2], [2, 3], [3, -6]...]
+        ans = [-8, 0, -6, ...]
+    */
+    // Intuition: Consider 1st window (first k elements)
+    // now for all the remaining windows, push 1 element front end, pop 1 from front (until last element)
+    // thus we could use a queue
+    // Instead of pushing values, how about negative integer's indices
+    // this way, front(q) would directly give 1st negative integer (just write adding and removing logic correctly)
+
+vector<int> FirstNegativeInteger(vector<int>& arr, int k) {
+    queue<int> q;
+    vector<int> ans;
+
+    //for 1st window
+    int lastIndexOfWindow;
+    for (lastIndexOfWindow = 0; lastIndexOfWindow < k; lastIndexOfWindow++) {
+        if (arr[lastIndexOfWindow] < 0)
+            q.push(lastIndexOfWindow);
+    }
+    (q.empty()) ? ans.push_back(0) : ans.push_back(arr[q.front()]);
+
+    // for subsequent windows
+    for (; lastIndexOfWindow < arr.size(); lastIndexOfWindow++) {
+        // remove older elements
+        if (!q.empty() && q.front() < lastIndexOfWindow - k + 1)
+            q.pop();
+
+        // add new element
+        if (arr[lastIndexOfWindow] < 0)
+            q.push(lastIndexOfWindow);
+
+        // ans
+        (q.empty()) ? ans.push_back(0) : ans.push_back(arr[q.front()]);
+    }
+    return ans;
+}
+// TC: O(n)     SC: O(n)
+
+
+// Reverse first 'k' elements of queue
+    /*
+        Ex: inp = [1, 2, 3, 4, 5]   k = 3
+        out = [3, 2, 1, 4, 5]
+    */
+    // Reversing can always be done with stack :)
+    // Put first k element in stack
+    // embed reversed order back to queue
+    // Ex queue now: [4, 5, 3, 2, 1]
+    // now, remove n - k elements from front, and push them to end
+
+queue<int> modifyQueue(queue<int> q, int k) {
+    stack<int> s;
+    for (int i = 0; i < k; i++) { // reverse first k elements using stack
+        s.push(q.front());
+        q.pop();
+    }
+
+    while (!s.empty()) { // push reversed elements to end of queue
+        q.push(s.top());
+        s.pop();
+    }
+
+    for (int i = 0; i < q.size() - k; i++) { // rotate queue to get desired output
+        q.push(q.front());
+        q.pop();
+    }
+    return q;
+}
+
+
+// First non repeating character in a stream
+    // given a string s, for each character, find first non repeating char (from left), till that char
+    // if none, embed '#'
+    /*
+        Ex: aabc
+        for a -> a
+        for a -> no non repeating char on its left -> #
+        for b -> b
+        for c -> b
+
+        thus, ans = a#bb
+    */
+
+    // We need non repeating char so we need to maintain char that have already came
+    // make array of size 26 (a - z) to maintain that
+    // this will help in checking if char is repeated
+    // now, if char is repeated, ans should be next non repeating char that might have came
+    // for this, we could maintain a queue and push non repeating chars
+    // pop if char repeats
+
+string FirstNonRepeating(string& s) {
+    vector<int> visited(26, 0);
+    queue<char> q;
+    q.push(s[0]);
+    visited[s[0] - 'a']++; // add first element as it is always part of ans
+
+    for (int i = 1; i < s.size(); i++) {
+        if (!visited[s[i] - 'a']) // push new uniques
+            q.push(s[i]);
+
+        visited[s[i] - 'a']++; // increase visited counter
+
+        while (!q.empty() && visited[q.front() - 'a'] > 1) // pop till q.front has occurenced more than once
+            q.pop();
+
+        (q.empty()) ? s[i] = '#' : s[i] = q.front();
+
+    }
+    return s;
+}
+
+
+/*
+    There are n gas stations along a circular route, where the amount of gas at the ith station is gas[i].
+
+    You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from the ith station to its next (i + 1)th station. You begin the journey with an empty tank at one of the gas stations.
+
+    Given two integer arrays gas and cost, return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1. If there exists a solution, it is guaranteed to be unique.
+*/
+// Approach 1:
+    // Start from each station, check if we could move complete round back to it
+    // maintain balance of petrol
+bool checker(vector<int>& gas, vector<int>& cost, int i) {
+    int len = gas.size();
+    if (gas[i] - cost[i] < 0)
+        return 0;
+    int curr = (i + 1) % len, balance = gas[i] - cost[i];
+    while (curr != i) {
+        if (gas[curr] - cost[curr] + balance < 0)
+            return 0;
+        balance += gas[curr] - cost[curr];
+
+        curr = (curr + 1) % len;
+    }
+    return 1;
+}
+int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+    for (int i = 0; i < gas.size(); i++) {
+        if (checker(gas, cost, i))
+            return i;
+    }
+    return -1;
+}
+// TC: O(n^2)   SC: O(1)
