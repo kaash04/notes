@@ -3063,3 +3063,97 @@ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
     return -1;
 }
 // TC: O(n^2)   SC: O(1)
+
+
+// Approach 2:
+    // ans would be -1 only if totalGas is less than totalCost (i.e. sum of gas - cost for whole array is negative)
+    // consider gas stations a -> b -> c -> d -> e -> a
+    // now, if are able to travel from a to c but not d (starting with a)
+    // that means b to d, c to d are also not possible
+    // bcoz a se aate vakt kuch to non negative (whole no.) balance laya hoga... uske saath nahi hua, to uske bina kya hi hoga
+    // so, we could directly start checking with start = e
+
+int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+    int totalGas = 0, totalCost = 0, balance = 0, start = 0;
+    for (int i = 0; i < gas.size(); i++) { // i keeps moving forward, start keeps track of starting
+        totalGas += gas[i];
+        totalCost += cost[i];
+        balance += gas[i] - cost[i];
+
+        if (balance < 0) {  // if balance goes negative, update start
+            start = i + 1;
+            balance = 0;    // reset balance, not deficit
+        }
+    }
+    return (totalGas < totalCost) ? -1 : start;
+}
+// TC: O(n)     SC: O(1)
+
+
+/*
+    given a queue Q of N integers of even length,
+    rearrange the elements by interleaving the first half of the queue with the second half of the queue.
+
+    Ex: inp -> 11, 12, 13, 14, 15, 16, 17, 18
+        out -> 11, 15, 12, 16, 13, 17, 14, 18
+        (iska 1, uska 1)
+*/
+// Approach 1:
+    // create 2 separate queues (to get access to both heads)
+    // now push in single and rearrange
+void interLeaveQueue(queue < int >& q) {
+    int len = q.size();
+    queue<int> tmp;
+    for (int i = 0; i < (len / 2); i++) {
+        tmp.push(q.front());
+        q.pop();
+    }
+    while (!tmp.empty()) {
+        q.push(tmp.front());
+        tmp.pop();
+        q.push(q.front());
+        q.pop();
+    }
+}
+// * * Dry run on above example to easy understand
+// TC: O(n)     SC: O(n)
+
+// Approach 2:
+    // Using stack
+    // same above logic could be used BUT...
+    // Stack mei dalne pr order reverse hoti h
+    // so use.. reverse ka reverse = sidha
+    // i.e.  baar stack mei dalke nikalo
+void interLeaveQueue(queue < int >& q) {
+    // let q = 11 12 13 14 15 16 17 18
+    int len = q.size();
+    stack<int> s;
+    for (int i = 0; i < (len / 2); i++) {
+        s.push(q.front());
+        q.pop();
+    }
+    // now q = 15 16 17 18 and s = 14 13 12 11 (14 being the top)
+    while (!s.empty()) {
+        q.push(s.top());
+        s.pop();
+    }
+    // q = 15 16 17 18 14 13 12 11 and s = empty
+    // rotated by half, to again get that first half in starting
+    for (int i = 0; i < (len / 2); i++) {
+        q.push(q.front());
+        q.pop();
+    }
+    // q = 14 13 12 11 15 16 17 18 and s = empty
+    for (int i = 0; i < (len / 2); i++) {
+        s.push(q.front());
+        q.pop();
+    }
+    // q = 15 16 17 18 and s = 11 12 13 14
+    // got the required format, now continue like before
+    while (!s.empty()) {
+        q.push(s.top());
+        s.pop();
+        q.push(q.front());
+        q.pop();
+    }
+}
