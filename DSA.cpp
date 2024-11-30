@@ -3465,7 +3465,8 @@ int height(struct TreeNode* node) {
 
 
 // Diameter of a binary tree * * *
-    // Diameter of a tree can be defined as the longest path between 2 leaf node
+    // Diameter of a tree can be defined as the longest path between 2 nodes
+    // Now, these distance will always be between 2 leaf nodes (try yourself)
 
 // Approach:
     /*
@@ -3481,7 +3482,8 @@ int height(struct TreeNode* node) {
                  |       |
                  7       9
 
-                Longest path = 7 between 2 leaf lies in right subtree (between 7 and 9)
+                Longest path = 6 between 2 leaf lies in right subtree (between 7 and 9)
+                * * * WE ARE COUNTING EDGES, NOT NODES
 
             2. Iska vice versa, lies in right subtree
             3. One of the node lies on left, other one on right
@@ -3493,3 +3495,49 @@ int height(struct TreeNode* node) {
             THUS..
                 ans would always be max of these 3
     */
+
+int maxHeight(TreeNode* root) { // function to get maximum height in subtree (1-indexed)
+    if (!root)
+        return 0;
+    return 1 + max(maxHeight(root->left), maxHeight(root->right));
+}
+int diameter(TreeNode* root) {
+    if (!root)
+        return 0;
+
+    int left = diameter(root->left);
+    int right = diameter(root->right);
+    int combined = maxHeight(root->left) + maxHeight(root->right);
+    return max({ left, right, combined });
+}
+// TC: O(n^2) -> bcoz.. for every node: diameter runs 'n' times (n = no. of nodes in subtree)
+    // and, for each node, it calls maxHeight which is O(n) in itself
+    // Thus O(n * n)
+
+
+// Approach 2:
+    // TC could be reduced if we could remove that separate call for height
+    // like, we are anyways going till leaf nodes in diameter func itself, why call height separately
+    // make a custom func that would return both height and diameter for a subtree
+
+// * * * * MUST DRY RUN!!!
+// combined both functions
+pair<int, int>getDiameterAndHeight(TreeNode* root) {
+    if (!root)
+        return make_pair(0, 0); // base case for root NULL (diameter and height both will be 0)
+
+    pair<int, int> left = getDiameterAndHeight(root->left);
+    pair<int, int> right = getDiameterAndHeight(root->right);
+
+    int diameterLeft = left.first;
+    int diameterRight = right.first;
+    int sumOfHeights = left.second + right.second;
+
+    return make_pair(
+        max({ diameterLeft, diameterRight, sumOfHeights }),
+        max(left.second, right.second) + 1
+    );
+}
+int diameter(TreeNode* root) {
+    return getDiameterAndHeight(root).first;
+}
