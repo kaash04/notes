@@ -3138,7 +3138,7 @@ void interLeaveQueue(queue < int >& q) {
         s.pop();
     }
     // q = 15 16 17 18 14 13 12 11 and s = empty
-    // rotated by half, to again get that first half in starting
+    // rotated by len/2, to again get that first half in starting
     for (int i = 0; i < (len / 2); i++) {
         q.push(q.front());
         q.pop();
@@ -3157,3 +3157,339 @@ void interLeaveQueue(queue < int >& q) {
         q.pop();
     }
 }
+
+
+// 'k' queues using a single array of length 'n'
+// Approach 1:
+    // divide array in k equal parts
+    // implement each part as a separate queue
+// Brute force, not memory efficient
+
+// Approach 2:
+    // Make separate arrays of size k to store front and rear of each queue
+    // use data array of size 'n' to keep track of next free spots
+    // maintain a freespot variable to get upcoming freespot
+
+class NQueue {
+public:
+    vector<int> arr;
+    vector<int> info;
+    vector<int> front;
+    vector<int> rear;
+    int freespot = 0;
+    NQueue(int k, int n) {
+        // initialisations
+        vector<int> tmp(n, -1);
+        arr = tmp;
+        info = tmp;
+        vector<int> tmp2(k, -1);
+        front = tmp2;
+        rear = tmp2;
+
+        for (int i = 0; i < n - 1; i++)
+            info[i] = i + 1;
+    }
+
+    // Enqueues 'X' into the Mth queue. Returns true if it gets pushed into the queue, and false otherwise.
+    bool enqueue(int x, int m) {
+        if (freespot == -1)
+            return false;
+        int indexToPush = freespot; // store index where data would be pushed
+        freespot = info[freespot];  // update freespot to next freespot
+        if (front[m - 1] == -1) {
+            // first element of this queue
+            front[m - 1] = indexToPush; // agar empty hai to front mei pushed wala index
+        }
+        else {
+            info[rear[m - 1]] = indexToPush; // not first element, then link prev element to pushed element
+        }
+        info[indexToPush] = -1; // space occupied, so set info as -1 (indicates end of queue)
+        rear[m - 1] = indexToPush;  // update rear to new position
+        arr[indexToPush] = x;   // store element
+        return true;
+    }
+
+    // Dequeues top element from Mth queue. Returns -1 if the queue is empty, otherwise returns the popped element.
+    int dequeue(int m) {
+        if (front[m - 1] == -1)
+            return -1;
+        int indexPopped = front[m - 1]; // store index to be popped
+        // update front to next linked element 
+        // if last element, no linked element after that.. automatically -1 aayega bcoz info[last pushed] is stored -1 in push code
+        front[m - 1] = info[indexPopped];
+        info[indexPopped] = freespot;   // mark current place as 1st free spot, by placing it in front of freespot chain (visualise...)
+        freespot = indexPopped; // update freespot var to current index, as it would be first free spot in list now
+        return arr[indexPopped];
+    }
+};
+// DRY RUN... with 3 queues and 10 sized array for better understanding * * *
+
+
+/*
+    You are given an array consisting of N integers, and an integer, K. Your task is to determine the total sum of the minimum element and the maximum element of all subarrays of size K.
+
+    Ex:
+    arr = 1 2 3 4 5
+    k = 3
+
+    subarrays: [1 2 3]  [2 3 4] [3 4 5]
+    thus,
+        ans = 1 + 3 + 2 + 4 + 3 + 5 = 18
+*/
+
+// Approach 1:
+    // Brute force
+    // Use sliding window
+    // for each window, find the minimum and maximum
+    // add it to ans
+// TC: O(n*k) bcoz saara array traverse + har baar k elements ke bich ka min and max
+
+// Approach 2:
+    /*
+        for finding minimum:
+        suppose we get 11 while traversing, followed by 3
+        11 isnt significant, we only need 3
+
+        but if 3 is followed by something greater than 3.. ex: 5
+        we might need 5 in future (if 3 is not in the window range, 5 might be the minimum)
+
+        so, basically, we need a monotonically increasing order..
+    */
+    // for minimum: make monotonic deque of first k elements
+        // for upcoming subarrays, pop elements outside range
+        // push new element while maintaining the monotonic increasing order
+    // for maximum: everthing same, just we would need monotonic decreasing order
+vector<int> getMin(vector<int>& nums, int n, int k) {
+    vector<int> ans;
+    deque<int> q;
+    for (int i = 0; i < k; i++) {
+        while (!q.empty() && nums[i] <= nums[q.back()])
+            q.pop_back();
+        q.push_back(i);
+    }
+    ans.push_back(nums[q.front()]);
+    for (int lastIndex = k; lastIndex < n; lastIndex++) {
+        int firstIndex = lastIndex - k + 1;
+        while (!q.empty() && q.front() < firstIndex)
+            q.pop_front();
+        while (!q.empty() && nums[lastIndex] <= nums[q.back()])
+            q.pop_back();
+        q.push_back(lastIndex);
+        ans.push_back(nums[q.front()]);
+    }
+    return ans;
+}
+
+vector<int> getMax(vector<int>& nums, int n, int k) {
+    vector<int> ans;
+    deque<int> q;
+    for (int i = 0; i < k; i++) {
+        while (!q.empty() && nums[i] >= nums[q.back()])
+            q.pop_back();
+        q.push_back(i);
+    }
+    ans.push_back(nums[q.front()]);
+
+    for (int lastIndex = k; lastIndex < n; lastIndex++) {
+        int firstIndex = lastIndex - k + 1;
+        while (!q.empty() && q.front() < firstIndex)
+            q.pop_front();
+        while (!q.empty() && nums[lastIndex] >= nums[q.back()])
+            q.pop_back();
+        q.push_back(lastIndex);
+        ans.push_back(nums[q.front()]);
+    }
+
+    return ans;
+}
+
+long long sumOfMaxAndMin(vector<int>& nums, int n, int k) {
+    vector<int> mins = getMin(nums, n, k);
+    vector<int> maxs = getMax(nums, n, k);
+    long long ans = 0;
+    for (int i = 0; i < mins.size(); i++)
+        ans += mins[i] + maxs[i];
+    return ans;
+}
+
+// TC: O(n)     SC: O(n)
+
+
+// Trees
+    // Non linear data structure
+    // Represented using nodes and edges
+
+// Binary Tree
+    // har node ke <= 2 childs
+
+/*
+    root node -> topmost node of the tree
+    children -> elements(s) directly connected to given node in below level
+    parent -> vice versa of children
+    siblings -> share a common parent
+    ancestor -> kisi bhi node se root node tk (including root node) jaane mei jo jo nodes visit hoge
+    leaf node -> 0 children wala node
+*/
+
+/*
+    structure of node in tree:
+    node{
+        int data;
+        vector<node*> childs;
+    }
+
+    structure of node in binary tree:
+    node{
+        int data;
+        node* left;
+        node* right;
+    }
+*/
+
+// * * BFS (Breadth first search)
+    // Also known as Level order traversal
+    // Traversing technique in which all nodes from lvl 0 (root node) are traversed, followed by level 1 and so on..
+    // Easiest way to solve BFS is using queue * * *
+    // Queue has root at start
+    // Till queue is not empty, print front(queue), pop it, push its children
+    // * * visualise * *
+
+
+// Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+/*
+    Ex:     3
+          /   \
+        9      20
+              /  \
+            15    7
+
+    output: [[3],[9,20],[15,7]]
+*/
+// Approach:
+    // OFC level order, BUT..
+    // we need to maintain each lvl in separate array
+    // use separator to separate each lvl in queue
+    // if we encounter separator, push array to resultant
+    // empty array for next lvl
+    // ALSO... if we encounter separator and q is not empty, that means another lvl is present in queue
+    // so again add a separator before starting with new lvl
+class TreeNode {
+public:
+    int data;
+    TreeNode* left;
+    TreeNode* right;
+};
+
+vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>> ans;
+    queue<TreeNode*> q;     // for maintaing queue
+    vector<int> tmpList;    // for storing elements in current lvl
+
+    if (!root)
+        return ans;     // edge case
+    q.push(root);
+    q.push(NULL);       // initially, push lvl 0 manually (used NULL as separator as no NULL value will be in queue except separator)
+    while (!q.empty()) {
+        TreeNode* curr = q.front();
+        q.pop();
+        if (curr == NULL) { // found NULL, so lvl finished
+            ans.push_back(tmpList);
+            tmpList.clear();
+            if (!q.empty())
+                q.push(NULL);   // if lvl finished but queue not empty, that means other lvl is present (add separator)
+        }
+        else {
+            tmpList.push_back(curr->data);  // add curr data to list
+            if (curr->left)
+                q.push(curr->left);
+            if (curr->right)
+                q.push(curr->right);
+            // if right and left are not NULL, add them to back of queue    
+        }
+    }
+    return ans;
+}
+
+
+/*
+    Common traversal techniques:
+        1. Inorder traversal -> root in between -> left root right
+        2. Preorder traversal -> root pre -> root left right
+        3. Postorder traversal -> root post -> left right root
+*/
+
+
+// Height of binary tree
+    // Given a binary tree, find its height / maximum depth
+    // Height can be defined as the longest path between root node and leaf node
+
+// Approach 1:
+    // Use recursion, maintain a height var
+int height(struct TreeNode* node, int lvl = 0) {
+    if (node == NULL)   //base case, root NULL
+        return 0;
+    if (node->left == NULL && node->right == NULL)  // base case, reached leaf node
+        return lvl;
+    return max(height(node->left, lvl + 1), height(node->right, lvl + 1));
+}
+// TC: O(n)     SC: O(h) -> h = height of tree (due to recursive stack)
+
+
+// Using BFS
+    // use BFS to find highest depth, by reaching the farthest leaf node
+    // see carefully
+int height(struct TreeNode* node) {
+    if (node == NULL)
+        return 0;
+    queue<TreeNode*> q;
+    q.push(node);
+    q.push(NULL);
+    int lvlCounter = 0;
+    while (!q.empty()) {
+        TreeNode* curr = q.front();
+        q.pop();
+        if (curr == NULL) {
+            if (!q.empty())
+                q.push(NULL);
+            lvlCounter++;
+            continue;
+        }
+        if (curr->right)
+            q.push(curr->right);
+        if (curr->left)
+            q.push(curr->left);
+    }
+    return lvlCounter - 1;
+}
+// TC: O(n)     SC: O(w) -> w = width of tree (due to queue.. bco queue mei at a time max width jitne hi elements hoge)
+
+
+// Diameter of a binary tree * * *
+    // Diameter of a tree can be defined as the longest path between 2 leaf node
+
+// Approach:
+    /*
+        There are 3 possibilities:
+            1. Both leaf node lie in right subtree
+                Ex:     1
+                      /  \
+                     2    3
+                   /  \
+                 4     5
+                 |      \
+                 6       8
+                 |       |
+                 7       9
+
+                Longest path = 7 between 2 leaf lies in right subtree (between 7 and 9)
+
+            2. Iska vice versa, lies in right subtree
+            3. One of the node lies on left, other one on right
+                We could easily solve this case bcoz..
+                    max distance leaf node on right = height of right subtree
+                    max distance leaf node on left = height of left subtree
+                thus, diameter = right height + left height + 1 (added one to consider curr node too)
+
+            THUS..
+                ans would always be max of these 3
+    */
