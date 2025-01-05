@@ -3373,6 +3373,7 @@ long long sumOfMaxAndMin(vector<int>& nums, int n, int k) {
     // empty array for next lvl
     // ALSO... if we encounter separator and q is not empty, that means another lvl is present in queue
     // so again add a separator before starting with new lvl
+
 class TreeNode {
 public:
     int data;
@@ -3513,6 +3514,7 @@ int diameter(TreeNode* root) {
 // TC: O(n^2) -> bcoz.. for every node: diameter runs 'n' times (n = no. of nodes in subtree)
     // and, for each node, it calls maxHeight which is O(n) in itself
     // Thus O(n * n)
+// SC: O(n)
 
 
 // Approach 2:
@@ -3540,4 +3542,282 @@ pair<int, int>getDiameterAndHeight(TreeNode* root) {
 }
 int diameter(TreeNode* root) {
     return getDiameterAndHeight(root).first;
+}
+// TC: O(n)     SC: O(n)
+
+
+// Check if tree is Balanced
+    // Given a binary tree, determine if it is height-balanced.
+    // A binary tree is considered height-balanced if:
+    // absolute difference in heights of the left and right subtrees is at most 1 for "every" node.
+
+    // Thus, max diff between nodes pointing to NULL as child should be 1 * * *
+
+// Approach:
+        // The word "every" is imp...
+        // if we check just maxHeight from root, tree might not be balanced and still return true
+        // So, check:
+            // left subtree is balanced
+            // right subtree is balanced
+            // maxHeight of left = maHeight of right
+int maxHeight(TreeNode* root) {
+    if (!root)
+        return 0;
+    return 1 + max(maxHeight(root->left), maxHeight(root->right));
+}
+bool isBalanced(TreeNode* root) {
+    if (!root)
+        return true;
+    bool left = isBalanced(root->left);
+    bool right = isBalanced(root->right);
+    bool heightCheck = abs(maxHeight(root->left) - maxHeight(root->right)) <= 1;
+    if (left && right && heightCheck)
+        return true;
+    return false;
+}
+// TC: O(n^2)   SC: O(n)
+
+// Approach 2:
+    // Time complexity could be reduced if we could eliminate that extra call for calculating height
+    // Make a custom function like prev
+pair<bool, int> getBalancedAndHeight(TreeNode* root) {
+    if (!root)
+        return make_pair(true, 0);
+    pair<bool, int> left = getBalancedAndHeight(root->left);
+    pair<bool, int> right = getBalancedAndHeight(root->right);
+
+    int height = 1 + max(left.second, right.second);
+    bool balanced = (left.first && right.first && (abs(left.second - right.second) <= 1));
+    return make_pair(balanced, height);
+}
+bool isBalanced(TreeNode* root) {
+    return getBalancedAndHeight(root).first;
+}
+// TC: O(n)     SC: O(n)
+
+
+// Approach 3:
+    // Use a queue
+    // when a node has left or right child as 1 (dono mei se 1 bhi..), store it using min and max Lvl variables
+    // Get difference between minimum and maximum level
+bool isBalanced(TreeNode* root) {
+    if (!root)
+        return true;
+    queue<TreeNode*> q;
+    q.push(root);
+    q.push(NULL);
+    int lvl = 0, minLvl = INT_MAX, maxLvl = INT_MIN;
+    while (!q.empty()) {
+        TreeNode* curr = q.front();
+        q.pop();
+        if (!curr) {
+            if (!q.empty())
+                q.push(NULL);
+            lvl++;
+            continue;
+        }
+        if (curr->left)
+            q.push(curr->left);
+        if (curr->right)
+            q.push(curr->right);
+        if (!(curr->left && curr->right)) {
+            minLvl = min(minLvl, lvl);
+            maxLvl = max(maxLvl, lvl);
+        }
+    }
+    return ((maxLvl - minLvl) <= 1);
+}
+
+
+// Check if Binary trees are identical
+// Approach:
+    // Check data for current nodes
+    // recurse for left and right subtree
+bool identicalTrees(TreeNode* root1, TreeNode* root2) {
+    if (!root1 && !root2)   // if both NULL
+        return true;
+    if (!root1 || !root2)   // if only one of them is NULL
+        return false;
+    if (root1->data != root2->data)
+        return false;
+    return identicalTrees(root1->left, root2->left) && identicalTrees(root1->right, root2->right);
+}
+
+
+// Sum Tree
+    // Given a Binary Tree. Check for the Sum Tree for every node except the leaf node
+    // Return true if it is a Sum Tree otherwise, return false.
+    // SumTree is a Binary Tree where the value of a node is equal to the sum of the nodes present in its left subtree and right subtree
+
+// Approach:
+    // for every node we need 2 things, sum of subtrees and are those subtrees sumTree
+    // make custom function to return both at once
+pair<bool, int> isSumTreeAndSumBelow(TreeNode* root) {
+    if (!root)  // base case, root NULL
+        return make_pair(true, 0);
+    if (!(root->left || root->right))   // base case, handle leaf nodes
+        return make_pair(true, root->data);
+
+    // to handle if one of the child nodes is NULL:
+    pair<bool, int> left = make_pair(true, 0);
+    pair<bool, int> right = make_pair(true, 0);
+    if (root->left)
+        left = isSumTreeAndSumBelow(root->left);
+    if (root->right)
+        right = isSumTreeAndSumBelow(root->right);
+
+    return make_pair(
+        left.first && right.first && (root->data == left.second + right.second),
+        left.second + right.second + root->data
+    );
+    // for every node, it is SumTree if: left subtree is sumTree, right subtree is SumTree, value of node = sum of left and right subtree
+    // and, 2nd element in pair return sum inclusing that element itself, so simply adding all 3
+}
+bool isSumTree(TreeNode* root) {
+    return isSumTreeAndSumBelow(root).first;
+}
+
+
+
+// Binary Tree Zigzag Level Order Traversal
+    // Given the root of a binary tree, return the zigzag level order traversal of its nodes' values.
+
+// Approach:
+    // 0th lvl -> left to right
+    // 1st lvl -> right to left...
+    // thus, do normal level order, reverse before pushing for odd levels
+vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+    vector<vector<int>> ans;
+    if (!root)
+        return ans;
+    queue<TreeNode*> q;
+    vector<int> tmp;
+    int lvl = 0;
+    q.push(root);
+    q.push(NULL);
+    while (!q.empty()) {
+        TreeNode* curr = q.front();
+        q.pop();
+        if (curr == NULL) {
+            if (lvl & 1)
+                reverse(tmp.begin(), tmp.end());
+            ans.push_back(tmp);
+            tmp.clear();
+            if (!q.empty())
+                q.push(NULL);
+            lvl++;
+        }
+        else {
+            tmp.push_back(curr->data);
+            if (curr->left)
+                q.push(curr->left);
+            if (curr->right)
+                q.push(curr->right);
+        }
+    }
+    return ans;
+}
+// TC: O(n) * * * might seem ki while ke andar reverse function hai so n^2, but..
+    // O(n^2) is when we tranverse each node, and then do operations on tree for each of that nodes
+    // here, we are reversing n/2 nodes in total, so it wont be O(n^2)
+// SC: O(n)
+
+// Approach 2: 
+    // Use indexing in tmp vector to store in required manner, to avoid reversing
+
+
+
+// Boundary Traversal
+    // The boundary nodes of a binary tree include the nodes from the left and right boundaries and the leaf nodes, each node considered once.
+    // Figure out the boundary nodes of this binary tree in an Anti-Clockwise direction starting from the root node.
+
+// Approach:
+    /*
+        Visit root
+        visit left boundary part (* * not necessary that it is left skew, might also be left child followed by right.. maing a boundary)
+            (except the last leaf node.. to avoid duplicates)
+        visit leaf nodes
+        visit right part (but reversed order)
+    */
+void addLeafs(TreeNode* root, vector<int>& ans) {
+    if (!root) {
+        return;
+    }
+    if (root->left == NULL && root->right == NULL) {
+        ans.push_back(root->data);
+    }
+    addLeafs(root->left, ans);
+    addLeafs(root->right, ans);
+}
+
+void getRightPart(TreeNode* root, vector<int>& ans) {
+    if (!root || (root->left == NULL && root->right == NULL)) {
+        return;
+    }
+    if (root->right)
+        getRightPart(root->right, ans);
+    else
+        getRightPart(root->left, ans);
+    ans.push_back(root->data);
+}
+vector<int> boundaryTraversal(TreeNode* root) {
+    vector<int> ans;
+    ans.push_back(root->data);
+    if (root->left == NULL && root->right == NULL) {
+        return ans;
+    }
+
+    // for left part
+    TreeNode* tmp = root->left;
+    while (tmp) {
+        if (tmp->left == NULL && tmp->right == NULL) {
+            break;
+        }
+        ans.push_back(tmp->data);
+        if (tmp->left != NULL)
+            tmp = tmp->left;
+        else
+            tmp = tmp->right;
+    }
+    // for leafs
+    addLeafs(root, ans);
+    //for right part
+    getRightPart(root->right, ans);
+    return ans;
+}
+
+
+// Vertical Traversal
+    // Given a Binary Tree, find the vertical traversal of it starting from the leftmost level to the rightmost level.
+    // ques link for sample imgs: https://www.geeksforgeeks.org/problems/print-a-binary-tree-in-vertical-order/1
+
+// Approach:
+    // Consider all nodes on a horizontal number line
+    // so we need to print as per number line
+    // but, each number on number line will have nodes of tree on multiple levels in tree
+    // we must maintain the levels, i.e. print top levels before bottom
+    // So, create a map (to store horizontal level and other map)
+    // The other map will store vertical level and list of values
+    // this way, the answer would already be sorted in our required way
+
+void solve(TreeNode* root, map<int, map<int, vector<int>>>& m, int horizontal = 0, int vertical = 0) {
+    if (!root)
+        return;
+    m[horizontal][vertical].push_back(root->data);
+    solve(root->left, m, horizontal - 1, vertical + 1);
+    solve(root->right, m, horizontal + 1, vertical + 1);
+}
+vector<int> verticalOrder(TreeNode* root) {
+    vector<int> ans;
+    // map to store horizontal dist, map of vertical dist and list
+    map<int, map<int, vector<int>>> m;
+    solve(root, m);
+    for (auto& pair : m) {
+        for (auto& lvlPair : pair.second) {
+            for (int i : lvlPair.second) {
+                ans.push_back(i);
+            }
+        }
+    }
+    return ans;
 }
