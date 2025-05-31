@@ -3821,3 +3821,54 @@ vector<int> verticalOrder(TreeNode* root) {
     }
     return ans;
 }
+
+
+// Top view of a binary tree
+    // We are given a binary tree, and need to find its top view
+    // Similar approach to prev ques, only difference: store only the value in uppermost lvl for each horiontal lvl
+// Approach:
+    // We need to store uppermost lvl, so use lvl order traversal.
+    // only store the first value for each horizontal lvl
+
+
+
+// Left view of a binary tree
+    // Very much similar, just store values with lowest horizontal lvl for each vertical level
+
+
+
+// Lowest common ancestor in a binary tree
+    // Given a Binary Tree with all unique values and two nodes value, n1 and n2. The task is to find the lowest common ancestor of the given two nodes. We may assume that either both n1 and n2 are present in the tree or none of them are present.
+    // LCA: It is the first common ancestor of both the nodes n1 and n2 from bottom of tree.
+
+// Approach:
+    // Store paths for both the nodes.
+    // Find the last common element from start.
+void solve(TreeNode* root, int& n, deque<TreeNode*>& p) {
+    if (!root)
+        return; // base case on reaching null
+    p.push_back(root);
+    if (root->data == n)
+        return; // base case when path found
+    solve(root->right, n, p);
+
+    // recursive calls with base cases to avoid traversing the other sub tree if path is already found
+    if (!p.empty() && p.back()->data == n)
+        return;
+    solve(root->left, n, p);
+    if (!p.empty() && p.back()->data == n)
+        return;
+    p.pop_back(); // backtrack if not found
+}
+TreeNode* lca(TreeNode* root, int n1, int n2) {
+    deque<TreeNode*> p1, p2;
+    solve(root, n1, p1);
+    solve(root, n2, p2);
+    TreeNode* ca = root;
+    while (!p1.empty() && !p2.empty() && p1.front()->data == p2.front()->data) {
+        ca = p1.front();
+        p1.pop_front();
+        p2.pop_front();
+    }
+    return ca;
+}
