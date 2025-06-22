@@ -507,7 +507,7 @@ void insertionSort(int* arr, int sizee) {
 void insertionSort(int* arr, int sizee) {
     for (int i = 0; i < sizee - 1; i++) // outer for loop for number of insertions = n-1
     {
-        int temp = *(arr + i + 1); // temp mei 1 inde ki val store karo starting with index 1
+        int temp = *(arr + i + 1); // temp mei 1 index ki val store karo starting with index 1
         int j = i; // j ko index of temp - 1 par initialize
 
         for (; j >= 0; j--) // j ko 0th index tak leke jao
@@ -574,7 +574,7 @@ void insertionSort(int* arr, int sizee) {
 
 
     // STL ARRAY
-        // stl array offers in built functions along with it ust like string
+        // stl array offers in built functions along with it just like string
         /*
          syntax:
             ' #include <array>'   in beginning
@@ -589,7 +589,7 @@ void insertionSort(int* arr, int sizee) {
         */
 
         /*
-            Commonly used perations in STL array:
+            Commonly used operations in STL array:
                 arr.at(index) -> get element at provided index
                 arr.size() -> returns size of array
                 arr.empty() -> returns 1 if array is empty, else returns 0
@@ -668,7 +668,7 @@ void insertionSort(int* arr, int sizee) {
 
 
     // Lists
-        // list in stl is ade using doubl linked list
+        // list in stl is made using doubly linked list
         // same like deque, i.e. can expand and contract on both ends
         // direct access to element at known index NOT possible ( thus, l.at(index) is not a valid method )
         // pehele traverse karke us index par jana padega
@@ -858,7 +858,7 @@ int main() {
 // rotate() is used to rotate a vector around node
 // i.e. node ke pehele wale saare element rotate hokar end mei chale jayege
 // ex: vec = {1, 3, 6, 7}
-    // rotating about index 1: {3, 6, 7, 1} -> index 1 ke pehele e saare element end mei chale jayege
+    // rotating about index 1: {3, 6, 7, 1} -> index 1 ke pehele ke saare element end mei chale jayege
 
 // rotate() function takes 3 arguments, all 3 being iterators of first, node, and last element respectively
 
@@ -942,7 +942,7 @@ bool isPresent(int arr[][3], int col, int row, int target) // must specify at le
 */
 
 // Binary search in 2D array
-// Use same logic as binar search for 1D array and use it here by converting 2D matri to linear form
+// Use same logic as binary search for 1D array and use it here by converting 2D matri to linear form
 // Ex:
 bool binarySearch(vector<vector<int>>& matrix, int target) {
     int row = matrix.size();
@@ -962,8 +962,8 @@ bool binarySearch(vector<vector<int>>& matrix, int target) {
     return 0;
 }
 // IMP ques so see working carefully
-// to use this, matri must be sorted in its linear form
-// thus, it must be sorted row wise and irst element of each row should be greater than last element of prev row 
+// to use this, matrix must be sorted in its linear form
+// thus, it must be sorted row wise and first element of each row should be greater than last element of prev row 
 
 
 
@@ -1007,7 +1007,7 @@ int countPrime(int n) {
 
 
 // Euclid's Algorithm
-    // gcd = hcf = smallest number jiske table ei dono aaye
+    // gcd = hcf = smallest number jiske table mei dono aaye
     /*
         According to euclid's algorithm:
             gcd(a, b) = gcd(a-b, b)   [ofc, jo bada hai usme se chota subtract... as gcd of negative is undefined]
@@ -1998,19 +1998,21 @@ void reverseRecurse(Node*& head, Node* back, Node* current) {
     // use that head as back fr prior group and do same for each grp
     // base case: head=null or else k element grp not possible (if last few elements cant form group, have to embed them in same order)
     // * * * * * IMP (Amazon, Paypal, MakeMyTrip, etc)
-Node* kReverse(Node* head, int k) {
-    if (head == NULL)
-        return NULL;
-    int a = 1;
+Node* reverseKGroup(Node* head, int k) {
+    if (!head || k == 1) // base case
+        return head;
+    int count = 1;
     Node* s = head;
-    Node* e = s;
-    while (e->next != NULL && a != k) {
+    Node* e = head;
+    while (e->next != nullptr && count != k) {
         e = e->next;
-        a++;
+        count++;
     }
-    if (e->next == NULL && a != k)
+    if (e->next == nullptr && count != k) // did all above for base case 2: when less than k elements present
         return s;
-    Node* back = kReverse(e->next, k);
+    Node* nxtGrp = reverseKGroup(e->next, k); // head recursion
+    Node* back = s;
+    s = s->next;
     while (s != e) {
         Node* front = s->next;
         s->next = back;
@@ -2018,8 +2020,10 @@ Node* kReverse(Node* head, int k) {
         s = front;
     }
     s->next = back;
+    head->next = nxtGrp;
     return s;
 }
+// Dry run for better understanding
 
 
 // Detect loop in linked list
@@ -2029,7 +2033,31 @@ Node* kReverse(Node* head, int k) {
     // METHOD 2: Floyds cycle detection algorithm
     // 2 pointers slow(1 step) and fast(2 step) at head of list in beginning
     // dono ko chalo ab... if fast reaches NULL, theres no loop
-    // if slow = fast again after some iterations, there's a loop
+    // if slow = fast again after some iterations, there's a loop (this pt. is called point of interception)
+
+    // * * * To find starting point of Loop:
+    // First, find the point of interception
+    // Reinitiate slow to head (so slow=head and fast=pt. of interception)
+    // Now, move both with same pace
+    // Their meeting pt. = starting pt. of loop
+Node* findFirstNode(Node* head) {
+    if (!head->next)
+        return nullptr;
+    Node* slow = head->next;
+    Node* fast = head->next->next;
+    while (slow != fast) {
+        if (!fast || !fast->next)
+            return nullptr;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    slow = head;
+    while (slow != fast) {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    return fast;
+}
 
 // Remove Duplicates in a sorted list
     // Simply, if a->data = a->next->data 

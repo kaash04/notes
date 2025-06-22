@@ -180,7 +180,7 @@
             payment p2;
             p2.inr = 2500;  // dusra element banake usko de sakte hai, alag data type, no problem
         }
-
+DYANESHVAR
 
 
 // Functions
